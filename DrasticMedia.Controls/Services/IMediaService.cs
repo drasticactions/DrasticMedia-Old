@@ -32,6 +32,12 @@ namespace DrasticMedia.Core.Services
         double CurrentPosition { get; }
 
         /// <summary>
+        /// Gets the current media album URI.
+        /// </summary>
+        /// <returns>String.</returns>
+        Task<string> GetArtworkUrl();
+
+        /// <summary>
         /// Play the current stream.
         /// </summary>
         /// <param name="position">The position to start the stream from.</param>

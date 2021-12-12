@@ -7,12 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DrasticMedia.Core.Model;
 using LibVLCSharp.Shared;
 using VLCPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace DrasticMedia.Core.Services
 {
+    /// <summary>
+    /// VLC Media Service.
+    /// </summary>
     public class VLCMediaService : IMediaService
     {
         private VLCPlayer mediaPlayer;
@@ -66,6 +70,8 @@ namespace DrasticMedia.Core.Services
             return Task.CompletedTask;
         }
 
+        public Task<string> GetArtworkUrl() => this.GetMetadata(MetadataType.ArtworkURL);
+
         private void SetCurrentMedia()
         {
             if (this.CurrentMedia?.Location == null)
@@ -76,6 +82,29 @@ namespace DrasticMedia.Core.Services
             this.mediaPlayer.Stop();
             this.vlcMedia = new Media(this.libVLC, this.CurrentMedia.Location);
             this.mediaPlayer.Media = this.vlcMedia;
+        }
+
+        private async Task<string> GetMetadata(MetadataType meta)
+        {
+            if (this.vlcMedia == null)
+            {
+                throw new ArgumentNullException(nameof(this.vlcMedia));
+            }
+
+            if (!this.vlcMedia.IsParsed)
+            {
+                await this.vlcMedia.Parse();
+            }
+
+            var stringUri = this.vlcMedia.Meta(meta);
+            if (stringUri == null)
+            {
+                return string.Empty;
+            }
+
+            var uri = new Uri(stringUri);
+
+            return HttpUtility.UrlDecode(uri.LocalPath) ?? string.Empty;
         }
     }
 }

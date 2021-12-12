@@ -2,16 +2,16 @@
 
 public partial class App : Application
 {
-    private IServiceCollection collection;
+    private IServiceProvider services;
 
-    public App(IServiceCollection collection)
+    public App(IServiceProvider services)
     {
         this.InitializeComponent();
-        this.collection = collection;
+        this.services = services;
     }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new MediaWindow() { Page = new PlayerPage(this.collection) };
+        return new MediaWindow() { Page = new PlayerPage(services) };
     }
 }

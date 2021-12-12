@@ -7,10 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia", "DrasticMedi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Core", "DrasticMedia.Controls\DrasticMedia.Core.csproj", "{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibVLCSharp", "external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj", "{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibVLCSharp.Android.AWindow", "external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj", "{239A82A5-19A1-4382-8F9B-4A9705648017}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Win32Debug|Any CPU = Win32Debug|Any CPU
+		Win32Release|Any CPU = Win32Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -19,10 +25,36 @@ Global
 		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{2A95BA47-850B-4EF5-8E9C-337294EF6C99}.Win32Release|Any CPU.Deploy.0 = Release|Any CPU
 		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Win32Debug|Any CPU.ActiveCfg = Win32Debug|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Win32Debug|Any CPU.Build.0 = Win32Debug|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Win32Release|Any CPU.ActiveCfg = Win32Release|Any CPU
+		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}.Win32Release|Any CPU.Build.0 = Win32Release|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

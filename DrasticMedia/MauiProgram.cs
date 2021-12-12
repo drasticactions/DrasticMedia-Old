@@ -14,11 +14,13 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         var libvlc = new LibVLCSharp.Shared.LibVLC();
         var mediaplayer = new LibVLCSharp.Shared.MediaPlayer(libvlc);
+        var mediaService = new VLCMediaService(mediaplayer, libvlc);
+        var consoleLogger = new ConsoleLogger();
         builder.Services.AddSingleton(libvlc);
         builder.Services.AddSingleton(mediaplayer);
-        builder.Services.AddSingleton<ILogger, ConsoleLogger>();
-        builder.Services.AddSingleton<IMediaService>(new VLCMediaService(mediaplayer, libvlc));
-        builder.Services.AddSingleton<PlayerService>();
+        builder.Services.AddSingleton<ILogger>(consoleLogger);
+        builder.Services.AddSingleton<IMediaService>(mediaService);
+        builder.Services.AddSingleton<PlayerService>(new PlayerService(mediaService, consoleLogger));
         builder
           .UseMauiApp<App>()
           .ConfigureFonts(fonts =>

@@ -18,6 +18,7 @@ public partial class App : MauiWinUIApplication
     public App()
     {
         this.InitializeComponent();
+        LibVLCSharp.Shared.Core.Initialize();
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

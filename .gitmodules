@@ -1,0 +1,4 @@
+[submodule "external/libvlcsharp"]
+	path = external/libvlcsharp
+	url = git@github.com:drasticactions/libvlcsharp.git
+	branch = winui_tfm

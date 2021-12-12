@@ -42,6 +42,12 @@ namespace DrasticMedia.Core.Services
         public event EventHandler? IsPlayingChanged;
 
         /// <summary>
+        /// The Media Service.
+        /// </summary>
+        public IMediaService MediaService => this.media;
+
+
+        /// <summary>
         /// Gets the current position of the current IMedia.
         /// </summary>
         public double CurrentPosition => this.media.CurrentPosition;
@@ -55,6 +61,8 @@ namespace DrasticMedia.Core.Services
         /// Gets the current playlist.
         /// </summary>
         public IList<IMedia> Playlist { get; }
+
+        public Task PlayAsync(double position = 0, bool fromPosition = false) => this.media.PlayAsync(position, fromPosition);
 
         /// <summary>
         /// Add Media to playlist.
