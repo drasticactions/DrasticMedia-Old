@@ -1,0 +1,81 @@
+﻿// <copyright file="VLCMediaService.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DrasticMedia.Core.Model;
+using LibVLCSharp.Shared;
+using VLCPlayer = LibVLCSharp.Shared.MediaPlayer;
+
+namespace DrasticMedia.Core.Services
+{
+    public class VLCMediaService : IMediaService
+    {
+        private VLCPlayer mediaPlayer;
+        private IMedia? media;
+        private Media? vlcMedia;
+        private LibVLC libVLC;
+
+        public IMedia? CurrentMedia { get { return media; } set { this.media = value; this.SetCurrentMedia(); } }
+
+        public bool IsPlaying => this.mediaPlayer.IsPlaying;
+
+        public double CurrentPosition => this.mediaPlayer.Position;
+
+        public VLCMediaService(VLCPlayer player, LibVLC libVLC)
+        {
+            this.mediaPlayer = player;
+            this.libVLC = libVLC;
+        }
+
+        public Task PauseAsync()
+        {
+            this.mediaPlayer.Pause();
+            return Task.CompletedTask;
+        }
+
+        public Task PlayAsync(double position = 0, bool fromPosition = false)
+        {
+            this.mediaPlayer.Play();
+            return Task.CompletedTask;
+        }
+
+        public Task ResumeAsync()
+        {
+            this.mediaPlayer.Play();
+            return Task.CompletedTask;
+        }
+
+        public Task SkipAhead(double amount = 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task SkipBack(double amount = 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync()
+        {
+            this.mediaPlayer.Stop();
+            return Task.CompletedTask;
+        }
+
+        private void SetCurrentMedia()
+        {
+            if (this.CurrentMedia?.Location == null)
+            {
+                throw new NullReferenceException(nameof(this.CurrentMedia));
+            }
+
+            this.mediaPlayer.Stop();
+            this.vlcMedia = new Media(this.libVLC, this.CurrentMedia.Location);
+            this.mediaPlayer.Media = this.vlcMedia;
+        }
+    }
+}
