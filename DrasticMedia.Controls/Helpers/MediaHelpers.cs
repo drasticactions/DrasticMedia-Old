@@ -7,6 +7,8 @@ using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using LibVLCSharp.Shared;
+using System.Web;
+using static DrasticMedia.Core.FileExtensions;
 
 namespace DrasticMedia.Core.Helpers
 {
@@ -21,8 +23,35 @@ namespace DrasticMedia.Core.Helpers
         /// <param name="libVLC">LibVLC Instance.</param>
         /// <param name="path">Item to be parsed.</param>
         /// <param name="type">Item type.</param>
+        /// <param name="fileType">Type of file.</param>
+        /// <returns>MediaProperties.</returns>
+        /// <exception cref="ParseMediaException">Thrown is media fails to parse or is unsupported.</exception>
+        public static Task<IMediaItem> GetMediaPropertiesAsync(this LibVLC libVLC, string path, FromType type = FromType.FromPath, MediaFileType fileType = MediaFileType.Unknown)
+        {
+            if (fileType == MediaFileType.Unknown)
+            {
+                fileType = FileExtensions.GetFileType(path);
+            }
+
+            switch (fileType)
+            {
+                case MediaFileType.Audio:
+                    return libVLC.GetMusicPropertiesAsync(path, type);
+                case MediaFileType.Video:
+                    return libVLC.GetVideoPropertiesAsync(path, type);
+                default:
+                    throw new ParseMediaException($"Failed to parse {path}, Media Unknown");
+            }
+        }
+
+        /// <summary>
+        /// Gets video properties for a given storage file.
+        /// </summary>
+        /// <param name="libVLC">LibVLC Instance.</param>
+        /// <param name="path">Item to be parsed.</param>
+        /// <param name="type">Item type.</param>
         /// <returns>Music MediaProperties.</returns>
-        public static Task<VideoItem> GetVideoPropertiesAsync(this LibVLC libVLC, string path, FromType type = FromType.FromPath)
+        public static Task<IMediaItem> GetVideoPropertiesAsync(this LibVLC libVLC, string path, FromType type = FromType.FromPath)
         {
             return GetVideoPropertiesAsync(libVLC, new VideoItem() { Path = path }, type);
         }
@@ -34,7 +63,7 @@ namespace DrasticMedia.Core.Helpers
         /// <param name="mP">Item to be parsed.</param>
         /// <param name="type">Item type.</param>
         /// <returns>Music MediaProperties.</returns>
-        public static async Task<VideoItem> GetVideoPropertiesAsync(this LibVLC libVLC, VideoItem mP, FromType type)
+        public static async Task<IMediaItem> GetVideoPropertiesAsync(this LibVLC libVLC, VideoItem mP, FromType type)
         {
             var media = new LibVLCSharp.Shared.Media(libVLC, mP.Path, type);
             var parseStatus = await media.Parse(MediaParseOptions.ParseLocal & MediaParseOptions.FetchLocal).ConfigureAwait(false);
@@ -93,7 +122,7 @@ namespace DrasticMedia.Core.Helpers
         /// <param name="mP">Item to be parsed.</param>
         /// <param name="type">Item type.</param>
         /// <returns>Music MediaProperties.</returns>
-        public static async Task<TrackItem> GetMusicPropertiesAsync(this LibVLC libVLC, TrackItem mP, FromType type)
+        public static async Task<IMediaItem> GetMusicPropertiesAsync(this LibVLC libVLC, TrackItem mP, FromType type)
         {
             var media = new LibVLCSharp.Shared.Media(libVLC, mP.Path, type);
 
@@ -108,6 +137,12 @@ namespace DrasticMedia.Core.Helpers
             mP.Album = media.Meta(MetadataType.Album);
             mP.Title = media.Meta(MetadataType.Title);
             mP.AlbumArt = media.Meta(MetadataType.ArtworkURL);
+
+            if (!string.IsNullOrEmpty(mP.AlbumArt) && type == FromType.FromPath)
+            {
+                mP.AlbumArt = HttpUtility.UrlDecode((new Uri(mP.AlbumArt).LocalPath));
+            }
+
             var yearString = media.Meta(MetadataType.Date);
             var year = 0;
             if (int.TryParse(yearString, out year))
@@ -150,7 +185,7 @@ namespace DrasticMedia.Core.Helpers
         /// <param name="path">Item to be parsed.</param>
         /// <param name="type">Item type.</param>
         /// <returns>Music MediaProperties.</returns>
-        public static async Task<TrackItem> GetMusicPropertiesAsync(this LibVLC libVLC, string path, FromType type = FromType.FromPath)
+        public static async Task<IMediaItem> GetMusicPropertiesAsync(this LibVLC libVLC, string path, FromType type = FromType.FromPath)
         {
             return await GetMusicPropertiesAsync(libVLC, new TrackItem() { Path = path }, type).ConfigureAwait(false);
         }

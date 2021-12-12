@@ -163,7 +163,7 @@ namespace DrasticMedia.Core.Library
                         return true;
                     }
 
-                    var mP = await this.libVLC.GetMusicPropertiesAsync(path);
+                    var mP = await this.libVLC.GetMusicPropertiesAsync(path) as TrackItem;
                     if (mP is null || (string.IsNullOrEmpty(mP.Artist) && string.IsNullOrEmpty(mP.Album) && string.IsNullOrEmpty(mP.Title)))
                     {
                         // We couldn't parse the file or the metadata is empty. Skip it.
@@ -211,7 +211,14 @@ namespace DrasticMedia.Core.Library
                         return true;
                     }
 
-                    var videoItem = await this.libVLC.GetVideoPropertiesAsync(path).ConfigureAwait(false);
+                    var videoItem = await this.libVLC.GetVideoPropertiesAsync(path).ConfigureAwait(false) as VideoItem;
+                    if (videoItem == null)
+                    {
+                        // We couldn't parse the file or the metadata is empty. Skip it.
+                        this.OnNewMediaItemError(new NewMediaItemErrorEventArgs() { MediaItemPath = path });
+                        return false;
+                    }
+
 
                     if (!string.IsNullOrEmpty(videoItem.ShowTitle))
                     {

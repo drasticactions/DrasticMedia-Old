@@ -5,11 +5,17 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia", "DrasticMedia\DrasticMedia.csproj", "{2A95BA47-850B-4EF5-8E9C-337294EF6C99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Core", "DrasticMedia.Controls\DrasticMedia.Core.csproj", "{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core", "DrasticMedia.Controls\DrasticMedia.Core.csproj", "{F5DFF282-1D4D-4825-A4D9-1EDF6F2455ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibVLCSharp", "external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj", "{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibVLCSharp.Android.AWindow", "external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj", "{239A82A5-19A1-4382-8F9B-4A9705648017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Database", "DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj", "{FAC9A49A-AE9E-4405-A364-735BE116E863}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{106EFCD1-40F9-4FA4-904A-F2107E01A6DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core.Tests", "Tests\DrasticMedia.Core.Tests\DrasticMedia.Core.Tests.csproj", "{1F278FED-B690-436D-9E4C-CC17CECA4C31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,9 +61,28 @@ Global
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC9A49A-AE9E-4405-A364-735BE116E863}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F278FED-B690-436D-9E4C-CC17CECA4C31} = {106EFCD1-40F9-4FA4-904A-F2107E01A6DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}

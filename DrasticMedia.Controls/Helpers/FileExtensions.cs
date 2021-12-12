@@ -172,14 +172,15 @@ namespace DrasticMedia.Core
             Subtitle,
         }
 
-
         /// <summary>
         /// File Type Helper.
         /// </summary>
-        /// <param name="ext">File extension.</param>
+        /// <param name="path">File path.</param>
         /// <returns><see cref="MediaFileType"/>.</returns>
-        public static MediaFileType FileTypeHelper(string ext)
+        public static MediaFileType GetFileType(this string path)
         {
+            var ext = Path.GetExtension(path);
+
             if (VideoExtensions.Contains(ext))
             {
                 return MediaFileType.Video;

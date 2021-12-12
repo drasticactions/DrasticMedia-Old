@@ -13,7 +13,7 @@ namespace DrasticMedia.Core.Model
     /// <summary>
     /// Media File.
     /// </summary>
-    public class MediaItem
+    public class MediaItem : IMediaItem
     {
         /// <summary>
         /// Gets or sets the path to the media.
