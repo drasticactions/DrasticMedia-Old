@@ -28,7 +28,7 @@ namespace DrasticMedia.Core.Services
         {
             this.media = media;
             this.logger = logger;
-            this.Playlist = new List<IMedia>();
+            this.Playlist = new List<MediaItem>();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace DrasticMedia.Core.Services
         /// <summary>
         /// Gets the current playlist.
         /// </summary>
-        public IList<IMedia> Playlist { get; }
+        public IList<MediaItem> Playlist { get; }
 
         public Task PlayAsync(double position = 0, bool fromPosition = false) => this.media.PlayAsync(position, fromPosition);
 
@@ -73,7 +73,7 @@ namespace DrasticMedia.Core.Services
         /// <param name="fromPosition">Play the item from the position.</param>
         /// <returns><see cref="Task"/>.</returns>
         /// <exception cref="ArgumentNullException">Media must be set.</exception>
-        public async Task AddMedia(IMedia media, bool replaceCurrentItem, int location = -1, bool fromPosition = false)
+        public async Task AddMedia(MediaItem media, bool replaceCurrentItem, int location = -1, bool fromPosition = false)
         {
             if (media == null)
             {
@@ -104,7 +104,7 @@ namespace DrasticMedia.Core.Services
             }
         }
 
-        private async Task SetAndPlayCurrentMedia(IMedia media, bool fromPosition)
+        private async Task SetAndPlayCurrentMedia(MediaItem media, bool fromPosition)
         {
             if (media == null)
             {

@@ -23,10 +23,11 @@ namespace DrasticMedia
 
         private async void PlayerPage_Drop(object sender, Overlays.DragAndDropOverlayTappedEventArgs e)
         {
-            var song = new Song() { Location = new Uri(e.Path) };
+            var song = new TrackItem() { Path = e.Path };
             await this.player.AddMedia(song, true);
             var artwork = await this.player.MediaService.GetArtworkUrl();
-            this.Dispatcher.Dispatch(() => this.TestAlbumArt.Source = ImageSource.FromFile(artwork));
+            var imageSource = ImageSource.FromFile(artwork);
+            this.Dispatcher.Dispatch(() => this.TestAlbumArt.Source = imageSource);
         }
 
         protected override void OnAppearing()

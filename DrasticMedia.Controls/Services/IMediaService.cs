@@ -19,7 +19,7 @@ namespace DrasticMedia.Core.Services
         /// <summary>
         /// Gets or sets the current media.
         /// </summary>
-        IMedia CurrentMedia { get; set; }
+        MediaItem CurrentMedia { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the stream is playing.

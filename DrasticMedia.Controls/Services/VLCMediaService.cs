@@ -20,11 +20,11 @@ namespace DrasticMedia.Core.Services
     public class VLCMediaService : IMediaService
     {
         private VLCPlayer mediaPlayer;
-        private IMedia? media;
-        private Media? vlcMedia;
+        private Model.MediaItem? media;
+        private LibVLCSharp.Shared.Media? vlcMedia;
         private LibVLC libVLC;
 
-        public IMedia? CurrentMedia { get { return media; } set { this.media = value; this.SetCurrentMedia(); } }
+        public Model.MediaItem? CurrentMedia { get { return media; } set { this.media = value; this.SetCurrentMedia(); } }
 
         public bool IsPlaying => this.mediaPlayer.IsPlaying;
 
@@ -74,13 +74,13 @@ namespace DrasticMedia.Core.Services
 
         private void SetCurrentMedia()
         {
-            if (this.CurrentMedia?.Location == null)
+            if (this.CurrentMedia?.Path == null)
             {
                 throw new NullReferenceException(nameof(this.CurrentMedia));
             }
 
             this.mediaPlayer.Stop();
-            this.vlcMedia = new Media(this.libVLC, this.CurrentMedia.Location);
+            this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, this.CurrentMedia.Path);
             this.mediaPlayer.Media = this.vlcMedia;
         }
 
