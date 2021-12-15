@@ -2,3 +2,6 @@
 	path = external/libvlcsharp
 	url = git@github.com:drasticactions/libvlcsharp.git
 	branch = winui_tfm
+[submodule "external/feedparsercore"]
+	path = external/feedparsercore
+	url = git@github.com:drasticactions/feedparsercore.git
