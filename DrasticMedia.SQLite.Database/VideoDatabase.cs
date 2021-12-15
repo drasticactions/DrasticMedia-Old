@@ -47,7 +47,7 @@ namespace DrasticMedia.SQLite.Database
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            this.dbPath = System.IO.Path.Combine(settings.DatabasePath, "vlc.video.db");
+            this.dbPath = System.IO.Path.Combine(settings.DatabasePath, "drastic.video.db");
             this.Initialize();
         }
 

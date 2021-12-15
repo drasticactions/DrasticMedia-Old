@@ -31,6 +31,17 @@ namespace DrasticMedia.Core.Model
         public DateTime ReleaseDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the episode Uri.
+        /// </summary>
+        public Uri? EpisodeUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the episode is downloaded locally.
+        /// If it is, use <see cref="MediaItem.Path"/> to get the local download.
+        /// </summary>
+        public bool IsDownloaded { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the podcast Episode.
         /// </summary>
         public string? Description { get; set; }
