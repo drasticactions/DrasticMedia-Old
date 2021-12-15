@@ -18,7 +18,7 @@ namespace DrasticMedia.Core.Library
     /// <summary>
     /// Media Library.
     /// </summary>
-    public class MediaLibrary
+    public class MediaLibrary : IDisposable
     {
         private ILogger logger;
         private IMusicDatabase musicDatabase;
@@ -26,6 +26,7 @@ namespace DrasticMedia.Core.Library
         private IPodcastDatabase podcastDatabase;
         private IPlatformSettings platform;
         private LibVLC libVLC;
+        private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaLibrary"/> class.
@@ -222,7 +223,6 @@ namespace DrasticMedia.Core.Library
                         return false;
                     }
 
-
                     if (!string.IsNullOrEmpty(videoItem.ShowTitle))
                     {
                         var tvShow = await this.videoDatabase.FetchTVShowViaNameAsync(videoItem.ShowTitle);
@@ -278,5 +278,31 @@ namespace DrasticMedia.Core.Library
         {
             this.RemoveMediaItem?.Invoke(this, e);
         }
+
+        #region Dispose
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.libVLC.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        /// Dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }
