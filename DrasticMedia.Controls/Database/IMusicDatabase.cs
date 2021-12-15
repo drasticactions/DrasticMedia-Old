@@ -78,6 +78,28 @@ namespace DrasticMedia.Core.Database
         Task<TrackItem> AddTrackAsync(TrackItem track);
 
         /// <summary>
+        /// Updates an artist to the database.
+        /// </summary>
+        /// <param name="artist">ArtistItem.</param>
+        /// <returns>Updated ArtistItem with Id set.</returns>
+        Task<ArtistItem> UpdateArtistAsync(ArtistItem artist);
+
+        /// <summary>
+        /// Updates an album to the database.
+        /// </summary>
+        /// <param name="album">AlbumItem.</param>
+        /// <returns>Updated AlbumItem with Id set.</returns>
+        Task<AlbumItem> UpdateAlbumAsync(AlbumItem album);
+
+        /// <summary>
+        /// Updates an track to the database.
+        /// </summary>
+        /// <param name="track">TrackItem.</param>
+        /// <returns>Updated TrackItem with Id set.</returns>
+        Task<TrackItem> UpdateTrackAsync(TrackItem track);
+
+
+        /// <summary>
         /// Fetch an album by the album id.
         /// </summary>
         /// <param name="id">Album Id.</param>

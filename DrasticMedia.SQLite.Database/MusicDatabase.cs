@@ -72,11 +72,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumItem> AddAlbumAsync(AlbumItem album)
         {
-            if (album.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(album)} has id greater than 0");
-            }
-
             await this.Albums.AddAsync(album);
             await this.SaveChangesAsync();
             return album;
@@ -85,11 +80,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistItem> AddArtistAsync(ArtistItem artist)
         {
-            if (artist.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(artist)} has id greater than 0");
-            }
-
             await this.Artists.AddAsync(artist);
             await this.SaveChangesAsync();
             return artist;
@@ -98,12 +88,46 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<TrackItem> AddTrackAsync(TrackItem track)
         {
+            await this.Tracks.AddAsync(track);
+            await this.SaveChangesAsync();
+            return track;
+        }
+
+        /// <inheritdoc/>
+        public async Task<AlbumItem> UpdateAlbumAsync(AlbumItem album)
+        {
+            if (album.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(album)} has id greater than 0");
+            }
+
+            this.Albums.Update(album);
+            await this.SaveChangesAsync();
+            return album;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ArtistItem> UpdateArtistAsync(ArtistItem artist)
+        {
+            if (artist.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(artist)} has id greater than 0");
+            }
+
+            this.Artists.Update(artist);
+            await this.SaveChangesAsync();
+            return artist;
+        }
+
+        /// <inheritdoc/>
+        public async Task<TrackItem> UpdateTrackAsync(TrackItem track)
+        {
             if (track.Id > 0)
             {
                 throw new ArgumentException($"{nameof(track)} has id greater than 0");
             }
 
-            await this.Tracks.AddAsync(track);
+            this.Tracks.Update(track);
             await this.SaveChangesAsync();
             return track;
         }

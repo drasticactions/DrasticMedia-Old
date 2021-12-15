@@ -31,6 +31,13 @@ namespace DrasticMedia.Core.Database
         Task<VideoItem> AddVideoItemAsync(VideoItem video);
 
         /// <summary>
+        /// Updates a video to the database.
+        /// </summary>
+        /// <param name="video">Video Item.</param>
+        /// <returns>Updated VideoItem with Id set.</returns>
+        Task<VideoItem> UpdateVideoItemAsync(VideoItem video);
+
+        /// <summary>
         /// Removes a video from the database.
         /// </summary>
         /// <param name="video">Video Item.</param>
@@ -43,6 +50,13 @@ namespace DrasticMedia.Core.Database
         /// <param name="show">TVShow.</param>
         /// <returns>Updated TVShow with Id set.</returns>
         Task<TVShow> AddTVShowAsync(TVShow show);
+
+        /// <summary>
+        /// Updates a TV Show to the database.
+        /// </summary>
+        /// <param name="show">TVShow.</param>
+        /// <returns>Updated TVShow with Id set.</returns>
+        Task<TVShow> UpdateTVShowAsync(TVShow show);
 
         /// <summary>
         /// Removes a TV Show from the database.

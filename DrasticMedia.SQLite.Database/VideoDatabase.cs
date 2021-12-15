@@ -67,12 +67,19 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<TVShow> AddTVShowAsync(TVShow show)
         {
+            await this.TVShows.AddAsync(show);
+            await this.SaveChangesAsync();
+            return show;
+        }
+
+        public async Task<TVShow> UpdateTVShowAsync(TVShow show)
+        {
             if (show.Id > 0)
             {
                 throw new ArgumentException($"{nameof(show)} has id greater than 0");
             }
 
-            await this.TVShows.AddAsync(show);
+            this.TVShows.Update(show);
             await this.SaveChangesAsync();
             return show;
         }
@@ -80,12 +87,19 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<VideoItem> AddVideoItemAsync(VideoItem video)
         {
+            await this.Videos.AddAsync(video);
+            await this.SaveChangesAsync();
+            return video;
+        }
+
+        public async Task<VideoItem> UpdateVideoItemAsync(VideoItem video)
+        {
             if (video.Id > 0)
             {
                 throw new ArgumentException($"{nameof(video)} has id greater than 0");
             }
 
-            await this.Videos.AddAsync(video);
+            this.Videos.Update(video);
             await this.SaveChangesAsync();
             return video;
         }
