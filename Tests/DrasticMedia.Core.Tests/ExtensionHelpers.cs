@@ -12,6 +12,12 @@ namespace DrasticMedia.Core.Tests
 {
     public static class ExtensionHelpers
     {
+        public static string VideoDatabase() => GetPath("video.test.db");
+
+        public static string MusicDatabase() => GetPath("music.test.db");
+
+        public static string PodcastDatabase() => GetPath("podcast.test.db");
+
         public static string GetPath(string path)
         {
             var assemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

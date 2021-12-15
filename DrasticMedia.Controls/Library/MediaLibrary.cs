@@ -23,6 +23,7 @@ namespace DrasticMedia.Core.Library
         private ILogger logger;
         private IMusicDatabase musicDatabase;
         private IVideoDatabase videoDatabase;
+        private IPodcastDatabase podcastDatabase;
         private IPlatformSettings platform;
         private LibVLC libVLC;
 
@@ -32,16 +33,18 @@ namespace DrasticMedia.Core.Library
         /// <param name="libVLC">LibVLC Instance.</param>
         /// <param name="musicDatabase">Music Database.</param>
         /// <param name="videoDatabase">Video Database.</param>
+        /// <param name="podcastDatabase">Podcast Database.</param>
         /// <param name="platform">Storage File APIs.</param>
         /// <param name="logger">Logger.</param>
-        public MediaLibrary(LibVLC libVLC, IMusicDatabase musicDatabase, IVideoDatabase videoDatabase, IPlatformSettings platform, ILogger logger)
+        public MediaLibrary(LibVLC libVLC, IMusicDatabase musicDatabase, IVideoDatabase videoDatabase, IPodcastDatabase podcastDatabase, IPlatformSettings platform, ILogger logger)
         {
             this.platform = platform;
             this.logger = logger;
             this.libVLC = libVLC;
+            this.podcastDatabase = podcastDatabase;
             this.musicDatabase = musicDatabase;
             this.videoDatabase = videoDatabase;
-            if (!this.musicDatabase.IsInitialized || !this.videoDatabase.IsInitialized)
+            if (!this.musicDatabase.IsInitialized || !this.videoDatabase.IsInitialized || !this.podcastDatabase.IsInitialized)
             {
                 throw new ArgumentException($"Databases must be initialized before using them in the media library.");
             }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="Setup.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -6,11 +10,41 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DrasticMedia.Core.Tests
 {
+    /// <summary>
+    /// Setup.
+    /// </summary>
     [TestClass]
     public class Setup
     {
+        /// <summary>
+        /// Setup tests when the assembly is loaded.
+        /// </summary>
+        /// <param name="context">Test Context.</param>
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
+        {
+            MediaSetup();
+        }
+
+        private static void DatabaseSetup()
+        {
+            if (File.Exists(ExtensionHelpers.VideoDatabase()))
+            {
+                File.Delete(ExtensionHelpers.VideoDatabase());
+            }
+
+            if (File.Exists(ExtensionHelpers.MusicDatabase()))
+            {
+                File.Delete(ExtensionHelpers.MusicDatabase());
+            }
+
+            if (File.Exists(ExtensionHelpers.PodcastDatabase()))
+            {
+                File.Delete(ExtensionHelpers.PodcastDatabase());
+            }
+        }
+
+        private static void MediaSetup()
         {
             LibVLCSharp.Shared.Core.Initialize();
 
