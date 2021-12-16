@@ -18,22 +18,32 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PodcastShowItem"/> class.
         /// </summary>
-        /// <param name="uri">URI for the podcast.</param>
-        public PodcastShowItem(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
-            this.PodcastFeed = uri;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PodcastShowItem"/> class.
-        /// </summary>
         public PodcastShowItem()
         {
+        }
+
+        public PodcastShowItem(
+            Uri podcastUri,
+            string author,
+            string description,
+            string email,
+            string language,
+            string title,
+            string link,
+            string image,
+            string copyright,
+            DateTime updated)
+        {
+            this.PodcastFeed = podcastUri;
+            this.Author = author;
+            this.Description = description;
+            this.Email = email;
+            this.Language = language;
+            this.Title = title;
+            this.Copyright = copyright;
+            this.SiteUri = !string.IsNullOrEmpty(link) ? new Uri(link) : null;
+            this.Image = !string.IsNullOrEmpty(image) ? new Uri(image) : null;
+            this.Updated = updated;
         }
 
         /// <summary>
@@ -45,6 +55,21 @@ namespace DrasticMedia.Core.Model
         /// Gets or sets the title of the podcast.
         /// </summary>
         public string? Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email of the podcast.
+        /// </summary>
+        public string? Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language of the podcast.
+        /// </summary>
+        public string? Language { get; set; }
+
+        /// <summary>
+        /// Gets or sets the site uri of the podcast.
+        /// </summary>
+        public Uri? SiteUri { get; set; }
 
         /// <summary>
         /// Gets or sets the author of the podcast.
@@ -67,8 +92,18 @@ namespace DrasticMedia.Core.Model
         public Uri? Image { get; set; }
 
         /// <summary>
+        /// Gets or sets the podcast copyright.
+        /// </summary>
+        public string? Copyright { get; set; }
+
+        /// <summary>
+        /// Gets or sets the updated date.
+        /// </summary>
+        public DateTime? Updated { get; set; }
+
+        /// <summary>
         /// Gets or sets a list of episodes for this show.
         /// </summary>
-        public virtual List<PodcastEpisodeItem>? Episodes { get; set; }
+        public virtual List<PodcastEpisodeItem> Episodes { get; set; } = new List<PodcastEpisodeItem>();
     }
 }

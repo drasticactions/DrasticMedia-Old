@@ -29,7 +29,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\DrasticMedia.Controls\DrasticMedia.Core.csproj" />
 	  <ProjectReference Include="..\..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
-	  <ProjectReference Include="..\..\external\feedparsercore\FeedParserCore\FeedParserCore.csproj" />
 	  <ProjectReference Include="..\..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
 	</ItemGroup>
 
