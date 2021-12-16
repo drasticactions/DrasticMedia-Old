@@ -102,7 +102,6 @@ namespace DrasticMedia.Core.Tests
             }
         }
 
-
         /// <summary>
         /// Can parse Podcast Feeds.
         /// </summary>
