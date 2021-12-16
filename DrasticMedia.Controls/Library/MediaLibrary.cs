@@ -85,6 +85,32 @@ namespace DrasticMedia.Core.Library
         public IVideoDatabase VideoDatabase => this.videoDatabase;
 
         /// <summary>
+        /// Fetches all VideoItems.
+        /// </summary>
+        /// <returns>VideoItem.</returns>
+        public Task<List<VideoItem>> FetchVideosAsync() => this.videoDatabase.FetchVideosAsync();
+
+        /// <summary>
+        /// Fetches all TV Shows.
+        /// </summary>
+        /// <returns>TVShows.</returns>
+        public Task<List<TVShow>> FetchTVShowsAsync() => this.videoDatabase.FetchTVShowsAsync();
+
+        /// <summary>
+        /// Fetches a TV Show with episodes.
+        /// </summary>
+        /// <param name="id">TVShow id.</param>
+        /// <returns>TVShow.</returns>
+        public Task<TVShow?> FetchTVShowWithEpisodesAsync(int id) => this.videoDatabase.FetchTVShowWithEpisodesAsync(id);
+
+        /// <summary>
+        /// Fetches a TV Show via name.
+        /// </summary>
+        /// <param name="name">TVShow name.</param>
+        /// <returns>TVShow.</returns>
+        public Task<TVShow?> FetchTVShowViaNameAsync(string name) => this.videoDatabase.FetchTVShowViaNameAsync(name);
+
+        /// <summary>
         /// Recursivly scan media directories.
         /// </summary>
         /// <param name="mediaDirectory">Starting directory.</param>

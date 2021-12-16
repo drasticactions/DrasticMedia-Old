@@ -70,19 +70,25 @@ namespace DrasticMedia.Core.Database
         /// </summary>
         /// <param name="name">TVShow name.</param>
         /// <returns>TVShow.</returns>
-        Task<TVShow> FetchTVShowViaNameAsync(string name);
+        Task<TVShow?> FetchTVShowViaNameAsync(string name);
 
         /// <summary>
         /// Fetches a TV Show with episodes.
         /// </summary>
         /// <param name="id">TVShow id.</param>
         /// <returns>TVShow.</returns>
-        Task<TVShow> FetchTVShowWithEpisodesAsync(int id);
+        Task<TVShow?> FetchTVShowWithEpisodesAsync(int id);
 
         /// <summary>
         /// Fetches all TV Shows.
         /// </summary>
         /// <returns>TVShows.</returns>
         Task<List<TVShow>> FetchTVShowsAsync();
+
+        /// <summary>
+        /// Fetches all VideoItems.
+        /// </summary>
+        /// <returns>VideoItem.</returns>
+        Task<List<VideoItem>> FetchVideosAsync();
     }
 }

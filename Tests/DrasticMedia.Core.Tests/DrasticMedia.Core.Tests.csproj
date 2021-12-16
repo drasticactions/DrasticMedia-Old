@@ -87,6 +87,36 @@
 	  <None Update="MediaTestFiles\Media Library Test\Music\Artist2\Album2\3.mp3">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\Test.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Beef.House.S01E01.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Beef.House.S01E02.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Beef.House.S01E03.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.1.S01E01.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.1.S01E02.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.1.S01E03.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.S01E01.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.S01E02.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MediaTestFiles\Media Library Test\Video\TV Show\TestShow1\Test.Show.S01E03.PROPER.1080p.HDTV.x264-W4F.mp4">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="MediaTestFiles\Parser Test\test.mp3">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

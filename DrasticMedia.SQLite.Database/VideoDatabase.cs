@@ -72,6 +72,7 @@ namespace DrasticMedia.SQLite.Database
             return show;
         }
 
+        /// <inheritdoc/>
         public async Task<TVShow> UpdateTVShowAsync(TVShow show)
         {
             if (show.Id > 0)
@@ -92,6 +93,7 @@ namespace DrasticMedia.SQLite.Database
             return video;
         }
 
+        /// <inheritdoc/>
         public async Task<VideoItem> UpdateVideoItemAsync(VideoItem video)
         {
             if (video.Id > 0)
@@ -133,13 +135,19 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
-        public async Task<TVShow> FetchTVShowViaNameAsync(string name)
+        public Task<List<VideoItem>> FetchVideosAsync()
+        {
+            return this.Videos.ToListAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<TVShow?> FetchTVShowViaNameAsync(string name)
         {
             return await this.TVShows.FirstOrDefaultAsync(n => n.ShowTitle.Equals(name)).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public Task<TVShow> FetchTVShowWithEpisodesAsync(int id)
+        public Task<TVShow?> FetchTVShowWithEpisodesAsync(int id)
         {
             return this.TVShows.Include(n => n.Episodes).FirstOrDefaultAsync(n => n.Id == id);
         }

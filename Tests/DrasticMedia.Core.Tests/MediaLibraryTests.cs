@@ -59,6 +59,7 @@ namespace DrasticMedia.Core.Tests
         }
 
         [DataRow(@"Media\Media Library Test\Music", Library.MediaType.Audio)]
+        [DataRow(@"Media\Media Library Test\Video", Library.MediaType.Video)]
         [DataTestMethod]
         public async Task ParseMediaDiriectory (string mediaDirectory, Library.MediaType type)
         {
@@ -86,6 +87,20 @@ namespace DrasticMedia.Core.Tests
                 var albumWithTracks = await this.mediaLibrary.FetchAlbumWithTracksViaIdAsync(artists[0].Id);
                 Assert.IsNotNull(albumWithTracks);
                 Assert.IsTrue(albumWithTracks.Tracks.Any());
+            }
+
+            if (type == Library.MediaType.Video)
+            {
+                var videos = await this.mediaLibrary.FetchVideosAsync();
+                Assert.IsTrue(videos.Any());
+
+                // TODO: Test TV Shows.
+                //var tvShows = await this.mediaLibrary.FetchTVShowsAsync();
+                //Assert.IsTrue(tvShows.Any());
+
+                //var tvShow = await this.mediaLibrary.FetchTVShowWithEpisodesAsync(tvShows[0].Id);
+                //Assert.IsNotNull(tvShow);
+                //Assert.IsTrue(tvShow.Episodes.Any());
             }
 
             this.RemoveEventHandlers();
