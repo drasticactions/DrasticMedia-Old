@@ -28,12 +28,12 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets a list of albums by this artist.
         /// </summary>
-        public virtual List<AlbumItem>? Albums { get; set; }
+        public virtual List<AlbumItem> Albums { get; set; } = new List<AlbumItem>();
 
         /// <summary>
         /// Gets or sets a list of tracks by this artist.
         /// </summary>
-        public virtual List<TrackItem>? Tracks { get; set; }
+        public virtual List<TrackItem> Tracks { get; set; } = new List<TrackItem>();
 
         /// <summary>
         /// Gets or sets the last time this item was accessed.

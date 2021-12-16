@@ -38,7 +38,7 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets a list of tracks on this album.
         /// </summary>
-        public virtual List<TrackItem>? Tracks { get; set; }
+        public virtual List<TrackItem> Tracks { get; set; } = new List<TrackItem>();
 
         /// <summary>
         /// Gets or sets the last time this item was accessed.

@@ -161,19 +161,19 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
-        public async Task<AlbumItem> FetchAlbumViaIdAsync(int id)
+        public async Task<AlbumItem?> FetchAlbumViaIdAsync(int id)
         {
             return await this.Albums.FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public Task<AlbumItem> FetchAlbumViaNameAsync(int artistId, string name)
+        public Task<AlbumItem?> FetchAlbumViaNameAsync(int artistId, string name)
         {
             return this.Albums.FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
         }
 
         /// <inheritdoc/>
-        public async Task<AlbumItem> FetchAlbumWithTracksViaIdAsync(int id)
+        public async Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id)
         {
             return await this.Albums.Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
@@ -185,19 +185,19 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistItem> FetchArtistViaIdAsync(int id)
+        public async Task<ArtistItem?> FetchArtistViaIdAsync(int id)
         {
             return await this.Artists.FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistItem> FetchArtistViaNameAsync(string name)
+        public async Task<ArtistItem?> FetchArtistViaNameAsync(string name)
         {
             return await this.Artists.FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistItem> FetchArtistWithAlbumsViaIdAsync(int id)
+        public async Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id)
         {
             return await this.Artists.Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
@@ -209,7 +209,7 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
-        public async Task<TrackItem> FetchTrackViaIdAsync(int id)
+        public async Task<TrackItem?> FetchTrackViaIdAsync(int id)
         {
             return await this.Tracks.FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }

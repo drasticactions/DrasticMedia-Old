@@ -104,8 +104,8 @@ namespace DrasticMedia.Core
 
     public static class Logger
     {
-        public static void Log(this ILogger logger, LogLevel level, string message)
-            => logger.Log(new LogMessage(DateTime.Now, level, message));
+        public static void Log(this ILogger logger, LogLevel level, string? message)
+            => logger.Log(new LogMessage(DateTime.Now, level, message ?? string.Empty));
 
         public static void Log(this ILogger logger,
             Exception ex,

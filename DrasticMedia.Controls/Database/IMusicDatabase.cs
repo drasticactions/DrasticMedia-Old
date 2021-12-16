@@ -46,7 +46,7 @@ namespace DrasticMedia.Core.Database
         /// </summary>
         /// <param name="name">Name to search for.</param>
         /// <returns>ArtistItem.</returns>
-        Task<ArtistItem> FetchArtistViaNameAsync(string name);
+        Task<ArtistItem?> FetchArtistViaNameAsync(string name);
 
         /// <summary>
         /// Gets an <see cref="AlbumItem"/> via their AlbumItem and Artist Id.
@@ -54,7 +54,7 @@ namespace DrasticMedia.Core.Database
         /// <param name="artistId">Artist Id.</param>
         /// <param name="name">Name to search for.</param>
         /// <returns>AlbumItem.</returns>
-        Task<AlbumItem> FetchAlbumViaNameAsync(int artistId, string name);
+        Task<AlbumItem?> FetchAlbumViaNameAsync(int artistId, string name);
 
         /// <summary>
         /// Adds an artist to the database.
@@ -98,41 +98,40 @@ namespace DrasticMedia.Core.Database
         /// <returns>Updated TrackItem with Id set.</returns>
         Task<TrackItem> UpdateTrackAsync(TrackItem track);
 
-
         /// <summary>
         /// Fetch an album by the album id.
         /// </summary>
         /// <param name="id">Album Id.</param>
         /// <returns>AlbumItem.</returns>
-        Task<AlbumItem> FetchAlbumViaIdAsync(int id);
+        Task<AlbumItem?> FetchAlbumViaIdAsync(int id);
 
         /// <summary>
         /// Fetch an album with tracks by the album id.
         /// </summary>
         /// <param name="id">Album Id.</param>
         /// <returns>AlbumItem.</returns>
-        Task<AlbumItem> FetchAlbumWithTracksViaIdAsync(int id);
+        Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id);
 
         /// <summary>
         /// Fetch an artist by the artist id.
         /// </summary>
         /// <param name="id">Artist Id.</param>
         /// <returns>ArtistItem.</returns>
-        Task<ArtistItem> FetchArtistViaIdAsync(int id);
+        Task<ArtistItem?> FetchArtistViaIdAsync(int id);
 
         /// <summary>
         /// Fetch an artist with albums by the artist id.
         /// </summary>
         /// <param name="id">Artist Id.</param>
         /// <returns>ArtistItem.</returns>
-        Task<ArtistItem> FetchArtistWithAlbumsViaIdAsync(int id);
+        Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id);
 
         /// <summary>
         /// Fetch an track by the track id.
         /// </summary>
         /// <param name="id">Track Id.</param>
         /// <returns>TrackItem.</returns>
-        Task<TrackItem> FetchTrackViaIdAsync(int id);
+        Task<TrackItem?> FetchTrackViaIdAsync(int id);
 
         /// <summary>
         /// Remove artist from database.

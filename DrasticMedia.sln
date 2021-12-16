@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{7C6AF63A-1F04-4764-A7D8-FF9BBE77E9B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedParserCore", "external\feedparsercore\FeedParserCore\FeedParserCore.csproj", "{3E76FFE0-62FE-42C6-9637-A05186CC9A21}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,14 +79,6 @@ Global
 		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F278FED-B690-436D-9E4C-CC17CECA4C31}.Win32Release|Any CPU.Build.0 = Release|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21}.Win32Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,7 +87,6 @@ Global
 		{262C6FB1-DB40-4D6E-9F94-FDC31D7FC3C4} = {7C6AF63A-1F04-4764-A7D8-FF9BBE77E9B3}
 		{239A82A5-19A1-4382-8F9B-4A9705648017} = {7C6AF63A-1F04-4764-A7D8-FF9BBE77E9B3}
 		{1F278FED-B690-436D-9E4C-CC17CECA4C31} = {106EFCD1-40F9-4FA4-904A-F2107E01A6DF}
-		{3E76FFE0-62FE-42C6-9637-A05186CC9A21} = {7C6AF63A-1F04-4764-A7D8-FF9BBE77E9B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}

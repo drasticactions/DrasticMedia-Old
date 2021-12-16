@@ -85,6 +85,97 @@ namespace DrasticMedia.Core.Library
         public IVideoDatabase VideoDatabase => this.videoDatabase;
 
         /// <summary>
+        /// Recursivly scan media directories.
+        /// </summary>
+        /// <param name="mediaDirectory">Starting directory.</param>
+        /// <returns>Task.</returns>
+        public async Task ScanMediaDirectoriesAsync(string mediaDirectory)
+        {
+            this.logger.Log(LogLevel.Debug, $"ScanMediaDirectories: {mediaDirectory}");
+            await this.ScanMediaDirectoryAsync(mediaDirectory);
+            var directories = System.IO.Directory.EnumerateDirectories(mediaDirectory);
+            foreach (var directory in directories)
+            {
+                await this.ScanMediaDirectoriesAsync(directory);
+            }
+        }
+
+        /// <summary>
+        /// Scan media directory.
+        /// </summary>
+        /// <param name="mediaDirectory">Directory.</param>
+        /// <returns>Task.</returns>
+        public async Task ScanMediaDirectoryAsync(string mediaDirectory)
+        {
+            var files = Directory.EnumerateFiles(mediaDirectory);
+            foreach (var file in files)
+            {
+                var result = await this.AddFileAsync(file);
+                this.logger.Log(LogLevel.Debug, $"ScanMediaDirectory: {file} - {result}");
+            }
+        }
+
+        /// <summary>
+        /// Fetch an album with tracks by the album id.
+        /// </summary>
+        /// <param name="id">Album Id.</param>
+        /// <returns>AlbumItem.</returns>
+        public async Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id) => await this.musicDatabase.FetchAlbumWithTracksViaIdAsync(id);
+
+        /// <summary>
+        /// Gets an list of <see cref="ArtistItem"/>.
+        /// </summary>
+        /// <returns>List of ArtistItems.</returns>
+        public async Task<List<ArtistItem>> FetchArtistsAsync() => await this.musicDatabase.FetchArtistsAsync();
+
+        /// <summary>
+        /// Fetch an artist by the artist id.
+        /// </summary>
+        /// <param name="id">Artist Id.</param>
+        /// <returns>ArtistItem.</returns>
+        public async Task<ArtistItem?> FetchArtistViaIdAsync(int id) => await this.musicDatabase.FetchArtistViaIdAsync(id);
+
+        /// <summary>
+        /// Fetch an artist with albums by the artist id.
+        /// </summary>
+        /// <param name="id">Artist Id.</param>
+        /// <returns>ArtistItem.</returns>
+        public async Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id) => await this.musicDatabase.FetchArtistWithAlbumsViaIdAsync(id);
+
+        /// <summary>
+        /// Gets an <see cref="ArtistItem"/> via their Artist or ArtistGroup name.
+        /// </summary>
+        /// <param name="name">Name to search for.</param>
+        /// <returns>ArtistItem.</returns>
+        public async Task<ArtistItem?> FetchArtistViaNameAsync(string name) => await this.musicDatabase.FetchArtistViaNameAsync(name);
+
+        /// <summary>
+        /// Gets an list of <see cref="AlbumItem"/>.
+        /// </summary>
+        /// <returns>List of AlbumItems.</returns>
+        public async Task<List<AlbumItem>> FetchAlbumsAsync() => await this.musicDatabase.FetchAlbumsAsync();
+
+        /// <summary>
+        /// Fetch an album by the album id.
+        /// </summary>
+        /// <param name="id">Album Id.</param>
+        /// <returns>AlbumItem.</returns>
+        public async Task<AlbumItem?> FetchAlbumViaIdAsync(int id) => await this.musicDatabase.FetchAlbumViaIdAsync(id);
+
+        /// <summary>
+        /// Fetch an track by the track id.
+        /// </summary>
+        /// <param name="id">Track Id.</param>
+        /// <returns>TrackItem.</returns>
+        public async Task<TrackItem?> FetchTrackViaIdAsync(int id) => await this.musicDatabase.FetchTrackViaIdAsync(id);
+
+        /// <summary>
+        /// Gets an list of <see cref="TrackItem"/>.
+        /// </summary>
+        /// <returns>List of TrackItems.</returns>
+        public async Task<List<TrackItem>> FetchTracksAsync() => await this.musicDatabase.FetchTracksAsync();
+
+        /// <summary>
         /// Remove TVShow from database.
         /// </summary>
         /// <param name="show">TVShow to remove.</param>

@@ -58,6 +58,39 @@ namespace DrasticMedia.Core.Tests
             Assert.IsTrue(this.videoDB.IsInitialized);
         }
 
+        [DataRow(@"Media\Media Library Test\Music", Library.MediaType.Audio)]
+        [DataTestMethod]
+        public async Task ParseMediaDiriectory (string mediaDirectory, Library.MediaType type)
+        {
+            this.AddEventHandlers();
+
+            // Normally, we would throw this on a background thread.
+            // For this test, we're going to await for the result.
+            await this.mediaLibrary.ScanMediaDirectoriesAsync(mediaDirectory);
+
+            if (type == Library.MediaType.Audio)
+            {
+                var artists = await this.mediaLibrary.FetchArtistsAsync();
+                Assert.IsTrue(artists.Any());
+
+                var artistNoAlbum = await this.mediaLibrary.FetchArtistViaIdAsync(artists[0].Id);
+                Assert.IsNotNull(artistNoAlbum);
+
+                var artistWithAlbum = await this.mediaLibrary.FetchArtistWithAlbumsViaIdAsync(artists[0].Id);
+                Assert.IsNotNull(artistWithAlbum);
+                Assert.IsTrue(artistWithAlbum.Albums.Any());
+
+                var albumNoTracks = await this.mediaLibrary.FetchAlbumViaIdAsync(artistWithAlbum.Albums[0].Id);
+                Assert.IsNotNull(albumNoTracks);
+
+                var albumWithTracks = await this.mediaLibrary.FetchAlbumWithTracksViaIdAsync(artists[0].Id);
+                Assert.IsNotNull(albumWithTracks);
+                Assert.IsTrue(albumWithTracks.Tracks.Any());
+            }
+
+            this.RemoveEventHandlers();
+        }
+
         /// <summary>
         /// Can parse Podcast Feeds.
         /// </summary>
@@ -129,6 +162,54 @@ namespace DrasticMedia.Core.Tests
 
             var oldPodcast = await this.mediaLibrary.FetchPodcastWithEpisodesAsync(podcast.Id);
             Assert.IsNull(oldPodcast);
+        }
+
+        private void MediaLibrary_UpdateMediaItemAdded(object? sender, UpdateMediaItemEventArgs e)
+        {
+            if (e != null)
+            {
+                this.logger.Log(LogLevel.Info, e.ToString());
+            }
+        }
+
+        private void MediaLibrary_RemoveMediaItem(object? sender, RemoveMediaItemEventArgs e)
+        {
+            if (e != null)
+            {
+                this.logger.Log(LogLevel.Info, e.ToString());
+            }
+        }
+
+        private void MediaLibrary_NewMediaItemError(object? sender, NewMediaItemErrorEventArgs e)
+        {
+            if (e != null)
+            {
+                this.logger.Log(LogLevel.Info, e.ToString());
+            }
+        }
+
+        private void MediaLibrary_NewMediaItemAdded(object? sender, NewMediaItemEventArgs e)
+        {
+            if (e != null)
+            {
+                this.logger.Log(LogLevel.Info, e.ToString());
+            }
+        }
+
+        private void AddEventHandlers()
+        {
+            this.mediaLibrary.NewMediaItemAdded += this.MediaLibrary_NewMediaItemAdded;
+            this.mediaLibrary.NewMediaItemError += this.MediaLibrary_NewMediaItemError;
+            this.mediaLibrary.RemoveMediaItem += this.MediaLibrary_RemoveMediaItem;
+            this.mediaLibrary.UpdateMediaItemAdded += this.MediaLibrary_UpdateMediaItemAdded;
+        }
+
+        private void RemoveEventHandlers()
+        {
+            this.mediaLibrary.NewMediaItemAdded -= this.MediaLibrary_NewMediaItemAdded;
+            this.mediaLibrary.NewMediaItemError -= this.MediaLibrary_NewMediaItemError;
+            this.mediaLibrary.RemoveMediaItem -= this.MediaLibrary_RemoveMediaItem;
+            this.mediaLibrary.UpdateMediaItemAdded -= this.MediaLibrary_UpdateMediaItemAdded;
         }
     }
 }
