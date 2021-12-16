@@ -106,4 +106,46 @@ namespace DrasticMedia.Core.Model
         /// </summary>
         public virtual List<PodcastEpisodeItem> Episodes { get; set; } = new List<PodcastEpisodeItem>();
     }
+
+    /// <summary>
+    /// Podcast Show Item Extensions.
+    /// </summary>
+    public static class PodcastShowItemExtensions
+    {
+        /// <summary>
+        /// Updates an existing podcast.
+        /// </summary>
+        /// <param name="item">The original podcast.</param>
+        /// <param name="update">The updated podcast.</param>
+        public static void UpdatePodcast(this PodcastShowItem item, PodcastShowItem update)
+        {
+            if (update.PodcastFeed != item.PodcastFeed)
+            {
+                throw new ArgumentException("Podcast feeds must be the same");
+            }
+
+            item.Title = update.Title;
+            item.Email = update.Email;
+            item.Language = update.Language;
+            item.SiteUri = update.SiteUri;
+            item.Author = update.Author;
+            item.Description = update.Description;
+            item.PodcastFeed = update.PodcastFeed;
+            item.Image = update.Image;
+            item.Copyright = update.Copyright;
+            item.Updated = update.Updated;
+
+            foreach (var newEP in update.Episodes)
+            {
+                newEP.PodcastShowId = item.Id;
+                var oldEP = item.Episodes.FirstOrDefault(n => n.EpisodeUri == newEP.EpisodeUri);
+                if (oldEP != null)
+                {
+                    oldEP.UpdateEpisode(newEP);
+                    return;
+                }
+                item.Episodes.Add(newEP);
+            }
+        }
+    }
 }

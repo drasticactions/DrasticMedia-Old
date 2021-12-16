@@ -2,12 +2,12 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.Web;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using LibVLCSharp.Shared;
-using System.Web;
 using static DrasticMedia.Core.FileExtensions;
 
 namespace DrasticMedia.Core.Helpers

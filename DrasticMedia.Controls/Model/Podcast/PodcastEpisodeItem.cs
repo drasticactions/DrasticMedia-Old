@@ -83,4 +83,25 @@ namespace DrasticMedia.Core.Model
         /// </summary>
         public virtual PodcastShowItem? PodcastShowItem { get; set; }
     }
+
+    /// <summary>
+    /// Podcast Episode Item Extensions.
+    /// </summary>
+    public static class PodcastEpisodeItemExtensions
+    {
+        /// <summary>
+        /// Updates an existing podcast episode.
+        /// </summary>
+        /// <param name="item">The original podcast episode.</param>
+        /// <param name="update">The updated podcast episode.</param>
+        public static void UpdateEpisode(this PodcastEpisodeItem item, PodcastEpisodeItem update)
+        {
+            item.Title = update.Title;
+            item.PodcastShowId = update.PodcastShowId;
+            item.ReleaseDate = update.ReleaseDate;
+            item.Description = update.Description;
+            item.EpisodeUri = update.EpisodeUri;
+            item.Explicit = update.Explicit;
+        }
+    }
 }

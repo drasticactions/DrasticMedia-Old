@@ -18,5 +18,10 @@ namespace DrasticMedia.Core.Library
         /// Gets or sets the media item path.
         /// </summary>
         public string? MediaItemPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the media type.
+        /// </summary>
+        public MediaType MediaType { get; set; } = MediaType.Unknown;
     }
 }

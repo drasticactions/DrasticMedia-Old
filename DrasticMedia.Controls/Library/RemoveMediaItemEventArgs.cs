@@ -57,6 +57,24 @@ namespace DrasticMedia.Core.Library
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveMediaItemEventArgs"/> class.
+        /// </summary>
+        /// <param name="episode">PodcastEpisodeItem.</param>
+        public RemoveMediaItemEventArgs(PodcastEpisodeItem episode)
+        {
+            this.MediaItem = episode;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveMediaItemEventArgs"/> class.
+        /// </summary>
+        /// <param name="show">PodcastShowItem.</param>
+        public RemoveMediaItemEventArgs(PodcastShowItem show)
+        {
+            this.MediaItem = show;
+        }
+
+        /// <summary>
         /// Gets the Media Item that was removed.
         /// </summary>
         public object MediaItem { get; private set; }

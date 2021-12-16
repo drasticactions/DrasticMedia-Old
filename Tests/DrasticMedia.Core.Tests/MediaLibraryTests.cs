@@ -58,6 +58,10 @@ namespace DrasticMedia.Core.Tests
             Assert.IsTrue(this.videoDB.IsInitialized);
         }
 
+        /// <summary>
+        /// Can parse Podcast Feeds.
+        /// </summary>
+        /// <param name="feeduri">The feed uri.</param>
         [DataRow(@"https://feeds.fireside.fm/xamarinpodcast/rss")]
         [DataRow(@"http://feeds.codenewbie.org/cnpodcast.xml")]
         [DataRow(@"https://feeds.fireside.fm/mergeconflict/rss")]
@@ -96,6 +100,36 @@ namespace DrasticMedia.Core.Tests
                 Assert.IsTrue(ep.Duration != default);
                 Assert.IsTrue(ep.Duration.TotalSeconds > 0);
             }
+        }
+
+
+        /// <summary>
+        /// Can parse Podcast Feeds.
+        /// </summary>
+        /// <param name="feeduri">The feed uri.</param>
+        [DataRow(@"https://feeds.fireside.fm/mergeconflict/rss")]
+        [DataTestMethod]
+        public async Task AddUpdateRemovePodcast(string feeduri)
+        {
+            var podcastItem = await this.mediaLibrary.AddOrUpdatePodcastFromUri(new System.Uri(feeduri));
+            Assert.IsNotNull(podcastItem);
+            Assert.IsTrue(podcastItem.Id > 0);
+            foreach (var episode in podcastItem.Episodes)
+            {
+                Assert.IsTrue(episode.Id > 0);
+            }
+
+            var podcasts = await this.mediaLibrary.FetchPodcastsAsync();
+            Assert.IsTrue(podcasts.Any());
+
+            var podcast = await this.mediaLibrary.FetchPodcastWithEpisodesAsync(podcasts.First().Id);
+            Assert.IsNotNull(podcast);
+            Assert.IsTrue(podcast.Episodes.Any());
+
+            await this.mediaLibrary.RemovePodcast(podcast);
+
+            var oldPodcast = await this.mediaLibrary.FetchPodcastWithEpisodesAsync(podcast.Id);
+            Assert.IsNull(oldPodcast);
         }
     }
 }

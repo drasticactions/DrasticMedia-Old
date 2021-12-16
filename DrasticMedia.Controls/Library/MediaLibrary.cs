@@ -11,6 +11,7 @@ using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Helpers;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
+using DrasticMedia.Core.Services;
 using LibVLCSharp.Shared;
 
 namespace DrasticMedia.Core.Library
@@ -25,6 +26,7 @@ namespace DrasticMedia.Core.Library
         private IVideoDatabase videoDatabase;
         private IPodcastDatabase podcastDatabase;
         private IPlatformSettings platform;
+        private IPodcastService podcastService;
         private LibVLC libVLC;
         private bool disposedValue;
 
@@ -45,6 +47,7 @@ namespace DrasticMedia.Core.Library
             this.podcastDatabase = podcastDatabase;
             this.musicDatabase = musicDatabase;
             this.videoDatabase = videoDatabase;
+            this.podcastService = new PodcastService(this.logger);
             if (!this.musicDatabase.IsInitialized || !this.videoDatabase.IsInitialized || !this.podcastDatabase.IsInitialized)
             {
                 throw new ArgumentException($"Databases must be initialized before using them in the media library.");
@@ -55,6 +58,11 @@ namespace DrasticMedia.Core.Library
         /// Gets the new media item added event.
         /// </summary>
         public event EventHandler<NewMediaItemEventArgs>? NewMediaItemAdded;
+
+        /// <summary>
+        /// Gets the new media item added event.
+        /// </summary>
+        public event EventHandler<UpdateMediaItemEventArgs>? UpdateMediaItemAdded;
 
         /// <summary>
         /// Gets the remove media item event.
@@ -103,6 +111,28 @@ namespace DrasticMedia.Core.Library
         }
 
         /// <summary>
+        /// Remove Podcast from Database.
+        /// </summary>
+        /// <param name="podcast">PodcastShowItem</param>
+        /// <returns>Task.</returns>
+        public async Task RemovePodcast(PodcastShowItem podcast)
+        {
+            podcast = await this.podcastDatabase.RemovePodcastAsync(podcast).ConfigureAwait(false);
+            this.OnRemoveMediaItem(new RemoveMediaItemEventArgs(podcast));
+        }
+
+        /// <summary>
+        /// Remove Podcast from Database.
+        /// </summary>
+        /// <param name="podcast">PodcastEpisodeItem</param>
+        /// <returns>Task.</returns>
+        public async Task RemovePodcastEpisode(PodcastEpisodeItem podcast)
+        {
+            podcast = await this.podcastDatabase.RemoveEpisodeAsync(podcast).ConfigureAwait(false);
+            this.OnRemoveMediaItem(new RemoveMediaItemEventArgs(podcast));
+        }
+
+        /// <summary>
         /// Remove Artist from database.
         /// </summary>
         /// <param name="artist">ArtistItem.</param>
@@ -142,6 +172,19 @@ namespace DrasticMedia.Core.Library
                 await this.RemoveAlbumAsync(track.AlbumItem).ConfigureAwait(false);
             }
         }
+
+        /// <summary>
+        /// Fetch all podcasts.
+        /// </summary>
+        /// <returns>List of PodcastShowItem.</returns>
+        public async Task<List<PodcastShowItem>> FetchPodcastsAsync() => await this.podcastDatabase.FetchShowsAsync().ConfigureAwait(false);
+
+        /// <summary>
+        /// Fetch podcast with episodes.
+        /// </summary>
+        /// <param name="showId">Podcast show id.</param>
+        /// <returns>PodcastShowItem</returns>
+        public async Task<PodcastShowItem?> FetchPodcastWithEpisodesAsync(int showId) => await this.podcastDatabase.FetchShowWithEpisodesAsync(showId).ConfigureAwait(false);
 
         /// <summary>
         /// Add file to database async.
@@ -253,12 +296,56 @@ namespace DrasticMedia.Core.Library
         }
 
         /// <summary>
+        /// Add or update a podcast via a uri.
+        /// </summary>
+        /// <param name="uri">Uri of podcast.</param>
+        /// <returns>Podcast Show Item.</returns>
+        public async Task<PodcastShowItem?> AddOrUpdatePodcastFromUri(Uri uri)
+        {
+            try
+            {
+                var podcast = await this.podcastDatabase.FetchShowViaUriAsync(uri).ConfigureAwait(false);
+                var feed = await this.podcastService.FetchPodcastShowAsync(uri, CancellationToken.None).ConfigureAwait(false);
+                if (feed == null)
+                {
+                    this.NewMediaItemError?.Invoke(this, new NewMediaItemErrorEventArgs() { MediaItemPath = uri.ToString(), MediaType = MediaType.Podcast });
+                    return null;
+                }
+
+                if (podcast != null)
+                {
+                    await this.podcastDatabase.UpdatePodcastAsync(podcast);
+                    this.OnUpdateMediaItemAdded(new UpdateMediaItemEventArgs(podcast));
+                    return podcast;
+                }
+
+                await this.podcastDatabase.AddPodcastAsync(feed);
+                this.OnNewMediaItemAdded(new NewMediaItemEventArgs(feed));
+                return feed;
+            }
+            catch (Exception ex)
+            {
+                this.OnNewMediaItemError(new NewMediaItemErrorEventArgs() { Exception = ex, MediaItemPath = uri.ToString(), MediaType = MediaType.Podcast });
+                return null;
+            }
+        }
+
+        /// <summary>
         /// On New Media Item Added.
         /// </summary>
         /// <param name="e">NewMediaItemEventArgs.</param>
         protected virtual void OnNewMediaItemAdded(NewMediaItemEventArgs e)
         {
             this.NewMediaItemAdded?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// On Update Media Item Added.
+        /// </summary>
+        /// <param name="e">UpdateMediaItemEventArgs.</param>
+        protected virtual void OnUpdateMediaItemAdded(UpdateMediaItemEventArgs e)
+        {
+            this.UpdateMediaItemAdded?.Invoke(this, e);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="NewMediaItemEventArgs.cs" company="Drastic Actions">
+﻿// <copyright file="UpdateMediaItemEventArgs.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -7,69 +7,69 @@ using DrasticMedia.Core.Model;
 namespace DrasticMedia.Core.Library
 {
     /// <summary>
-    /// New Media Item Event Args.
+    /// Update Media Item Event Args.
     /// </summary>
-    public class NewMediaItemEventArgs : EventArgs
+    public class UpdateMediaItemEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="artistItem">AristItem.</param>
-        public NewMediaItemEventArgs(ArtistItem artistItem)
+        public UpdateMediaItemEventArgs(ArtistItem artistItem)
         {
             this.MediaItem = artistItem;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="trackItem">TrackItem.</param>
-        public NewMediaItemEventArgs(TrackItem trackItem)
+        public UpdateMediaItemEventArgs(TrackItem trackItem)
         {
             this.MediaItem = trackItem;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="albumItem">AlbumItem.</param>
-        public NewMediaItemEventArgs(AlbumItem albumItem)
+        public UpdateMediaItemEventArgs(AlbumItem albumItem)
         {
             this.MediaItem = albumItem;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="tvShow">TVShow.</param>
-        public NewMediaItemEventArgs(TVShow tvShow)
+        public UpdateMediaItemEventArgs(TVShow tvShow)
         {
             this.MediaItem = tvShow;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="video">VideoItem.</param>
-        public NewMediaItemEventArgs(VideoItem video)
+        public UpdateMediaItemEventArgs(VideoItem video)
         {
             this.MediaItem = video;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="podcast">PodcastShowItem.</param>
-        public NewMediaItemEventArgs(PodcastShowItem podcast)
+        public UpdateMediaItemEventArgs(PodcastShowItem podcast)
         {
             this.MediaItem = podcast;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewMediaItemEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="UpdateMediaItemEventArgs"/> class.
         /// </summary>
         /// <param name="podcast">PodcastEpisodeItem.</param>
-        public NewMediaItemEventArgs(PodcastEpisodeItem podcast)
+        public UpdateMediaItemEventArgs(PodcastEpisodeItem podcast)
         {
             this.MediaItem = podcast;
         }

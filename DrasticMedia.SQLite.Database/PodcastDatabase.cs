@@ -138,6 +138,12 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
+        public async Task<PodcastShowItem> FetchShowViaUriAsync(Uri showUri)
+        {
+            return await this.Shows.Include(n => n.Episodes).FirstOrDefaultAsync(n => n.PodcastFeed == showUri).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
         public void Initialize()
         {
             this.Database.EnsureCreated();
@@ -205,6 +211,11 @@ namespace DrasticMedia.SQLite.Database
             {
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
+
+            modelBuilder.Entity<PodcastShowItem>().HasKey(n => n.Id);
+            modelBuilder.Entity<PodcastEpisodeItem>().HasKey(n => n.Id);
+            modelBuilder.Entity<PodcastEpisodeItem>().HasOne(n => n.PodcastShowItem).WithMany(y => y.Episodes).HasForeignKey(n => n.PodcastShowId);
+            modelBuilder.Entity<PodcastShowItem>().HasMany(n => n.Episodes).WithOne().HasForeignKey(y => y.PodcastShowId);
         }
     }
 }

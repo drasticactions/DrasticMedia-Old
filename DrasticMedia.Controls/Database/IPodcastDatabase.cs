@@ -37,6 +37,13 @@ namespace DrasticMedia.Core.Database
         Task<PodcastShowItem> FetchShowAsync(int showId);
 
         /// <summary>
+        /// Gets a <see cref="PodcastShowItem"/>.
+        /// </summary>
+        /// <param name="showUri">Podcast Show Uri.</param>
+        /// <returns> PodcastShowItem.</returns>
+        Task<PodcastShowItem> FetchShowViaUriAsync(Uri showUri);
+
+        /// <summary>
         /// Gets an list of <see cref="PodcastEpisodeItem"/>.
         /// </summary>
         /// <returns>List of PodcastEpisodeItem.</returns>

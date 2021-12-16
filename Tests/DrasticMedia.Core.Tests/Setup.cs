@@ -24,6 +24,7 @@ namespace DrasticMedia.Core.Tests
         public static void AssemblyInit(TestContext context)
         {
             MediaSetup();
+            DatabaseSetup();
         }
 
         private static void DatabaseSetup()

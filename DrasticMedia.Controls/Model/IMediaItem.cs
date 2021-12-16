@@ -10,27 +10,30 @@ using System.Threading.Tasks;
 
 namespace DrasticMedia.Core.Model
 {
+    /// <summary>
+    /// Media Element.
+    /// </summary>
     public interface IMediaItem
     {
         /// <summary>
         /// Gets or sets the path to the media.
         /// </summary>
-        public string Path { get; set; }
+        public string? Path { get; set; }
 
         /// <summary>
         /// Gets or sets the album.
         /// </summary>
-        public string Album { get; set; }
+        public string? Album { get; set; }
 
         /// <summary>
         /// Gets or sets the artist.
         /// </summary>
-        public string Artist { get; set; }
+        public string? Artist { get; set; }
 
         /// <summary>
         /// Gets or sets the album artist.
         /// </summary>
-        public string AlbumArtist { get; set; }
+        public string? AlbumArtist { get; set; }
 
         /// <summary>
         /// Gets or sets the duration of the media.
@@ -40,7 +43,7 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Gets or sets the track number.
@@ -55,12 +58,12 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the genre.
         /// </summary>
-        public string Genre { get; set; }
+        public string? Genre { get; set; }
 
         /// <summary>
         /// Gets or sets the path to the album art.
         /// </summary>
-        public string AlbumArt { get; set; }
+        public string? AlbumArt { get; set; }
 
         /// <summary>
         /// Gets or sets the disc number.
@@ -85,17 +88,17 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the show title.
         /// </summary>
-        public string ShowTitle { get; set; }
+        public string? ShowTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the thumbnail.
         /// </summary>
-        public string ThumbnailPath { get; set; }
+        public string? ThumbnailPath { get; set; }
 
         /// <summary>
         /// Gets or sets the poster path.
         /// </summary>
-        public string PosterPath { get; set; }
+        public string? PosterPath { get; set; }
 
         /// <summary>
         /// Gets or sets the height.
