@@ -33,7 +33,9 @@ namespace DrasticMedia.Core.Services
         {
             this.mediaPlayer = player;
             this.libVLC = libVLC;
+            this.mediaPlayer.Playing += this.MediaPlayer_Playing;
             this.mediaPlayer.PositionChanged += this.MediaPlayer_PositionChanged;
+            this.mediaPlayer.PausableChanged += this.MediaPlayer_PausableChanged;
         }
 
         /// <inheritdoc/>
@@ -102,6 +104,16 @@ namespace DrasticMedia.Core.Services
 
         private void MediaPlayer_PositionChanged(object? sender, LibVLCSharp.Shared.MediaPlayerPositionChangedEventArgs e) 
             => this.PositionChanged?.Invoke(this, new MediaPlayerPositionChangedEventArgs(e.Position));
+
+        private void MediaPlayer_PausableChanged(object? sender, MediaPlayerPausableChangedEventArgs e)
+        {
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
+        }
+
+        private void MediaPlayer_Playing(object? sender, EventArgs e)
+        {
+            this.RaiseCanExecuteChanged?.Invoke(this, e);
+        }
 
         private void SetCurrentMedia()
         {

@@ -245,6 +245,8 @@ namespace DrasticMedia.Core.Services
             await this.media.PlayAsync(media.LastPosition, fromPosition);
 
             this.IsPlayingChanged?.Invoke(this, EventArgs.Empty);
+
+            this.RaiseCanExecuteChanged();
         }
 
         private void Media_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)

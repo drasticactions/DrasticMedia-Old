@@ -23,6 +23,7 @@ namespace DrasticMedia
         private IErrorHandlerService errorHandler;
         private IServiceProvider serviceProvider;
         private DragAndDropOverlay dragAndDropOverlay;
+        private PageBackground pageBackgroundOverlay;
         private LibVLC libVLC;
         private PlayerService player;
 
@@ -33,6 +34,7 @@ namespace DrasticMedia
             this.player = serviceProvider.GetService<PlayerService>();
             this.libVLC = serviceProvider.GetService<LibVLC>();
             this.dragAndDropOverlay = new DragAndDropOverlay(this, this.libVLC);
+            this.pageBackgroundOverlay = new PageBackground(this);
             this.dragAndDropOverlay.Drop += DragAndDropOverlay_Drop;
         }
 
@@ -40,6 +42,8 @@ namespace DrasticMedia
         protected override void OnCreated()
         {
             this.AddOverlay(this.dragAndDropOverlay);
+            this.AddOverlay(this.pageBackgroundOverlay);
+            this.pageBackgroundOverlay.SetPage(new MainPage());
             base.OnCreated();
         }
 
