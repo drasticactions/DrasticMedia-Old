@@ -7,7 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Services;
 using DrasticMedia.Overlays;
+using DrasticMedia.Services;
+using DrasticMedia.Utilities;
+using LibVLCSharp.Shared;
 
 namespace DrasticMedia
 {
@@ -16,22 +20,35 @@ namespace DrasticMedia
     /// </summary>
     public class MediaWindow : Window
     {
-        DragAndDropOverlay dragAndDropOverlay;
+        private IErrorHandlerService errorHandler;
+        private IServiceProvider serviceProvider;
+        private DragAndDropOverlay dragAndDropOverlay;
+        private LibVLC libVLC;
+        private PlayerService player;
 
-        public MediaWindow()
+        public MediaWindow(IServiceProvider serviceProvider)
         {
-            this.dragAndDropOverlay = new DragAndDropOverlay(this);
+            this.serviceProvider = serviceProvider;
+            this.errorHandler = serviceProvider.GetService<IErrorHandlerService>();
+            this.player = serviceProvider.GetService<PlayerService>();
+            this.libVLC = serviceProvider.GetService<LibVLC>();
+            this.dragAndDropOverlay = new DragAndDropOverlay(this, this.libVLC);
             this.dragAndDropOverlay.Drop += DragAndDropOverlay_Drop;
         }
 
-        private void DragAndDropOverlay_Drop(object sender, DragAndDropOverlayTappedEventArgs e) => this.Drop?.Invoke(sender, e);
-
-        public event EventHandler<DragAndDropOverlayTappedEventArgs>? Drop;
-
+        /// <inheritdoc/>
         protected override void OnCreated()
         {
             this.AddOverlay(this.dragAndDropOverlay);
             base.OnCreated();
+        }
+
+        private void DragAndDropOverlay_Drop(object sender, DragAndDropOverlayTappedEventArgs e)
+        {
+            if (e?.File != null)
+            {
+                this.player.AddMedia(e?.File, true).FireAndForgetSafeAsync(this.errorHandler);
+            }
         }
     }
 }

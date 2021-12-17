@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using CodeHollow.FeedReader;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Services;
+using DrasticMedia.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DrasticMedia.ViewModels

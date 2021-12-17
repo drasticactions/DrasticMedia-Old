@@ -10,8 +10,9 @@ public partial class App : Application
         this.services = services;
     }
 
+    /// <inheritdoc/>
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new MediaWindow() { Page = new PlayerPage(services) };
+        return new MediaWindow(this.services) { Page = new PlayerPage(this.services) };
     }
 }

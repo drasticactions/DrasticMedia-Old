@@ -105,7 +105,7 @@ namespace DrasticMedia.Overlays
                             {
                                 Byte[] barray = new Byte[imageData.Length];
                                 System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, barray, 0, Convert.ToInt32(imageData.Length));
-                                this.overlay.Drop?.Invoke(this.overlay, new DragAndDropOverlayTappedEventArgs("test", "", barray));
+                                //this.overlay.Drop?.Invoke(this.overlay, new DragAndDropOverlayTappedEventArgs("test", "", barray));
                             }
                         });
                     }

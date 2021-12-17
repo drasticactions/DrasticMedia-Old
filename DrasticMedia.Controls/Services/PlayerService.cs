@@ -42,10 +42,9 @@ namespace DrasticMedia.Core.Services
         public event EventHandler? IsPlayingChanged;
 
         /// <summary>
-        /// The Media Service.
+        /// Gets The Media Service.
         /// </summary>
         public IMediaService MediaService => this.media;
-
 
         /// <summary>
         /// Gets the current position of the current IMedia.

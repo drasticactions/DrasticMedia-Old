@@ -1,8 +1,15 @@
-﻿using System;
+﻿// <copyright file="DragAndDropOverlay.Windows.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core;
+using DrasticMedia.Core.Helpers;
+using DrasticMedia.Core.Model;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -40,7 +47,6 @@ namespace DrasticMedia.Overlays
             return dragAndDropOverlayNativeElementsInitialized = true;
         }
 
-
         public override bool Deinitialize()
         {
             if (panel != null)
@@ -65,7 +71,6 @@ namespace DrasticMedia.Overlays
             this.IsDragging = false;
         }
 
-
         private async void Panel_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
@@ -76,7 +81,23 @@ namespace DrasticMedia.Overlays
                     var item = items.First() as StorageFile;
                     if (item != null)
                     {
-                        this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(item.Name, item.Path, null));
+                        var fileType = Path.GetExtension(item.Path);
+                        if (FileExtensions.AudioExtensions.Contains(fileType))
+                        {
+                            var mP = await this.libVLC.GetMusicPropertiesAsync(item.Path) as TrackItem;
+                            if (mP != null)
+                            {
+                                this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(mP));
+                            }
+                        }
+                        else if (FileExtensions.AudioExtensions.Contains(fileType))
+                        {
+                            var vP = await this.libVLC.GetVideoPropertiesAsync(item.Path) as VideoItem;
+                            if (vP != null)
+                            {
+                                this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(vP));
+                            }
+                        }
                     }
                 }
             }

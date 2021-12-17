@@ -21,19 +21,19 @@ namespace DrasticMedia
             this.player = provider.GetService<PlayerService>();
         }
 
-        private async void PlayerPage_Drop(object sender, Overlays.DragAndDropOverlayTappedEventArgs e)
-        {
-            var song = new TrackItem() { Path = e.Path };
-            await this.player.AddMedia(song, true);
-            var artwork = await this.player.MediaService.GetArtworkUrl();
-            var imageSource = ImageSource.FromFile(artwork);
-            this.Dispatcher.Dispatch(() => this.TestAlbumArt.Source = imageSource);
-        }
+        //private async void PlayerPage_Drop(object sender, Overlays.DragAndDropOverlayTappedEventArgs e)
+        //{
+        //    var song = new TrackItem() { Path = e.Path };
+        //    await this.player.AddMedia(song, true);
+        //    var artwork = await this.player.MediaService.GetArtworkUrl();
+        //    var imageSource = ImageSource.FromFile(artwork);
+        //    this.Dispatcher.Dispatch(() => this.TestAlbumArt.Source = imageSource);
+        //}
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ((MediaWindow)this.GetParentWindow()).Drop += PlayerPage_Drop;
-        }
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    ((MediaWindow)this.GetParentWindow()).Drop += PlayerPage_Drop;
+        //}
     }
 }

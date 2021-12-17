@@ -1,15 +1,26 @@
-﻿using System;
+﻿// <copyright file="DragAndDropOverlay.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Model;
+using LibVLCSharp.Shared;
 
 namespace DrasticMedia.Overlays
 {
+    /// <summary>
+    /// Drag and drop overlay.
+    /// </summary>
     public partial class DragAndDropOverlay : WindowOverlay
     {
-        DropElementOverlay dropElement;
-        bool dragAndDropOverlayNativeElementsInitialized;
+        private DropElementOverlay dropElement;
+        private bool dragAndDropOverlayNativeElementsInitialized;
+
+        internal LibVLC libVLC;
 
         internal bool IsDragging
         {
@@ -21,9 +32,10 @@ namespace DrasticMedia.Overlays
             }
         }
 
-        public DragAndDropOverlay(IWindow window)
+        public DragAndDropOverlay(IWindow window, LibVLC libVLC)
             : base(window)
         {
+            this.libVLC = libVLC;
             this.dropElement = new DropElementOverlay();
             this.AddWindowElement(dropElement);
         }
@@ -33,6 +45,7 @@ namespace DrasticMedia.Overlays
         class DropElementOverlay : IWindowOverlayElement
         {
             public bool IsDragging { get; set; }
+
             // We are not going to use Contains for this.
             // We're gonna set if it's invoked externally.
             public bool Contains(Point point) => false;
@@ -50,19 +63,20 @@ namespace DrasticMedia.Overlays
         }
     }
 
-	public class DragAndDropOverlayTappedEventArgs : EventArgs
-	{
-		public DragAndDropOverlayTappedEventArgs(string filename, string path, byte[] file)
-		{
-            this.Path = path;
-            this.Filename = filename;
+    /// <summary>
+    /// Drag and Drop Overlay Tapped Event Args.
+    /// </summary>
+    public class DragAndDropOverlayTappedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragAndDropOverlayTappedEventArgs"/> class.
+        /// </summary>
+        /// <param name="file">Media Item.</param>
+        public DragAndDropOverlayTappedEventArgs(MediaItem file)
+        {
             this.File = file;
-		}
+        }
 
-        public string Path { get; }
-
-        public string Filename { get; }
-
-        public byte[] File { get; }
-	}
+        public MediaItem File { get; }
+    }
 }
