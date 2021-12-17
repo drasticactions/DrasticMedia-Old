@@ -22,14 +22,19 @@ namespace DrasticMedia.Core.Services
         MediaItem CurrentMedia { get; set; }
 
         /// <summary>
+        /// Position Changed.
+        /// </summary>
+        event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
+
+        /// <summary>
         /// Gets a value indicating whether the stream is playing.
         /// </summary>
         bool IsPlaying { get; }
 
         /// <summary>
-        /// Gets the current position of the stream.
+        /// Gets or sets the current position of the stream.
         /// </summary>
-        double CurrentPosition { get; }
+        float CurrentPosition { get; set;  }
 
         /// <summary>
         /// Gets the current media album URI.

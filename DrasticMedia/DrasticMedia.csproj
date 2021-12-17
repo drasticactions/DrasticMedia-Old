@@ -73,7 +73,8 @@
 	
     <ItemGroup>
       <ProjectReference Include="..\DrasticMedia.Controls\DrasticMedia.Core.csproj" />
-      <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
+	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
+	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
     </ItemGroup>
 	
     <ItemGroup>

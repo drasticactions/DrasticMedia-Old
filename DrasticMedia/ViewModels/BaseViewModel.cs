@@ -116,7 +116,6 @@ namespace DrasticMedia.ViewModels
         /// </summary>
         protected MediaLibrary MediaLibrary { get; private set; }
 
-
         /// <summary>
         /// Load VM Async.
         /// </summary>

@@ -4,7 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
@@ -14,10 +16,11 @@ namespace DrasticMedia.Core.Services
     /// <summary>
     /// Player Service.
     /// </summary>
-    public class PlayerService
+    public class PlayerService : INotifyPropertyChanged
     {
         private readonly IMediaService media;
         private readonly ILogger logger;
+        private float currentPosition;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerService"/> class.
@@ -27,9 +30,13 @@ namespace DrasticMedia.Core.Services
         public PlayerService(IMediaService media, ILogger logger)
         {
             this.media = media;
+            this.media.PositionChanged += this.Media_PositionChanged;
             this.logger = logger;
             this.Playlist = new List<MediaItem>();
         }
+
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// New Media Added.
@@ -42,14 +49,14 @@ namespace DrasticMedia.Core.Services
         public event EventHandler? IsPlayingChanged;
 
         /// <summary>
-        /// Gets The Media Service.
+        /// The Media Service.
         /// </summary>
         public IMediaService MediaService => this.media;
 
         /// <summary>
-        /// Gets the current position of the current IMedia.
+        /// Gets or sets the current position of the current IMedia.
         /// </summary>
-        public double CurrentPosition => this.media.CurrentPosition;
+        public float CurrentPosition { get { return this.media.CurrentPosition; } set { this.media.CurrentPosition = value; } }
 
         /// <summary>
         /// Gets a value indicating whether the current IMedia is player.
@@ -103,6 +110,49 @@ namespace DrasticMedia.Core.Services
             }
         }
 
+        /// <summary>
+        /// Called when wanting to raise a Command Can Execute.
+        /// </summary>
+        public virtual void RaiseCanExecuteChanged()
+        {
+        }
+
+#pragma warning disable SA1600 // Elements should be documented
+        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
+#pragma warning restore SA1600 // Elements should be documented
+        {
+            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+            {
+                return false;
+            }
+
+            backingStore = value;
+            onChanged?.Invoke();
+            this.OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        /// <summary>
+        /// On Property Changed.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (Application.Current != null)
+            {
+                Application.Current.Dispatcher.Dispatch(() =>
+                {
+                    var changed = this.PropertyChanged;
+                    if (changed == null)
+                    {
+                        return;
+                    }
+
+                    changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                });
+            }
+        }
+
         private async Task SetAndPlayCurrentMedia(MediaItem media, bool fromPosition)
         {
             if (media == null)
@@ -115,6 +165,11 @@ namespace DrasticMedia.Core.Services
             await this.media.PlayAsync(media.LastPosition, fromPosition);
 
             this.IsPlayingChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Media_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
+        {
+            this.OnPropertyChanged(nameof(this.CurrentPosition));
         }
     }
 }
