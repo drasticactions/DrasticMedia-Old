@@ -140,7 +140,7 @@ namespace DrasticMedia.Core.Services
         {
             if (this.vlcMedia == null)
             {
-                throw new ArgumentNullException(nameof(this.vlcMedia));
+                return string.Empty;
             }
 
             if (!this.vlcMedia.IsParsed)

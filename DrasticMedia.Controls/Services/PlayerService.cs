@@ -100,6 +100,26 @@ namespace DrasticMedia.Core.Services
         public float CurrentPosition { get { return this.media.CurrentPosition; } set { this.media.CurrentPosition = value; } }
 
         /// <summary>
+        /// Gets the current album art uri.
+        /// </summary>
+        public string CurrentAlbumArt => this.media.CurrentMedia?.AlbumArt ?? string.Empty;
+
+        /// <summary>
+        /// Gets the current artist.
+        /// </summary>
+        public string CurrentArtist => this.media.CurrentMedia?.Artist ?? string.Empty;
+
+        /// <summary>
+        /// Gets the current album title.
+        /// </summary>
+        public string CurrentAlbum => this.media.CurrentMedia?.Album ?? string.Empty;
+
+        /// <summary>
+        /// Gets the current title track.
+        /// </summary>
+        public string CurrentTrackTitle => this.media.CurrentMedia?.Title ?? string.Empty;
+
+        /// <summary>
         /// Gets a value indicating whether the current IMedia is player.
         /// </summary>
         public bool IsPlaying => this.media.IsPlaying;
@@ -170,6 +190,10 @@ namespace DrasticMedia.Core.Services
             this.GoBackCommand?.RaiseCanExecuteChanged();
             this.GoForwardCommand?.RaiseCanExecuteChanged();
             this.OnPropertyChanged(nameof(this.IsPlaying));
+            this.OnPropertyChanged(nameof(this.CurrentAlbumArt));
+            this.OnPropertyChanged(nameof(this.CurrentArtist));
+            this.OnPropertyChanged(nameof(this.CurrentAlbum));
+            this.OnPropertyChanged(nameof(this.CurrentTrackTitle));
         }
 
 #pragma warning disable SA1600 // Elements should be documented

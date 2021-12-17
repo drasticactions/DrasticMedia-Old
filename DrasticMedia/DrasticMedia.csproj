@@ -99,6 +99,9 @@
     </ItemGroup>
 	
     <ItemGroup>
+      <MauiXaml Update="AlbumArtPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="PlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>

@@ -18,7 +18,7 @@ namespace DrasticMedia
     /// <summary>
     /// Media Window.
     /// </summary>
-    public class MediaWindow : Window
+    public class MediaWindow : Window, IVisualTreeElement
     {
         private IErrorHandlerService errorHandler;
         private IServiceProvider serviceProvider;
@@ -39,11 +39,29 @@ namespace DrasticMedia
         }
 
         /// <inheritdoc/>
+        public IReadOnlyList<IVisualTreeElement> GetVisualChildren()
+        {
+            var elements = new List<IVisualTreeElement>();
+            if (this.Page != null && this.Page is IVisualTreeElement element)
+            {
+                elements.AddRange(element.GetVisualChildren());
+            }
+
+            var overlays = this.Overlays.Where(n => n is IVisualTreeElement).Cast<IVisualTreeElement>();
+            elements.AddRange(overlays);
+
+            return elements;
+        }
+
+        /// <inheritdoc/>
+        public IVisualTreeElement? GetVisualParent() => App.Current;
+
+        /// <inheritdoc/>
         protected override void OnCreated()
         {
             this.AddOverlay(this.dragAndDropOverlay);
             this.AddOverlay(this.pageBackgroundOverlay);
-            this.pageBackgroundOverlay.SetPage(new MainPage());
+            this.pageBackgroundOverlay.SetPage(new AlbumArtPage(this.serviceProvider));
             base.OnCreated();
         }
 
