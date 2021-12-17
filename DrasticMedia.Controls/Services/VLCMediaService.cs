@@ -36,13 +36,21 @@ namespace DrasticMedia.Core.Services
             this.mediaPlayer.Playing += this.MediaPlayer_Playing;
             this.mediaPlayer.PositionChanged += this.MediaPlayer_PositionChanged;
             this.mediaPlayer.PausableChanged += this.MediaPlayer_PausableChanged;
+            this.mediaPlayer.MediaChanged += this.MediaPlayer_MediaChanged;
+            this.mediaPlayer.EndReached += this.MediaPlayer_EndReached;
         }
 
         /// <inheritdoc/>
         public event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
 
         /// <inheritdoc/>
+        public event EventHandler<EventArgs>? EndCurrentItemReached;
+
+        /// <inheritdoc/>
         public event EventHandler<EventArgs>? RaiseCanExecuteChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<EventArgs>? MediaChanged;
 
         /// <inheritdoc/>
         public Model.MediaItem? CurrentMedia { get { return media; } set { this.media = value; this.SetCurrentMedia(); } }
@@ -113,6 +121,16 @@ namespace DrasticMedia.Core.Services
         private void MediaPlayer_Playing(object? sender, EventArgs e)
         {
             this.RaiseCanExecuteChanged?.Invoke(this, e);
+        }
+
+        private void MediaPlayer_EndReached(object? sender, EventArgs e)
+        {
+           this.EndCurrentItemReached?.Invoke(this, e);
+        }
+
+        private void MediaPlayer_MediaChanged(object? sender, MediaPlayerMediaChangedEventArgs e)
+        {
+            this.MediaChanged?.Invoke(this, e);
         }
 
         private void SetCurrentMedia()

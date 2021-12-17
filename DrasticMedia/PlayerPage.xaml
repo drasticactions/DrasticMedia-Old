@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout RowDefinitions="*, 200">
+    <GridLayout RowDefinitions="*, 170">
         <VerticalStackLayout>
             <Button x:Name="TestButton" Text="Play Test"/>
         </VerticalStackLayout>
@@ -13,27 +13,25 @@
             <controls:DrasticSlider
                 x:Name="DrasticSlider"
                 Value="{Binding CurrentPosition, Mode=OneWay}"  />
-            <GridLayout ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
+            <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
                 <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
                     <Button 
                             FontSize="70"
                             Command="{Binding GoBackCommand}"
-                            Background="Transparent"
-                            BorderColor="Transparent"
+                            TextColor="White"
                             Text="{x:Static styles:IconFont.Backward}" 
                             FontFamily="FontAwesomeSolid"  />
                     <Button 
                             FontSize="70"
+                            x:Name="PlayButton"
+                            TextColor="White"
                             Command="{Binding PlayPauseCommand}"
-                            Background="Transparent"
-                            BorderColor="Transparent"
                             Text="{Binding IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
                             FontFamily="FontAwesomeSolid"  />
                     <Button 
                             FontSize="70"
                             Command="{Binding GoForwardCommand}"
-                            Background="Transparent"
-                            BorderColor="Transparent"
+                            TextColor="White"
                             Text="{x:Static styles:IconFont.Forward}" 
                             FontFamily="FontAwesomeSolid"  />
                 </HorizontalStackLayout>

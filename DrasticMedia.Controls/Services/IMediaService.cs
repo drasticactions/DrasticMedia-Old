@@ -27,6 +27,16 @@ namespace DrasticMedia.Core.Services
         event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
 
         /// <summary>
+        /// End Current Item Reached.
+        /// </summary>
+        event EventHandler<EventArgs>? EndCurrentItemReached;
+
+        /// <summary>
+        /// Media Changed.
+        /// </summary>
+        event EventHandler<EventArgs>? MediaChanged;
+
+        /// <summary>
         /// RaiseCanExecuteChanged.
         /// </summary>
         event EventHandler<EventArgs>? RaiseCanExecuteChanged;

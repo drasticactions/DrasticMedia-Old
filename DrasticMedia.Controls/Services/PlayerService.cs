@@ -38,7 +38,9 @@ namespace DrasticMedia.Core.Services
             this.error = error;
             this.media = media;
             this.media.PositionChanged += this.Media_PositionChanged;
-            this.media.RaiseCanExecuteChanged += Media_RaiseCanExecuteChanged;
+            this.media.RaiseCanExecuteChanged += this.Media_RaiseCanExecuteChanged;
+            this.media.EndCurrentItemReached += this.Media_EndCurrentItemReached;
+            this.media.MediaChanged += this.Media_MediaChanged;
             this.logger = logger;
             this.Playlist = new List<MediaItem>();
         }
@@ -190,10 +192,6 @@ namespace DrasticMedia.Core.Services
             this.GoBackCommand?.RaiseCanExecuteChanged();
             this.GoForwardCommand?.RaiseCanExecuteChanged();
             this.OnPropertyChanged(nameof(this.IsPlaying));
-            this.OnPropertyChanged(nameof(this.CurrentAlbumArt));
-            this.OnPropertyChanged(nameof(this.CurrentArtist));
-            this.OnPropertyChanged(nameof(this.CurrentAlbum));
-            this.OnPropertyChanged(nameof(this.CurrentTrackTitle));
         }
 
 #pragma warning disable SA1600 // Elements should be documented
@@ -229,6 +227,20 @@ namespace DrasticMedia.Core.Services
 
                     changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 });
+            }
+        }
+
+        private void Media_EndCurrentItemReached(object? sender, EventArgs e)
+        {
+            if (this.CanGoForward)
+            {
+                Application.Current?.Dispatcher.Dispatch(() => this.GoForwardCommand.ExecuteAsync().FireAndForgetSafeAsync(this.error));
+                return;
+            }
+
+            if (this.Playlist.Any())
+            {
+                Application.Current?.Dispatcher.Dispatch(() => this.media.CurrentMedia = this.Playlist.First());
             }
         }
 
@@ -276,6 +288,14 @@ namespace DrasticMedia.Core.Services
         private void Media_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
             this.OnPropertyChanged(nameof(this.CurrentPosition));
+        }
+
+        private void Media_MediaChanged(object? sender, EventArgs e)
+        {
+            this.OnPropertyChanged(nameof(this.CurrentAlbumArt));
+            this.OnPropertyChanged(nameof(this.CurrentArtist));
+            this.OnPropertyChanged(nameof(this.CurrentAlbum));
+            this.OnPropertyChanged(nameof(this.CurrentTrackTitle));
         }
 
         private void Media_RaiseCanExecuteChanged(object? sender, EventArgs e)
