@@ -71,12 +71,12 @@ namespace DrasticMedia.Overlays
         /// <summary>
         /// Initializes a new instance of the <see cref="DragAndDropOverlayTappedEventArgs"/> class.
         /// </summary>
-        /// <param name="file">Media Item.</param>
-        public DragAndDropOverlayTappedEventArgs(MediaItem file)
+        /// <param name="files">Media Items.</param>
+        public DragAndDropOverlayTappedEventArgs(IList<MediaItem> files)
         {
-            this.File = file;
+            this.Files = files;
         }
 
-        public MediaItem File { get; }
+        public IList<MediaItem> Files { get; }
     }
 }

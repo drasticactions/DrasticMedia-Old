@@ -4,6 +4,7 @@
 
 using DrasticMedia.Core;
 using DrasticMedia.Core.Services;
+using DrasticMedia.Services;
 
 namespace DrasticMedia;
 
@@ -20,11 +21,16 @@ public static class MauiProgram
         builder.Services.AddSingleton(mediaplayer);
         builder.Services.AddSingleton<ILogger>(consoleLogger);
         builder.Services.AddSingleton<IMediaService>(mediaService);
-        builder.Services.AddSingleton<PlayerService>(new PlayerService(mediaService, consoleLogger));
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
+        builder.Services.AddSingleton<PlayerService>();
         builder
           .UseMauiApp<App>()
           .ConfigureFonts(fonts =>
           {
+              fonts.AddFont("FontAwesome6Brands-Regular-400.otf", "FontAwesomeBrands");
+              fonts.AddFont("FontAwesome6Free-Regular-400.otf", "FontAwesomeRegular");
+              fonts.AddFont("FontAwesome6Free-Solid-900.otf", "FontAwesomeSolid");
               fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
           });
 

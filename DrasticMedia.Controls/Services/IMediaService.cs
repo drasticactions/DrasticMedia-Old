@@ -27,6 +27,11 @@ namespace DrasticMedia.Core.Services
         event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
 
         /// <summary>
+        /// RaiseCanExecuteChanged.
+        /// </summary>
+        event EventHandler<EventArgs>? RaiseCanExecuteChanged;
+
+        /// <summary>
         /// Gets a value indicating whether the stream is playing.
         /// </summary>
         bool IsPlaying { get; }

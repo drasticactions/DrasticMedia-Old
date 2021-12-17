@@ -66,6 +66,12 @@
 		<OutputType>WinExe</OutputType>
 		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Fonts\FontAwesome6Brands-Regular-400.otf" />
+	  <None Remove="Resources\Fonts\FontAwesome6Free-Regular-400.otf" />
+	  <None Remove="Resources\Fonts\FontAwesome6Free-Solid-900.otf" />
+	</ItemGroup>
 	
     <ItemGroup>
 	    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />

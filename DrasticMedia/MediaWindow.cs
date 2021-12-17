@@ -45,9 +45,17 @@ namespace DrasticMedia
 
         private void DragAndDropOverlay_Drop(object sender, DragAndDropOverlayTappedEventArgs e)
         {
-            if (e?.File != null)
+            if (e != null && e.Files.Any())
             {
-                this.player.AddMedia(e?.File, true).FireAndForgetSafeAsync(this.errorHandler);
+                this.player.AddMedia(e?.Files[0], true).FireAndForgetSafeAsync(this.errorHandler);
+
+                if (e.Files.Count > 1)
+                {
+                    for (var i = 1; i < e.Files.Count; i++)
+                    {
+                        this.player.AddMedia(e?.Files[i], false).FireAndForgetSafeAsync(this.errorHandler);
+                    }
+                }
             }
         }
     }

@@ -10,6 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Services;
+using DrasticMedia.Utilities;
 
 namespace DrasticMedia.Core.Services
 {
@@ -18,25 +20,31 @@ namespace DrasticMedia.Core.Services
     /// </summary>
     public class PlayerService : INotifyPropertyChanged
     {
+        private readonly IErrorHandlerService error;
         private readonly IMediaService media;
         private readonly ILogger logger;
-        private float currentPosition;
+        private AsyncCommand? playPauseCommand;
+        private AsyncCommand? goBackCommand;
+        private AsyncCommand? goForwardCommand;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerService"/> class.
         /// </summary>
         /// <param name="media"><see cref="IMediaService"/>.</param>
+        /// <param name="error"><see cref="IErrorHandlerService"/>.</param>
         /// <param name="logger"><see cref="ILogger"/>.</param>
-        public PlayerService(IMediaService media, ILogger logger)
+        public PlayerService(IMediaService media, IErrorHandlerService error, ILogger logger)
         {
+            this.error = error;
             this.media = media;
             this.media.PositionChanged += this.Media_PositionChanged;
+            this.media.RaiseCanExecuteChanged += Media_RaiseCanExecuteChanged;
             this.logger = logger;
             this.Playlist = new List<MediaItem>();
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// New Media Added.
@@ -49,7 +57,40 @@ namespace DrasticMedia.Core.Services
         public event EventHandler? IsPlayingChanged;
 
         /// <summary>
-        /// The Media Service.
+        /// Gets the play pause command.
+        /// </summary>
+        public AsyncCommand PlayPauseCommand
+        {
+            get
+            {
+                return this.playPauseCommand ??= new AsyncCommand(this.PlayOrPause, () => this.media.CurrentMedia != null, this.error);
+            }
+        }
+
+        /// <summary>
+        /// Gets the go back command.
+        /// </summary>
+        public AsyncCommand GoBackCommand
+        {
+            get
+            {
+                return this.goBackCommand ??= new AsyncCommand(() => this.SetMediaItemFromIndex(this.Playlist.IndexOf(this.media.CurrentMedia) - 1), () => this.CanGoBack, this.error);
+            }
+        }
+
+        /// <summary>
+        /// Gets the go forward command.
+        /// </summary>
+        public AsyncCommand GoForwardCommand
+        {
+            get
+            {
+                return this.goForwardCommand ??= new AsyncCommand(() => this.SetMediaItemFromIndex(this.Playlist.IndexOf(this.media.CurrentMedia) + 1), () => this.CanGoForward, this.error);
+            }
+        }
+
+        /// <summary>
+        /// Gets The Media Service.
         /// </summary>
         public IMediaService MediaService => this.media;
 
@@ -62,6 +103,16 @@ namespace DrasticMedia.Core.Services
         /// Gets a value indicating whether the current IMedia is player.
         /// </summary>
         public bool IsPlaying => this.media.IsPlaying;
+
+        /// <summary>
+        /// Gets a value indicating whether the current media item is the first in the list.
+        /// </summary>
+        public bool CanGoBack => this.media.CurrentMedia != null && this.Playlist.IndexOf(this.media.CurrentMedia) > 0;
+
+        /// <summary>
+        /// Gets a value indicating whether the current media item is the first in the list.
+        /// </summary>
+        public bool CanGoForward => this.media.CurrentMedia != null && this.Playlist.IndexOf(this.media.CurrentMedia) < this.Playlist.Count - 1;
 
         /// <summary>
         /// Gets the current playlist.
@@ -115,6 +166,10 @@ namespace DrasticMedia.Core.Services
         /// </summary>
         public virtual void RaiseCanExecuteChanged()
         {
+            this.PlayPauseCommand?.RaiseCanExecuteChanged();
+            this.GoBackCommand?.RaiseCanExecuteChanged();
+            this.GoForwardCommand?.RaiseCanExecuteChanged();
+            this.OnPropertyChanged(nameof(this.IsPlaying));
         }
 
 #pragma warning disable SA1600 // Elements should be documented
@@ -153,6 +208,31 @@ namespace DrasticMedia.Core.Services
             }
         }
 
+        private async Task PlayOrPause()
+        {
+            if (this.IsPlaying)
+            {
+                await this.media.PauseAsync();
+            }
+            else
+            {
+                await this.media.ResumeAsync();
+            }
+        }
+
+        private async Task SetMediaItemFromIndex(int index)
+        {
+            try
+            {
+                var playlistItem = this.Playlist[index];
+                await this.SetAndPlayCurrentMedia(playlistItem, false);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Log(ex);
+            }
+        }
+
         private async Task SetAndPlayCurrentMedia(MediaItem media, bool fromPosition)
         {
             if (media == null)
@@ -170,6 +250,11 @@ namespace DrasticMedia.Core.Services
         private void Media_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
             this.OnPropertyChanged(nameof(this.CurrentPosition));
+        }
+
+        private void Media_RaiseCanExecuteChanged(object? sender, EventArgs e)
+        {
+            this.RaiseCanExecuteChanged();
         }
     }
 }

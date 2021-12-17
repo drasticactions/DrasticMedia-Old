@@ -78,27 +78,32 @@ namespace DrasticMedia.Overlays
                 var items = await e.DataView.GetStorageItemsAsync();
                 if (items.Any())
                 {
-                    var item = items.First() as StorageFile;
-                    if (item != null)
+                    var mediaItems = new List<MediaItem>();
+                    foreach (var item in items)
                     {
-                        var fileType = Path.GetExtension(item.Path);
-                        if (FileExtensions.AudioExtensions.Contains(fileType))
+                        if (item is StorageFile storageItem)
                         {
-                            var mP = await this.libVLC.GetMusicPropertiesAsync(item.Path) as TrackItem;
-                            if (mP != null)
+                            var fileType = Path.GetExtension(storageItem.Path);
+                            if (FileExtensions.AudioExtensions.Contains(fileType))
                             {
-                                this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(mP));
+                                var mP = await this.libVLC.GetMusicPropertiesAsync(item.Path) as TrackItem;
+                                if (mP != null)
+                                {
+                                    mediaItems.Add(mP);
+                                }
                             }
-                        }
-                        else if (FileExtensions.AudioExtensions.Contains(fileType))
-                        {
-                            var vP = await this.libVLC.GetVideoPropertiesAsync(item.Path) as VideoItem;
-                            if (vP != null)
+                            else if (FileExtensions.AudioExtensions.Contains(fileType))
                             {
-                                this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(vP));
+                                var vP = await this.libVLC.GetVideoPropertiesAsync(item.Path) as VideoItem;
+                                if (vP != null)
+                                {
+                                    mediaItems.Add(vP);
+                                }
                             }
                         }
                     }
+
+                    this.Drop?.Invoke(this, new DragAndDropOverlayTappedEventArgs(mediaItems));
                 }
             }
 

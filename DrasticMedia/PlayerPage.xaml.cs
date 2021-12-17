@@ -37,7 +37,6 @@ namespace DrasticMedia
 
         private void TestButton_Clicked(object sender, EventArgs e)
         {
-            return;
             var song = new TrackItem() { Path = @"" };
             this.player.AddMedia(song, true);
         }

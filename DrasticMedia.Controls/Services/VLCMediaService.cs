@@ -40,6 +40,9 @@ namespace DrasticMedia.Core.Services
         public event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
 
         /// <inheritdoc/>
+        public event EventHandler<EventArgs>? RaiseCanExecuteChanged;
+
+        /// <inheritdoc/>
         public Model.MediaItem? CurrentMedia { get { return media; } set { this.media = value; this.SetCurrentMedia(); } }
 
         /// <inheritdoc/>
@@ -52,6 +55,7 @@ namespace DrasticMedia.Core.Services
         public Task PauseAsync()
         {
             this.mediaPlayer.Pause();
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
@@ -59,6 +63,7 @@ namespace DrasticMedia.Core.Services
         public Task PlayAsync(double position = 0, bool fromPosition = false)
         {
             this.mediaPlayer.Play();
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
@@ -66,18 +71,21 @@ namespace DrasticMedia.Core.Services
         public Task ResumeAsync()
         {
             this.mediaPlayer.Play();
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public Task SkipAhead(double amount = 0)
         {
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public Task SkipBack(double amount = 0)
         {
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
@@ -85,6 +93,7 @@ namespace DrasticMedia.Core.Services
         public Task StopAsync()
         {
             this.mediaPlayer.Stop();
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
             return Task.CompletedTask;
         }
 
@@ -110,7 +119,9 @@ namespace DrasticMedia.Core.Services
             {
                 this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, this.CurrentMedia.Path);
             }
+
             this.mediaPlayer.Media = this.vlcMedia;
+            this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
         }
 
         private async Task<string> GetMetadata(MetadataType meta)
