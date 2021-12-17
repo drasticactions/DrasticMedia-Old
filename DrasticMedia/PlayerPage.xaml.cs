@@ -28,7 +28,6 @@ namespace DrasticMedia
             this.player.PropertyChanged += Player_PropertyChanged;
             this.BindingContext = this.player;
             this.DrasticSlider.NewPositionRequested += DrasticSlider_NewPositionRequested;
-            this.TestButton.Clicked += TestButton_Clicked;
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -37,12 +36,6 @@ namespace DrasticMedia
             {
                 this.DrasticSlider.Value = this.player.CurrentPosition;
             }
-        }
-
-        private void TestButton_Clicked(object sender, EventArgs e)
-        {
-            var song = new TrackItem() { Path = @"" };
-            this.player.AddMedia(song, true);
         }
 
         private void DrasticSlider_NewPositionRequested(object sender, Core.DrasticSliderPositionChangedEventArgs e)

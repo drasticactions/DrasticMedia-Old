@@ -6,9 +6,6 @@
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
              xmlns:local="clr-namespace:DrasticMedia">
     <GridLayout RowDefinitions="*, 170">
-        <VerticalStackLayout>
-            <Button x:Name="TestButton" Text="Play Test"/>
-        </VerticalStackLayout>
         <GridLayout RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" GridLayout.Row="1">
             <controls:DrasticSlider
                 x:Name="DrasticSlider"
