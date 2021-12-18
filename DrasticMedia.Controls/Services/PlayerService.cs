@@ -128,6 +128,11 @@ namespace DrasticMedia.Core.Services
         public bool IsPlaying => this.media.IsPlaying;
 
         /// <summary>
+        /// Gets a value indicating whether the current media is set.
+        /// </summary>
+        public bool HasCurrentMediaSet => this.media.CurrentMedia != null;
+
+        /// <summary>
         /// Gets a value indicating whether the current media item is the first in the list.
         /// </summary>
         public bool CanGoBack => this.media.CurrentMedia != null && this.Playlist.IndexOf(this.media.CurrentMedia) > 0;
@@ -298,6 +303,7 @@ namespace DrasticMedia.Core.Services
 
         private void Media_MediaChanged(object? sender, EventArgs e)
         {
+            this.OnPropertyChanged(nameof(this.HasCurrentMediaSet));
             this.OnPropertyChanged(nameof(this.CurrentAlbumArt));
             this.OnPropertyChanged(nameof(this.CurrentArtist));
             this.OnPropertyChanged(nameof(this.CurrentAlbum));

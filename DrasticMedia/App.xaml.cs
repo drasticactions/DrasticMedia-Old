@@ -24,6 +24,6 @@ public partial class App : Application
     /// <inheritdoc/>
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new MediaWindow(this.services) { Page = new PlayerPage(this.services) };
+        return new MediaWindow(this.services) { Page = new PodcastListPage(this.services) };
     }
 }

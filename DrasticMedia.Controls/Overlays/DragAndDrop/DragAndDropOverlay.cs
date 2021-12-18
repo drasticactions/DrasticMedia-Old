@@ -42,6 +42,8 @@ namespace DrasticMedia.Overlays
 
         public event EventHandler<DragAndDropOverlayTappedEventArgs>? Drop;
 
+        public event EventHandler? SizeChanged;
+
         class DropElementOverlay : IWindowOverlayElement
         {
             public bool IsDragging { get; set; }

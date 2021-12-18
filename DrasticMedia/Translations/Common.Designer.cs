@@ -61,6 +61,24 @@ namespace DrasticMedia.Translations {
         }
         
         /// <summary>
+        ///   Enter RSS Feed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddNewPodcastFeedMessage {
+            get {
+                return ResourceManager.GetString("AddNewPodcastFeedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New Podcast Feed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddNewPodcastFeedTitle {
+            get {
+                return ResourceManager.GetString("AddNewPodcastFeedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Drastic Media に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppTitle {

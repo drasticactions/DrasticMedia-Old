@@ -16,20 +16,17 @@
                     <Button 
                             FontSize="70"
                             Command="{Binding Player.GoBackCommand}"
-                            TextColor="White"
                             Text="{x:Static styles:IconFont.Backward}" 
                             FontFamily="FontAwesomeSolid"  />
                     <Button 
                             FontSize="70"
                             x:Name="PlayButton"
-                            TextColor="White"
                             Command="{Binding Player.PlayPauseCommand}"
                             Text="{Binding Player.IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
                             FontFamily="FontAwesomeSolid"  />
                     <Button 
                             FontSize="70"
                             Command="{Binding Player.GoForwardCommand}"
-                            TextColor="White"
                             Text="{x:Static styles:IconFont.Forward}" 
                             FontFamily="FontAwesomeSolid"  />
                 </HorizontalStackLayout>

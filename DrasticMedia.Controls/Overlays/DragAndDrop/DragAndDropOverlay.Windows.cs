@@ -39,6 +39,7 @@ namespace DrasticMedia.Overlays
             if (panel == null)
                 return false;
 
+            panel.SizeChanged += Panel_SizeChanged;
             panel.AllowDrop = true;
             panel.DragOver += Panel_DragOver;
             panel.Drop += Panel_Drop;
@@ -56,6 +57,7 @@ namespace DrasticMedia.Overlays
                 panel.Drop -= Panel_Drop;
                 panel.DragLeave -= Panel_DragLeave;
                 panel.DropCompleted -= Panel_DropCompleted;
+                panel.SizeChanged -= Panel_SizeChanged;
             }
 
             return base.Deinitialize();
@@ -116,6 +118,11 @@ namespace DrasticMedia.Overlays
             // As I want to drag an image into the panel.
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Link;
             this.IsDragging = true;
+        }
+
+        private void Panel_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
+        {
+            this.SizeChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -7,6 +7,7 @@
              windows:Application.ImageDirectory="Assets">
     <Application.Resources>
         <ResourceDictionary>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:PlayPauseConverter x:Key="PlayPauseConverter" />
             <converters:AlbumArtConverter x:Key="AlbumArtConverter" />
         </ResourceDictionary>

@@ -36,7 +36,10 @@ namespace DrasticMedia
             this.dragAndDropOverlay = new DragAndDropOverlay(this, this.libVLC);
             this.pageBackgroundOverlay = new PageBackground(this);
             this.dragAndDropOverlay.Drop += DragAndDropOverlay_Drop;
+            this.dragAndDropOverlay.SizeChanged += DragAndDropOverlay_SizeChanged;
         }
+
+        public event EventHandler? SizeChanged;
 
         /// <inheritdoc/>
         public IReadOnlyList<IVisualTreeElement> GetVisualChildren()
@@ -80,5 +83,7 @@ namespace DrasticMedia
                 }
             }
         }
+
+        private void DragAndDropOverlay_SizeChanged(object? sender, EventArgs e) => this.SizeChanged?.Invoke(this, e);
     }
 }

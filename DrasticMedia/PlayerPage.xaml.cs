@@ -21,6 +21,8 @@ namespace DrasticMedia
     /// </summary>
     public partial class PlayerPage : BasePage
     {
+        private PlayerPageViewModel vm;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerPage"/> class.
         /// </summary>
@@ -29,11 +31,11 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
-            this.ViewModel = provider.GetService<PlayerPageViewModel>();
+            this.ViewModel = this.vm = provider.GetService<PlayerPageViewModel>();
             this.BindingContext = this.ViewModel;
 
             //HACK: For some reason, the binding isn't working and I need to get the property off of the service???
-            ((PlayerPageViewModel)this.ViewModel).Player.PropertyChanged += Player_PropertyChanged;
+            this.vm.Player.PropertyChanged += Player_PropertyChanged;
             this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
 
@@ -41,15 +43,15 @@ namespace DrasticMedia
         {
             if (e.PropertyName == nameof(PlayerService.CurrentPosition))
             {
-                this.DrasticSlider.Value = ((PlayerPageViewModel)this.ViewModel).Player.CurrentPosition;
+                this.DrasticSlider.Value = this.vm.Player.CurrentPosition;
             }
         }
 
         private void DrasticSlider_NewPositionRequested(object sender, Core.DrasticSliderPositionChangedEventArgs e)
         {
-            if (((PlayerPageViewModel)this.ViewModel).Player?.CurrentPosition != null)
+            if (this.vm.Player?.CurrentPosition != null)
             {
-                ((PlayerPageViewModel)this.ViewModel).Player.CurrentPosition = e.Position;
+                this.vm.Player.CurrentPosition = e.Position;
             }
         }
     }

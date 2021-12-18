@@ -171,9 +171,9 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<PodcastEpisodeItem> UpdateEpisodeAsync(PodcastEpisodeItem episode)
         {
-            if (episode.Id > 0)
+            if (episode.Id <= 0)
             {
-                throw new ArgumentException($"{nameof(episode)} has id greater than 0");
+                throw new ArgumentException($"{nameof(episode)} id is 0");
             }
 
             this.Episodes.Update(episode);
@@ -184,9 +184,9 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<PodcastShowItem> UpdatePodcastAsync(PodcastShowItem podcast)
         {
-            if (podcast.Id > 0)
+            if (podcast.Id <= 0)
             {
-                throw new ArgumentException($"{nameof(podcast)} has id greater than 0");
+                throw new ArgumentException($"{nameof(podcast)} id is 0");
             }
 
             this.Shows.Update(podcast);
