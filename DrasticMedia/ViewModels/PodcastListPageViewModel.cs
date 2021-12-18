@@ -1,4 +1,4 @@
-﻿// <copyright file="PodcastPageViewModel.cs" company="Drastic Actions">
+﻿// <copyright file="PodcastListPageViewModel.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,13 @@ namespace DrasticMedia.ViewModels
     /// <summary>
     /// Podcast Page View Model.
     /// </summary>
-    public class PodcastPageViewModel : BaseViewModel
+    public class PodcastListPageViewModel : BaseViewModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PodcastPageViewModel"/> class.
+        /// Initializes a new instance of the <see cref="PodcastListPageViewModel"/> class.
         /// </summary>
         /// <param name="services"><see cref="IServiceProvider"/>.</param>
-        public PodcastPageViewModel(IServiceProvider services)
+        public PodcastListPageViewModel(IServiceProvider services)
             : base(services)
         {
         }

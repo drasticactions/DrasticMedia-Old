@@ -26,6 +26,7 @@ namespace DrasticMedia
         public BasePage(IServiceProvider services)
         {
             this.Services = services;
+            this.BackgroundColor = Colors.Transparent;
         }
 
         /// <summary>

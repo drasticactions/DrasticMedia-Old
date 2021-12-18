@@ -36,6 +36,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
         builder.Services.AddSingleton<PlayerService>();
         builder.Services.AddSingleton<PlayerPageViewModel>();
+        builder.Services.AddSingleton<PodcastListPageViewModel>();
         builder
           .UseMauiApp<App>()
           .ConfigureFonts(fonts =>
