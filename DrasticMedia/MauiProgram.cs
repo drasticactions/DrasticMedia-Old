@@ -3,8 +3,12 @@
 // </copyright>
 
 using DrasticMedia.Core;
+using DrasticMedia.Core.Database;
+using DrasticMedia.Core.Library;
+using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
+using DrasticMedia.SQLite.Database;
 using DrasticMedia.ViewModels;
 
 namespace DrasticMedia;
@@ -20,6 +24,11 @@ public static class MauiProgram
         var consoleLogger = new ConsoleLogger();
         builder.Services.AddSingleton(libvlc);
         builder.Services.AddSingleton(mediaplayer);
+        builder.Services.AddSingleton<IPlatformSettings, PlatformSettings>();
+        builder.Services.AddSingleton<IPodcastDatabase, PodcastDatabase>();
+        builder.Services.AddSingleton<IMusicDatabase, MusicDatabase>();
+        builder.Services.AddSingleton<IVideoDatabase, VideoDatabase>();
+        builder.Services.AddSingleton<MediaLibrary>();
         builder.Services.AddSingleton<ILogger>(consoleLogger);
         builder.Services.AddSingleton<IMediaService>(mediaService);
         builder.Services.AddSingleton<IWindowTappedService, WindowTappedService>();
