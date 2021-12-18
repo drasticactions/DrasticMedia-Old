@@ -31,6 +31,7 @@ namespace DrasticMedia.Core.Services
         /// Initializes a new instance of the <see cref="PlayerService"/> class.
         /// </summary>
         /// <param name="media"><see cref="IMediaService"/>.</param>
+        /// <param name="mouseService"><see cref="IWindowTappedService"/>.</param>
         /// <param name="error"><see cref="IErrorHandlerService"/>.</param>
         /// <param name="logger"><see cref="ILogger"/>.</param>
         public PlayerService(IMediaService media, IErrorHandlerService error, ILogger logger)
@@ -240,7 +241,12 @@ namespace DrasticMedia.Core.Services
 
             if (this.Playlist.Any())
             {
-                Application.Current?.Dispatcher.Dispatch(() => this.media.CurrentMedia = this.Playlist.First());
+                Application.Current?.Dispatcher.Dispatch(() =>
+                {
+                    this.media.CurrentMedia = this.Playlist.First();
+                    this.CurrentPosition = 0;
+                    this.OnPropertyChanged(nameof(this.CurrentPosition));
+                });
             }
         }
 

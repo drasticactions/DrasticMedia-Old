@@ -5,7 +5,8 @@
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout RowDefinitions="*, 170">
+    <GridLayout x:Name="PlayerControls" RowDefinitions="*, 170">
+        <Grid BackgroundColor="Transparent" />
         <GridLayout RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" GridLayout.Row="1">
             <controls:DrasticSlider
                 x:Name="DrasticSlider"

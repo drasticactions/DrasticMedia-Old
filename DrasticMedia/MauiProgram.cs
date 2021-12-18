@@ -21,6 +21,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(mediaplayer);
         builder.Services.AddSingleton<ILogger>(consoleLogger);
         builder.Services.AddSingleton<IMediaService>(mediaService);
+        builder.Services.AddSingleton<IWindowTappedService, WindowTappedService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
         builder.Services.AddSingleton<PlayerService>();

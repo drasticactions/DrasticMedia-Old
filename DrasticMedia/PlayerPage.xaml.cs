@@ -17,7 +17,8 @@ namespace DrasticMedia
 {
     public partial class PlayerPage : ContentPage
     {
-        PlayerService player;
+        private PlayerService player;
+        private WindowTappedService windowTappedService;
 
         public PlayerPage(IServiceProvider provider)
         {
@@ -27,7 +28,7 @@ namespace DrasticMedia
             //HACK: For some reason, the binding isn't working and I need to get the propery off of the service???
             this.player.PropertyChanged += Player_PropertyChanged;
             this.BindingContext = this.player;
-            this.DrasticSlider.NewPositionRequested += DrasticSlider_NewPositionRequested;
+            this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -46,19 +47,39 @@ namespace DrasticMedia
             }
         }
 
-        //private async void PlayerPage_Drop(object sender, Overlays.DragAndDropOverlayTappedEventArgs e)
-        //{
-        //    var song = new TrackItem() { Path = e.Path };
-        //    await this.player.AddMedia(song, true);
-        //    var artwork = await this.player.MediaService.GetArtworkUrl();
-        //    var imageSource = ImageSource.FromFile(artwork);
-        //    this.Dispatcher.Dispatch(() => this.TestAlbumArt.Source = imageSource);
-        //}
-
         //protected override void OnAppearing()
         //{
         //    base.OnAppearing();
-        //    ((MediaWindow)this.GetParentWindow()).Drop += PlayerPage_Drop;
+        //    if (this.player != null)
+        //    {
+        //        this.windowTappedService = new WindowTappedService(this.GetParentWindow(), this.player.MediaService);
+        //    }
+
+        //    this.windowTappedService.OnHidden += WindowTappedService_OnHidden;
+        //    this.windowTappedService.OnTapped += WindowTappedService_OnTapped;
         //}
+
+        //protected override void OnDisappearing()
+        //{
+        //    base.OnDisappearing();
+
+        //    if (this.windowTappedService != null)
+        //    {
+        //        this.windowTappedService.OnHidden -= WindowTappedService_OnHidden;
+        //        this.windowTappedService.OnTapped -= WindowTappedService_OnTapped;
+        //    }
+        //}
+
+        private async void WindowTappedService_OnTapped(object sender, EventArgs e)
+        {
+            await this.PlayerControls.FadeTo(1, 250, Easing.CubicIn);
+            //this.Dispatcher.Dispatch(() => this.PlayerControls.IsVisible = true);
+        }
+
+        private async void WindowTappedService_OnHidden(object sender, EventArgs e)
+        {
+            await this.PlayerControls.FadeTo(0, 250, Easing.CubicOut);
+            //this.Dispatcher.Dispatch(() => this.PlayerControls.IsVisible = false);
+        }
     }
 }
