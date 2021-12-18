@@ -5,6 +5,7 @@
 using DrasticMedia.Core;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
+using DrasticMedia.ViewModels;
 
 namespace DrasticMedia;
 
@@ -25,6 +26,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
         builder.Services.AddSingleton<PlayerService>();
+        builder.Services.AddSingleton<PlayerPageViewModel>();
         builder
           .UseMauiApp<App>()
           .ConfigureFonts(fonts =>

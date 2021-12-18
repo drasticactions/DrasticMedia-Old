@@ -10,12 +10,12 @@
         <GridLayout RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" GridLayout.Row="1">
             <controls:DrasticSlider
                 x:Name="DrasticSlider"
-                Value="{Binding CurrentPosition, Mode=OneWay}"  />
+                Value="{Binding Player.CurrentPosition, Mode=OneWay}"  />
             <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
                 <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
                     <Button 
                             FontSize="70"
-                            Command="{Binding GoBackCommand}"
+                            Command="{Binding Player.GoBackCommand}"
                             TextColor="White"
                             Text="{x:Static styles:IconFont.Backward}" 
                             FontFamily="FontAwesomeSolid"  />
@@ -23,12 +23,12 @@
                             FontSize="70"
                             x:Name="PlayButton"
                             TextColor="White"
-                            Command="{Binding PlayPauseCommand}"
-                            Text="{Binding IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
+                            Command="{Binding Player.PlayPauseCommand}"
+                            Text="{Binding Player.IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
                             FontFamily="FontAwesomeSolid"  />
                     <Button 
                             FontSize="70"
-                            Command="{Binding GoForwardCommand}"
+                            Command="{Binding Player.GoForwardCommand}"
                             TextColor="White"
                             Text="{x:Static styles:IconFont.Forward}" 
                             FontFamily="FontAwesomeSolid"  />
