@@ -27,6 +27,7 @@ namespace DrasticMedia.Overlays
             // We're going to create a new view.
             // This will handle the "drop" events, and nothing else.
             dragAndDropView = new DragAndDropView(this, nativeWindow.RootViewController.View.Frame);
+            dragAndDropView.AutoresizingMask = UIViewAutoresizing.All;
             dragAndDropView.UserInteractionEnabled = true;
             nativeWindow?.RootViewController.View.AddSubview(dragAndDropView);
             nativeWindow?.RootViewController.View.BringSubviewToFront(dragAndDropView);
