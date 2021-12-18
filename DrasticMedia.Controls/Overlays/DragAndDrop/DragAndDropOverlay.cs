@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Events;
 using DrasticMedia.Core.Model;
 using LibVLCSharp.Shared;
 
@@ -42,7 +43,7 @@ namespace DrasticMedia.Overlays
 
         public event EventHandler<DragAndDropOverlayTappedEventArgs>? Drop;
 
-        public event EventHandler? SizeChanged;
+        public event EventHandler<WindowOnSizeChangedEventArgs>? SizeChanged;
 
         class DropElementOverlay : IWindowOverlayElement
         {

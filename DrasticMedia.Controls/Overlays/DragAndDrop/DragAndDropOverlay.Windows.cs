@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core;
+using DrasticMedia.Core.Events;
 using DrasticMedia.Core.Helpers;
 using DrasticMedia.Core.Model;
 using Windows.ApplicationModel.DataTransfer;
@@ -122,7 +123,8 @@ namespace DrasticMedia.Overlays
 
         private void Panel_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
         {
-            this.SizeChanged?.Invoke(this, EventArgs.Empty);
+            var size = e.NewSize;
+            this.SizeChanged?.Invoke(this, new WindowOnSizeChangedEventArgs(size.Width, size.Height));
         }
     }
 }

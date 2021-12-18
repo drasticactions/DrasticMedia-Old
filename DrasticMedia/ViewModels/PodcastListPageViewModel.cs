@@ -19,7 +19,6 @@ namespace DrasticMedia.ViewModels
     /// </summary>
     public class PodcastListPageViewModel : BaseViewModel
     {
-        private MediaLibrary library;
         private AsyncCommand? addNewPodcastFeedItemCommand;
 
         /// <summary>
@@ -29,7 +28,6 @@ namespace DrasticMedia.ViewModels
         public PodcastListPageViewModel(IServiceProvider services)
             : base(services)
         {
-            this.library = services.GetService<MediaLibrary>();
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace DrasticMedia.ViewModels
                 return;
             }
 
-            var podcastShowItem = await this.library.AddOrUpdatePodcastFromUri (new Uri(feedUri));
+            var podcastShowItem = await this.MediaLibrary.AddOrUpdatePodcastFromUri (new Uri(feedUri));
             if (podcastShowItem != null && !this.Shows.Contains(podcastShowItem))
             {
                 this.Shows.Add(podcastShowItem);

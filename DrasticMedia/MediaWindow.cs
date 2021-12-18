@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Events;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Overlays;
 using DrasticMedia.Services;
@@ -39,7 +40,7 @@ namespace DrasticMedia
             this.dragAndDropOverlay.SizeChanged += DragAndDropOverlay_SizeChanged;
         }
 
-        public event EventHandler? SizeChanged;
+        public event EventHandler<WindowOnSizeChangedEventArgs>? SizeChanged;
 
         /// <inheritdoc/>
         public IReadOnlyList<IVisualTreeElement> GetVisualChildren()
@@ -84,6 +85,6 @@ namespace DrasticMedia
             }
         }
 
-        private void DragAndDropOverlay_SizeChanged(object? sender, EventArgs e) => this.SizeChanged?.Invoke(this, e);
+        private void DragAndDropOverlay_SizeChanged(object? sender, WindowOnSizeChangedEventArgs e) => this.SizeChanged?.Invoke(this, e);
     }
 }

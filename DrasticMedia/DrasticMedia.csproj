@@ -80,6 +80,10 @@
     </ItemGroup>
 	
     <ItemGroup>
+      <PackageReference Include="ReorderableCollectionView.Maui" Version="1.0.0-preview.10.2068" />
+    </ItemGroup>
+	
+    <ItemGroup>
       <ProjectReference Include="..\DrasticMedia.Controls\DrasticMedia.Core.csproj" />
       <ProjectReference Include="..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
 	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
@@ -106,6 +110,9 @@
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="PlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="PodcastEpisodeListPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="PodcastListPage.xaml">
