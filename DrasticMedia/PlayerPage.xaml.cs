@@ -21,9 +21,10 @@ namespace DrasticMedia
     /// <summary>
     /// Player Page.
     /// </summary>
-    public partial class PlayerPage : BasePage
+    public partial class PlayerPage : BasePage, IDisposable
     {
         private PlayerPageViewModel vm;
+        private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerPage"/> class.
@@ -60,6 +61,30 @@ namespace DrasticMedia
             {
                 this.vm.Player.CurrentPosition = e.Position;
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    if (this.vm != null)
+                    {
+                        this.vm.Player.PropertyChanged -= Player_PropertyChanged;
+                    }
+
+                    this.DrasticSlider.NewPositionRequested -= this.DrasticSlider_NewPositionRequested;
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
