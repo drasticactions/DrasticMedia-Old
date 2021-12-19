@@ -132,6 +132,7 @@ namespace DrasticMedia.Overlays
         public override bool Deinitialize()
         {
             this.RemovePage();
+            this.panel.PointerMoved -= Panel_PointerMoved;
             return base.Deinitialize();
         }
     }
