@@ -1,4 +1,4 @@
-﻿// <copyright file="PageBackground.Android.cs" company="Drastic Actions">
+﻿// <copyright file="PageOverlay.Android.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ using Microsoft.Maui.Handlers;
 
 namespace DrasticMedia.Overlays
 {
-    public partial class PageBackground
+    public partial class PageOverlay
     {
         IMauiContext? mauiContext;
         Activity? _nativeActivity;
@@ -83,7 +83,7 @@ namespace DrasticMedia.Overlays
             return base.Deinitialize();
         }
 
-        public void SetPage(Page page)
+        public void SetPage(Page page, bool toBack = false)
         {
             if (this._nativeLayer == null || this.mauiContext == null)
             {
@@ -103,7 +103,14 @@ namespace DrasticMedia.Overlays
                 var layerCount = _nativeLayer.ChildCount;
                 var childView = _nativeLayer.GetChildAt(1);
                 _nativeLayer.AddView(this.element, layerCount, new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, CoordinatorLayout.LayoutParams.MatchParent));
-                childView.BringToFront();
+                if (toBack)
+                {
+                    childView.BringToFront();
+                }
+                else
+                {
+                    this.element.BringToFront();
+                }
             }
 
             this.pageSet = true;

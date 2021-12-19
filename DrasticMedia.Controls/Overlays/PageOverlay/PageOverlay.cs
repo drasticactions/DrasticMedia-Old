@@ -1,4 +1,4 @@
-﻿// <copyright file="PageBackground.cs" company="Drastic Actions">
+﻿// <copyright file="PageOverlay.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -13,17 +13,17 @@ namespace DrasticMedia.Overlays
     /// <summary>
     /// Page Background.
     /// </summary>
-    public partial class PageBackground : WindowOverlay, IVisualTreeElement
+    public partial class PageOverlay : WindowOverlay, IVisualTreeElement
     {
         private bool pageOverlayNativeElementsInitialized;
         internal bool pageSet;
         internal Page? page;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageBackground"/> class.
+        /// Initializes a new instance of the <see cref="PageOverlay"/> class.
         /// </summary>
         /// <param name="window">Window.</param>
-        public PageBackground(IWindow window)
+        public PageOverlay(IWindow window)
             : base(window)
         {
         }

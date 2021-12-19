@@ -5,32 +5,29 @@
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout x:Name="PlayerControls" RowDefinitions="*, 170">
-        <Grid BackgroundColor="Transparent" />
-        <GridLayout RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" GridLayout.Row="1">
-            <controls:DrasticSlider
+    <GridLayout x:Name="PlayerControls" RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" VerticalOptions="End" HeightRequest="170" GridLayout.Row="1">
+        <controls:DrasticSlider
                 x:Name="DrasticSlider"
                 Value="{Binding Player.CurrentPosition, Mode=OneWay}"  />
-            <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
-                <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
-                    <Button 
+        <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
+            <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
+                <Button 
                             FontSize="70"
                             Command="{Binding Player.GoBackCommand}"
                             Text="{x:Static styles:IconFont.Backward}" 
                             FontFamily="FontAwesomeSolid"  />
-                    <Button 
+                <Button 
                             FontSize="70"
                             x:Name="PlayButton"
                             Command="{Binding Player.PlayPauseCommand}"
                             Text="{Binding Player.IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
                             FontFamily="FontAwesomeSolid"  />
-                    <Button 
+                <Button 
                             FontSize="70"
                             Command="{Binding Player.GoForwardCommand}"
                             Text="{x:Static styles:IconFont.Forward}" 
                             FontFamily="FontAwesomeSolid"  />
-                </HorizontalStackLayout>
-            </GridLayout>
+            </HorizontalStackLayout>
         </GridLayout>
     </GridLayout>
 </local:BasePage>

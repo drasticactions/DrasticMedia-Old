@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Services;
+using DrasticMedia.Core.Tools;
 using DrasticMedia.ViewModels;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -19,7 +20,7 @@ namespace DrasticMedia
     /// <summary>
     /// Player Page.
     /// </summary>
-    public partial class PlayerPage : BasePage
+    public partial class PlayerPage : BasePage, IHitTestPage
     {
         private PlayerPageViewModel vm;
 
@@ -31,6 +32,7 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
+            this.HitTestViews = new List<IView>() { this.PlayerControls };
             this.ViewModel = this.vm = provider.GetService<PlayerPageViewModel>();
             this.BindingContext = this.ViewModel;
 
@@ -38,6 +40,8 @@ namespace DrasticMedia
             this.vm.Player.PropertyChanged += Player_PropertyChanged;
             this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
+
+        public List<IView> HitTestViews { get; }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

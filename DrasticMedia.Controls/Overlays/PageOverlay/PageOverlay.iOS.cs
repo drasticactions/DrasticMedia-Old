@@ -1,4 +1,4 @@
-﻿// <copyright file="PageBackground.iOS.cs" company="Drastic Actions">
+﻿// <copyright file="PageOverlay.iOS.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace DrasticMedia.Overlays
 {
-    public partial class PageBackground
+    public partial class PageOverlay
     {
-        public void SetPage(Page page)
+        public void SetPage(Page page, bool toBack = false)
         {
         }
 
