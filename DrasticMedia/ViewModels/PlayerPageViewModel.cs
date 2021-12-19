@@ -26,6 +26,10 @@ namespace DrasticMedia.ViewModels
             : base(services)
         {
             this.player = services.GetService<PlayerService>();
+            if (this.player == null)
+            {
+                throw new ArgumentNullException(nameof(this.player));
+            }
         }
 
         /// <summary>

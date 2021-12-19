@@ -21,6 +21,11 @@ namespace DrasticMedia.Core.Model
         public string? Path { get; set; }
 
         /// <summary>
+        /// Gets or sets the online Uri.
+        /// </summary>
+        public Uri? OnlinePath { get; set; }
+
+        /// <summary>
         /// Gets or sets the album.
         /// </summary>
         public string? Album { get; set; }
@@ -64,6 +69,11 @@ namespace DrasticMedia.Core.Model
         /// Gets or sets the path to the album art.
         /// </summary>
         public string? AlbumArt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path to the album art.
+        /// </summary>
+        public Uri? AlbumArtUri { get; set; }
 
         /// <summary>
         /// Gets or sets the disc number.

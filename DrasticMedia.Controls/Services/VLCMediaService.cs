@@ -135,19 +135,21 @@ namespace DrasticMedia.Core.Services
 
         private void SetCurrentMedia()
         {
-            if (this.CurrentMedia?.Path == null)
+            var path = this.CurrentMedia?.Path ?? this.CurrentMedia?.OnlinePath?.ToString();
+
+            if (path == null)
             {
                 throw new NullReferenceException(nameof(this.CurrentMedia));
             }
 
             this.mediaPlayer.Stop();
-            if (this.PathIsUrl(this.CurrentMedia.Path))
+            if (this.PathIsUrl(path))
             {
-                this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, this.CurrentMedia.Path, FromType.FromLocation);
+                this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, path, FromType.FromLocation);
             }
             else
             {
-                this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, this.CurrentMedia.Path);
+                this.vlcMedia = new LibVLCSharp.Shared.Media(this.libVLC, path);
             }
 
             this.mediaPlayer.Media = this.vlcMedia;

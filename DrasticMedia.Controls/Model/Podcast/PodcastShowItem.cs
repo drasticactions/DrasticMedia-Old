@@ -138,7 +138,7 @@ namespace DrasticMedia.Core.Model
             foreach (var newEP in update.Episodes)
             {
                 newEP.PodcastShowId = item.Id;
-                var oldEP = item.Episodes.FirstOrDefault(n => n.EpisodeUri == newEP.EpisodeUri);
+                var oldEP = item.Episodes.FirstOrDefault(n => n.OnlinePath == newEP.OnlinePath);
                 if (oldEP != null)
                 {
                     oldEP.UpdateEpisode(newEP);

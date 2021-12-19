@@ -23,8 +23,26 @@ namespace DrasticMedia.Converters
         {
             if (value is string pathToArt && !string.IsNullOrEmpty(pathToArt))
             {
+                if (pathToArt.IsPathUri())
+                {
+                    return ImageSource.FromUri(new Uri(pathToArt));
+                }
+
                 var imageSource = ImageSource.FromFile(pathToArt);
                 return imageSource;
+            }
+
+            if (value is MediaItem mediaItem)
+            {
+                if (!string.IsNullOrEmpty(mediaItem.AlbumArt))
+                {
+                    return ImageSource.FromFile(mediaItem.AlbumArt);
+                }
+
+                if (mediaItem.AlbumArtUri != null)
+                {
+                    return ImageSource.FromUri(mediaItem.AlbumArtUri);
+                }
             }
 
             return "album.png";

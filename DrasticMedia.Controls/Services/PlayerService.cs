@@ -105,7 +105,7 @@ namespace DrasticMedia.Core.Services
         /// <summary>
         /// Gets the current album art uri.
         /// </summary>
-        public string CurrentAlbumArt => this.media.CurrentMedia?.AlbumArt ?? string.Empty;
+        public string CurrentAlbumArt => this.media.CurrentMedia?.AlbumArt ?? this.media.CurrentMedia?.AlbumArtUri?.ToString() ?? string.Empty;
 
         /// <summary>
         /// Gets the current artist.

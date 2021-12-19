@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Utilities;
 using DrasticMedia.Utilities;
 
 namespace DrasticMedia.ViewModels
@@ -20,6 +21,8 @@ namespace DrasticMedia.ViewModels
     public class PodcastListPageViewModel : BaseViewModel
     {
         private AsyncCommand? addNewPodcastFeedItemCommand;
+
+        private AsyncCommand<PodcastShowItem>? navigateToPodcastCommand;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PodcastListPageViewModel"/> class.
@@ -42,6 +45,20 @@ namespace DrasticMedia.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the add navigate to podcast command.
+        /// </summary>
+        public AsyncCommand<PodcastShowItem> NavigateToPodcastCommand
+        {
+            get
+            {
+                return this.navigateToPodcastCommand ??= new AsyncCommand<PodcastShowItem>(this.NavigateToPodcastShow, null, this.Error);
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of shows.
+        /// </summary>
         public ObservableCollection<PodcastShowItem> Shows { get; private set; } = new ObservableCollection<PodcastShowItem>();
 
         /// <summary>
@@ -73,6 +90,17 @@ namespace DrasticMedia.ViewModels
             }
 
             await RefreshFeed();
+        }
+
+        private async Task NavigateToPodcastShow(PodcastShowItem item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            var podcastEpisodePage = Services.ResolveWith<PodcastEpisodeListPage>(item.Id);
+            await this.Navigation.PushPageInWindowViaPageAsync(podcastEpisodePage, this.CheckIfPageExists());
         }
 
         private async Task RefreshFeed()

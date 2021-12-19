@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
+             x:Name="PodcastListPage"
              xmlns:local="clr-namespace:DrasticMedia">
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="SizeState">
@@ -17,8 +18,8 @@
             </VisualState>
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
-    <GridLayout >
-        <CollectionView ItemsSource="{Binding Episodes}">
+    <GridLayout>
+        <CollectionView x:Name="PodcastCollectionView" ItemsSource="{Binding Episodes}">
             <CollectionView.Header>
                 <GridLayout ColumnSpacing="20" RowSpacing="5" RowDefinitions="*, Auto" ColumnDefinitions="Auto, *">
                     <Image x:Name="ImageHeader" VerticalOptions="Start" Source="{Binding Show.Image}">
@@ -70,6 +71,8 @@
                             FontSize="35"
                             HeightRequest="55"
                             x:Name="PlayButton"
+                            Command="{Binding BindingContext.PlayPodcastEpisodeCommand, Source={x:Reference PodcastListPage}}"
+                            CommandParameter="{Binding .}"
                             Text="{x:Static styles:IconFont.PlayCircle}" 
                             FontFamily="FontAwesomeSolid"  />
                     </Grid>

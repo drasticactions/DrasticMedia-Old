@@ -26,13 +26,12 @@ namespace DrasticMedia
         public BasePage(IServiceProvider services)
         {
             this.Services = services;
-            this.BackgroundColor = Colors.Transparent;
         }
 
         /// <summary>
         /// Gets or sets the View Model.
         /// </summary>
-        internal BaseViewModel ViewModel { get; set; }
+        internal BaseViewModel? ViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the IServiceProvider.

@@ -4,8 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
+             BackgroundColor="Transparent"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout TranslationY="50" x:Name="PlayerControls" ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="10" BackgroundColor="#11FFFFFF" HeightRequest="50" VerticalOptions="End">
+    <GridLayout TranslationY="50" x:Name="PlayerControls" ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="10" BackgroundColor="#555555" HeightRequest="50" VerticalOptions="End">
         <Image Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}" />
         <Label VerticalOptions="Center" GridLayout.Column="1" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}"/>
         <Button 

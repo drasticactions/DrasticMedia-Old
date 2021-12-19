@@ -217,6 +217,7 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public void Initialize()
         {
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(this.dbPath));
             this.Database.EnsureCreated();
             this.IsInitialized = true;
         }

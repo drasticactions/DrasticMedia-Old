@@ -21,7 +21,10 @@
                 Text="{x:Static styles:IconFont.EllipsisH}" 
                 FontFamily="FontAwesomeSolid"  />
         </GridLayout>
-        <rcv:ReorderableCollectionView x:Name="PodcastCollectionView" GridLayout.Row="1" ItemsSource="{Binding Shows}">
+        <rcv:ReorderableCollectionView x:Name="PodcastCollectionView" SelectionMode="Single" GridLayout.Row="1"
+                                       SelectionChangedCommand="{Binding NavigateToPodcastCommand,  Mode=OneWay}"
+                                       SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference PodcastCollectionView}}"
+                                       ItemsSource="{Binding Shows}">
             <rcv:ReorderableCollectionView.ItemsLayout>
                 <rcv:VariableSpanGridItemsLayout ItemWidth="300"
                                                  ItemHeight="300"

@@ -142,7 +142,7 @@ namespace DrasticMedia.Core.Tests
             foreach (var ep in result.Episodes)
             {
                 Assert.IsNotNull(ep.Title);
-                Assert.IsNotNull(ep.EpisodeUri);
+                Assert.IsNotNull(ep.OnlinePath);
                 Assert.IsNotNull(ep.Description);
                 Assert.IsNotNull(ep.ReleaseDate);
                 Assert.IsTrue(ep.Duration != default);

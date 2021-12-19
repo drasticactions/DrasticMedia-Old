@@ -22,7 +22,7 @@ namespace DrasticMedia.Core.Model
         {
         }
 
-        public PodcastEpisodeItem(string description, TimeSpan? duration, bool @explicit, DateTime published, string title, string url)
+        public PodcastEpisodeItem(string description, TimeSpan? duration, bool @explicit, DateTime published, string title, string url, string albumArtUri)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -39,7 +39,8 @@ namespace DrasticMedia.Core.Model
             this.Explicit = @explicit;
             this.ReleaseDate = published;
             this.Title = title;
-            this.EpisodeUri = new Uri(url);
+            this.OnlinePath = new Uri(url);
+            this.AlbumArtUri = new Uri(albumArtUri);
         }
 
         /// <summary>
@@ -56,11 +57,6 @@ namespace DrasticMedia.Core.Model
         /// Gets or sets the release date of the episode.
         /// </summary>
         public DateTime? ReleaseDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode Uri.
-        /// </summary>
-        public Uri? EpisodeUri { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the episode is downloaded locally.
@@ -100,8 +96,9 @@ namespace DrasticMedia.Core.Model
             item.PodcastShowId = update.PodcastShowId;
             item.ReleaseDate = update.ReleaseDate;
             item.Description = update.Description;
-            item.EpisodeUri = update.EpisodeUri;
+            item.OnlinePath = update.OnlinePath;
             item.Explicit = update.Explicit;
+            item.AlbumArtUri = update.AlbumArtUri;
         }
     }
 }

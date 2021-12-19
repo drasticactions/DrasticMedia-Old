@@ -32,7 +32,7 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
-            this.ViewModel = this.vm = provider.ResolveWith<PodcastEpisodeListPageViewModel>(podcastId);
+            this.ViewModel = this.vm = provider.ResolveWith<PodcastEpisodeListPageViewModel>(this, podcastId);
             this.BindingContext = this.vm;
         }
 
