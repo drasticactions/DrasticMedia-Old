@@ -5,29 +5,42 @@
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout x:Name="PlayerControls" RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" VerticalOptions="End" HeightRequest="170" GridLayout.Row="1">
-        <controls:DrasticSlider
+    <GridLayout RowDefinitions="*, Auto">
+        <GridLayout 
+            IsVisible="{Binding Player.HasCurrentMediaSet, Converter={StaticResource BooleanToVisibilityConverter}}"
+            ColumnDefinitions="*, Auto, *">
+            <VerticalStackLayout Spacing="5" MaximumWidthRequest="500"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" GridLayout.Column="1">
+                <Image x:Name="AlbumArtView" Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}" />
+                <Label FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentArtist}"/>
+                <Label FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}"/>
+            </VerticalStackLayout>
+        </GridLayout>
+        <GridLayout x:Name="PlayerControls" RowDefinitions="Auto, *" BackgroundColor="#11FFFFFF" VerticalOptions="End" HeightRequest="170" GridLayout.Row="1">
+            <controls:DrasticSlider
                 x:Name="DrasticSlider"
                 Value="{Binding Player.CurrentPosition, Mode=OneWay}"  />
-        <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
-            <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
-                <Button 
+            <GridLayout Margin="15" ColumnDefinitions="*, Auto, *" GridLayout.Row="1">
+                <HorizontalStackLayout Spacing="10" GridLayout.Column="1">
+                    <Button 
                             FontSize="70"
                             Command="{Binding Player.GoBackCommand}"
                             Text="{x:Static styles:IconFont.Backward}" 
                             FontFamily="FontAwesomeSolid"  />
-                <Button 
+                    <Button 
                             FontSize="70"
                             x:Name="PlayButton"
                             Command="{Binding Player.PlayPauseCommand}"
                             Text="{Binding Player.IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
                             FontFamily="FontAwesomeSolid"  />
-                <Button 
+                    <Button 
                             FontSize="70"
                             Command="{Binding Player.GoForwardCommand}"
                             Text="{x:Static styles:IconFont.Forward}" 
                             FontFamily="FontAwesomeSolid"  />
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
+            </GridLayout>
         </GridLayout>
     </GridLayout>
 </local:BasePage>

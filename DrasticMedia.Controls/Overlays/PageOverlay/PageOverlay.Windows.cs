@@ -101,21 +101,6 @@ namespace DrasticMedia.Overlays
             Microsoft.Maui.Controls.Xaml.Diagnostics.VisualDiagnostics.OnChildAdded(this, this.page, 0);
         }
 
-
-        private void Panel_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (this.element == null || !this.elements.Any())
-            {
-                return;
-            }
-
-            var pointerPoint = e.GetCurrentPoint(this.element);
-            if (pointerPoint == null)
-                return;
-
-            this.element.IsHitTestVisible = this.elements.Any(n => n.GetBoundingBox().Contains(new Point(pointerPoint.Position.X, pointerPoint.Position.Y)));
-        }
-
         public void RemovePage()
         {
             if (this.element == null)
@@ -134,6 +119,20 @@ namespace DrasticMedia.Overlays
             this.RemovePage();
             this.panel.PointerMoved -= Panel_PointerMoved;
             return base.Deinitialize();
+        }
+
+        private void Panel_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (this.element == null || !this.elements.Any())
+            {
+                return;
+            }
+
+            var pointerPoint = e.GetCurrentPoint(this.element);
+            if (pointerPoint == null)
+                return;
+
+            this.element.IsHitTestVisible = this.elements.Any(n => n.GetBoundingBox().Contains(new Point(pointerPoint.Position.X, pointerPoint.Position.Y)));
         }
     }
 
@@ -156,12 +155,10 @@ namespace DrasticMedia.Overlays
                 return new Rectangle(0, 0, el.ActualWidth, el.ActualHeight);
             }
 
-
             var topLeft = nativeView.TransformToVisual(rootView).TransformPoint(new WinPoint());
             var topRight = nativeView.TransformToVisual(rootView).TransformPoint(new WinPoint(nativeView.ActualWidth, 0));
             var bottomLeft = nativeView.TransformToVisual(rootView).TransformPoint(new WinPoint(0, nativeView.ActualHeight));
             var bottomRight = nativeView.TransformToVisual(rootView).TransformPoint(new WinPoint(nativeView.ActualWidth, nativeView.ActualHeight));
-
 
             var x1 = new[] { topLeft.X, topRight.X, bottomLeft.X, bottomRight.X }.Min();
             var x2 = new[] { topLeft.X, topRight.X, bottomLeft.X, bottomRight.X }.Max();

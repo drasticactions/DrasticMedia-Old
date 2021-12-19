@@ -65,7 +65,7 @@ namespace DrasticMedia
         {
             this.AddOverlay(this.dragAndDropOverlay);
             this.AddOverlay(this.pageBackgroundOverlay);
-            this.pageBackgroundOverlay.SetPage(new PlayerPage(this.serviceProvider));
+            this.pageBackgroundOverlay.SetPage(new MiniPlayerPage(this.serviceProvider));
             base.OnCreated();
         }
 

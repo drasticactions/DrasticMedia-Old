@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage x:Class="DrasticMedia.MiniPlayerPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
+             xmlns:styles="clr-namespace:DrasticMedia.Styles"
+             xmlns:local="clr-namespace:DrasticMedia">
+    <GridLayout TranslationY="50" x:Name="PlayerControls" ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="10" BackgroundColor="#11FFFFFF" HeightRequest="50" VerticalOptions="End">
+        <Image Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}" />
+        <Label VerticalOptions="Center" GridLayout.Column="1" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}"/>
+        <Button 
+            GridLayout.Column="2"
+            FontSize="25"
+            Command="{Binding Player.PlayPauseCommand}"
+            Text="{Binding Player.IsPlaying, Converter={StaticResource PlayPauseConverter}}" 
+            FontFamily="FontAwesomeSolid"  />
+        <Button 
+            GridLayout.Column="3"
+            FontSize="25"
+            Command="{Binding Player.GoForwardCommand}"
+            Text="{x:Static styles:IconFont.Forward}" 
+            FontFamily="FontAwesomeSolid"  />
+    </GridLayout>
+</local:BasePage>

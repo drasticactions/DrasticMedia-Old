@@ -20,7 +20,7 @@ namespace DrasticMedia
     /// <summary>
     /// Player Page.
     /// </summary>
-    public partial class PlayerPage : BasePage, IHitTestPage
+    public partial class PlayerPage : BasePage
     {
         private PlayerPageViewModel vm;
 
@@ -32,7 +32,6 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
-            this.HitTestViews = new List<IView>() { this.PlayerControls };
             this.ViewModel = this.vm = provider.GetService<PlayerPageViewModel>();
             this.BindingContext = this.ViewModel;
 
@@ -41,7 +40,6 @@ namespace DrasticMedia
             this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
 
-        public List<IView> HitTestViews { get; }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
