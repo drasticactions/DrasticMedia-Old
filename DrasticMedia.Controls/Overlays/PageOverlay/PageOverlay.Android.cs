@@ -83,7 +83,7 @@ namespace DrasticMedia.Overlays
             return base.Deinitialize();
         }
 
-        public void SetPage(Page page, bool toBack = false)
+        public void SetPage(Page page, bool toBack = false, int zindex = 0)
         {
             if (this._nativeLayer == null || this.mauiContext == null)
             {

@@ -56,6 +56,7 @@ namespace DrasticMedia.ViewModels
             }
         }
 
+
         /// <summary>
         /// Gets the list of shows.
         /// </summary>

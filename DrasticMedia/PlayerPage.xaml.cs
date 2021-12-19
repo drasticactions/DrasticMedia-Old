@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Core.Tools;
+using DrasticMedia.Core.Utilities;
 using DrasticMedia.ViewModels;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -32,7 +33,7 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
-            this.ViewModel = this.vm = provider.GetService<PlayerPageViewModel>();
+            this.ViewModel = this.vm = provider.ResolveWith<PlayerPageViewModel>(this);
             this.BindingContext = this.ViewModel;
 
             //HACK: For some reason, the binding isn't working and I need to get the property off of the service???
@@ -40,6 +41,10 @@ namespace DrasticMedia
             this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
 
+        public void SetPlayerVisiblity(double height)
+        {
+            this.TranslateTo(0, height);
+        }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Core.Tools;
+using DrasticMedia.Core.Utilities;
 using DrasticMedia.ViewModels;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -27,13 +28,14 @@ namespace DrasticMedia
         /// <summary>
         /// Initializes a new instance of the <see cref="MiniPlayerPage"/> class.
         /// </summary>
+        /// <param name="playerPage">Player Page.</param>
         /// <param name="provider"><see cref="IServiceProvider"/>.</param>
-        public MiniPlayerPage(IServiceProvider provider)
+        public MiniPlayerPage(PlayerPage playerPage, IServiceProvider provider)
             : base(provider)
         {
             this.InitializeComponent();
             this.HitTestViews = new List<IView>() { this.PlayerControls };
-            this.ViewModel = this.vm = provider.GetService<PlayerPageViewModel>();
+            this.ViewModel = this.vm = provider.ResolveWith<PlayerPageViewModel>(playerPage);
             this.BindingContext = this.ViewModel;
             this.vm.Player.IsPlayingChanged += this.Player_IsPlayingChanged;
         }

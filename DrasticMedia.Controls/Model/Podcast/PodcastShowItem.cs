@@ -144,6 +144,7 @@ namespace DrasticMedia.Core.Model
                     oldEP.UpdateEpisode(newEP);
                     return;
                 }
+
                 item.Episodes.Add(newEP);
             }
         }

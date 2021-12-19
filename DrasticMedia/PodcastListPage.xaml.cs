@@ -51,6 +51,11 @@ namespace DrasticMedia
 
                 this.window.SizeChanged += this.Overlay_SizeChanged;
             }
+
+            if (this.PodcastCollectionView.SelectedItem != null)
+            {
+                this.PodcastCollectionView.SelectedItem = null;
+            }
         }
 
         protected override void OnDisappearing()

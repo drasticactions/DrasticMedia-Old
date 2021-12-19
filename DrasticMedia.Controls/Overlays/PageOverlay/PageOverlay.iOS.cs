@@ -12,7 +12,7 @@ namespace DrasticMedia.Overlays
 {
     public partial class PageOverlay
     {
-        public void SetPage(Page page, bool toBack = false)
+        public void SetPage(Page page, bool toBack = false, int zindex = 0)
         {
         }
 

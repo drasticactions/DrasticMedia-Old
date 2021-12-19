@@ -60,7 +60,7 @@ namespace DrasticMedia.Overlays
             return this.pageOverlayNativeElementsInitialized = true;
         }
 
-        public void SetPage(Microsoft.Maui.Controls.Page page, bool toBack = false)
+        public void SetPage(Microsoft.Maui.Controls.Page page, bool toBack = false, int zindex = 0)
         {
             if (this.panel == null || this.mauiContext == null)
             {
@@ -83,7 +83,8 @@ namespace DrasticMedia.Overlays
                 }
                 else
                 {
-                   this.element.SetValue(Canvas.ZIndexProperty, 100);
+                    zindex = zindex <= 0 ? 100 : zindex;
+                    this.element.SetValue(Canvas.ZIndexProperty, zindex);
                 }
 
                 this.panel.Children.Add(this.element);

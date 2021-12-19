@@ -8,7 +8,11 @@
              xmlns:local="clr-namespace:DrasticMedia">
     <GridLayout TranslationY="50" x:Name="PlayerControls" ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="10" BackgroundColor="#555555" HeightRequest="50" VerticalOptions="End">
         <Image Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}" />
-        <Label VerticalOptions="Center" GridLayout.Column="1" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}"/>
+        <Label VerticalOptions="Center" GridLayout.Column="1" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShowPlayerPageCommand}" NumberOfTapsRequired="1" />
+            </Label.GestureRecognizers>
+        </Label>
         <Button 
             GridLayout.Column="2"
             FontSize="25"
