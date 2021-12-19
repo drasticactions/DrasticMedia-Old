@@ -25,8 +25,9 @@ namespace DrasticMedia.ViewModels
         /// Initializes a new instance of the <see cref="PodcastListPageViewModel"/> class.
         /// </summary>
         /// <param name="services"><see cref="IServiceProvider"/>.</param>
-        public PodcastListPageViewModel(IServiceProvider services)
-            : base(services)
+        /// <param name="page">Page.</param>
+        public PodcastListPageViewModel(IServiceProvider services, Page page)
+            : base(services, page)
         {
         }
 
@@ -49,7 +50,7 @@ namespace DrasticMedia.ViewModels
         /// <returns>Task.</returns>
         public async Task AddNewFeedListItemAsync()
         {
-            var feedUri = await this.Navigation.DisplayPromptAsync(Translations.Common.AddNewPodcastFeedTitle, Translations.Common.AddNewPodcastFeedMessage);
+            var feedUri = await this.Navigation.DisplayPromptInWindowViaPageAsync(this.CheckIfPageExists(), Translations.Common.AddNewPodcastFeedTitle, Translations.Common.AddNewPodcastFeedMessage);
             if (string.IsNullOrEmpty(feedUri) || !new Uri(feedUri).IsWellFormedOriginalString())
             {
                 return;

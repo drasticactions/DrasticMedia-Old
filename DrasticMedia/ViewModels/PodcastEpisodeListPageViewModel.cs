@@ -23,9 +23,10 @@ namespace DrasticMedia.ViewModels
         /// Initializes a new instance of the <see cref="PodcastEpisodeListPageViewModel"/> class.
         /// </summary>
         /// <param name="services"><see cref="IServiceProvider"/>.</param>
+        /// <param name="page">Page.</param>
         /// <param name="podcastId">Podcast Id.</param>
-        public PodcastEpisodeListPageViewModel(IServiceProvider services, int podcastId)
-            : base(services)
+        public PodcastEpisodeListPageViewModel(IServiceProvider services, Page page, int podcastId)
+            : base(services, page)
         {
             this.podcastId = podcastId;
         }

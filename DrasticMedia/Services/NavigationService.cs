@@ -29,42 +29,68 @@ namespace DrasticMedia.Services
         /// <inheritdoc/>
         public Task DisplayAlertAsync(string title, string message)
         {
+            if (App.Current?.MainPage == null)
+            {
+                return Task.CompletedTask;
+            }
+
             App.Current.Dispatcher.Dispatch(async () => await App.Current.MainPage.DisplayAlert(title, message, Translations.Common.CloseButton).ConfigureAwait(false));
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        public Task PushPageInWindowAsync(Page page, Window window)
+        public Task PushPageInWindowAsync(Page page, Window? window)
         {
-            return window.Page.Navigation.PushAsync(page);
+            if (page == null)
+            {
+                throw new ArgumentNullException(nameof(page));
+            }
+
+            if (window == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (window.Page is FlyoutPage flyoutPage && flyoutPage.Detail is NavigationPage navPage)
+            {
+                return navPage.PushAsync(page);
+            }
+
+            if (window.Page is NavigationPage baseNavPage)
+            {
+                return baseNavPage.PushAsync(page);
+            }
+
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        public Task PushPageInMainWindowAsync(Page page)
-        {
-            return this.PushPageInWindowAsync(page, this.GetMainWindow());
-        }
+        public Task PushPageInWindowViaPageAsync(Page page, Page originalPage) => this.PushPageInWindowAsync(page, this.GetWindowFromPage(originalPage));
 
         /// <inheritdoc/>
         public Task PopModalPageInWindowAsync(Window window)
         {
-            return window.Navigation == null
+            var navPage = this.GetBaseNavigationPageInWindow(window);
+            return navPage == null
                 ? throw new ArgumentException("Window must have a NavigationPage as its base")
-                : window.Page.Navigation.PopModalAsync();
+                : navPage.Navigation.PopModalAsync();
         }
 
         /// <inheritdoc/>
-        public Task PopModalPageInMainWindowAsync()
-        {
-            return this.PopModalPageInWindowAsync(this.GetMainWindow());
-        }
+        public Task PopModalPageInWindowViaPageAsync(Page page) => this.PopModalPageInWindowAsync(this.GetWindowFromPage(page));
 
         /// <inheritdoc/>
         public Task GoBackPageInWindowAsync(Window window)
         {
-            if (window.Page.Navigation.NavigationStack.Count > 0)
+            var navigationPage = this.GetBaseNavigationPageInWindow(window);
+            if (navigationPage == null)
             {
-                return window.Page.Navigation.PopAsync();
+                return Task.CompletedTask;
+            }
+
+            if (navigationPage.Navigation.NavigationStack.Count > 0)
+            {
+                return navigationPage.PopAsync();
             }
             else
             {
@@ -73,20 +99,52 @@ namespace DrasticMedia.Services
         }
 
         /// <inheritdoc/>
-        public Task GoBackPageInMainWindowAsync()
+        public Task GoBackPageInWindowViaPageAsync(Page page) => this.GoBackPageInWindowAsync(this.GetWindowFromPage(page));
+
+        /// <inheritdoc/>
+        public async Task<string> DisplayPromptInWindowAsync(Window window, string title, string message)
         {
-            return this.GoBackPageInWindowAsync(this.GetMainWindow());
+            if (window.Page == null)
+            {
+                return string.Empty;
+            }
+
+            return await window.Page.DisplayPromptAsync(title, message, keyboard: Microsoft.Maui.Keyboard.Url);
         }
 
         /// <inheritdoc/>
-        public Task<string> DisplayPromptAsync(string title, string message)
+        public Task<string> DisplayPromptInWindowViaPageAsync(Page page, string title, string message)
+            => this.DisplayPromptInWindowAsync(this.GetWindowFromPage(page), title, message);
+
+        private NavigationPage? GetBaseNavigationPageInWindow(Window window)
         {
-            return this.GetMainWindow().Page.DisplayPromptAsync(title, message, keyboard: Microsoft.Maui.Keyboard.Url);
+            if (window.Page is FlyoutPage flyoutPage && flyoutPage.Detail is NavigationPage navPage)
+            {
+                return navPage;
+            }
+
+            if (window.Page is NavigationPage baseNavPage)
+            {
+                return baseNavPage;
+            }
+
+            return null;
         }
 
-        private Window GetMainWindow()
+        private Window GetWindowFromPage(Page page)
         {
-            return App.Current.Windows[0];
+            if (page == null)
+            {
+                throw new NullReferenceException(nameof(page));
+            }
+
+            var window = page.GetParentWindow();
+            if (window == null)
+            {
+                throw new NullReferenceException(nameof(window));
+            }
+
+            return window;
         }
     }
 }

@@ -30,17 +30,12 @@ namespace DrasticMedia.Services
         public Task PushPageInWindowAsync(Page page, Window window);
 
         /// <summary>
-        /// Push Page In Main Window.
+        /// Push Page In Window.
         /// </summary>
         /// <param name="page"><see cref="Page"/> to navigate to.</param>
+        /// <param name="originalPage"><see cref="originalPage"/>.</param>
         /// <returns><see cref="Task"/>.</returns>
-        public Task PushPageInMainWindowAsync(Page page);
-
-        /// <summary>
-        /// Pop Modal page from Main Window.
-        /// </summary>
-        /// <returns><see cref="Task"/>.</returns>
-        public Task PopModalPageInMainWindowAsync();
+        public Task PushPageInWindowViaPageAsync(Page page, Page originalPage);
 
         /// <summary>
         /// Pop Modal Page From Window.
@@ -50,6 +45,13 @@ namespace DrasticMedia.Services
         public Task PopModalPageInWindowAsync(Window window);
 
         /// <summary>
+        /// Pop Modal Page From Page Window.
+        /// </summary>
+        /// <param name="page"><see cref="Page"/> with Modal to pop.</param>
+        /// <returns><see cref="Task"/>.</returns>
+        public Task PopModalPageInWindowViaPageAsync(Page page);
+
+        /// <summary>
         /// Go back from page in Window.
         /// </summary>
         /// <param name="window">Window.</param>
@@ -57,17 +59,28 @@ namespace DrasticMedia.Services
         public Task GoBackPageInWindowAsync(Window window);
 
         /// <summary>
-        /// Go back from page in Main Window.
+        /// Go back from page in Window.
         /// </summary>
+        /// <param name="page">page.</param>
         /// <returns><see cref="Task"/>.</returns>
-        public Task GoBackPageInMainWindowAsync();
+        public Task GoBackPageInWindowViaPageAsync(Page page);
 
         /// <summary>
-        /// Display Prompt.
+        /// Display Prompt In Window.
         /// </summary>
+        /// <param name="window">Window.</param>
         /// <param name="title">Title of Prompt.</param>
         /// <param name="message">Message of Prompt.</param>
         /// <returns>String.</returns>
-        public Task<string> DisplayPromptAsync(string title, string message);
+        public Task<string> DisplayPromptInWindowAsync(Window window, string title, string message);
+
+        /// <summary>
+        /// Display Prompt In Window via page.
+        /// </summary>
+        /// <param name="page">page.</param>
+        /// <param name="title">Title of Prompt.</param>
+        /// <param name="message">Message of Prompt.</param>
+        /// <returns>String.</returns>
+        public Task<string> DisplayPromptInWindowViaPageAsync(Page page, string title, string message);
     }
 }

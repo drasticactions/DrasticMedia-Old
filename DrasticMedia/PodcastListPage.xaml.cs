@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Utilities;
 using DrasticMedia.Overlays;
 using DrasticMedia.ViewModels;
 using Microsoft.Maui;
@@ -20,7 +21,7 @@ namespace DrasticMedia
     /// </summary>
     public partial class PodcastListPage : BasePage
     {
-        private PodcastListPageViewModel vm;
+        private PodcastListPageViewModel? vm;
         private MediaWindow? window;
         private int currentGridSize = 1;
 
@@ -32,7 +33,7 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
-            this.ViewModel = this.vm = provider.GetService<PodcastListPageViewModel>();
+            this.ViewModel = this.vm = provider.ResolveWith<PodcastListPageViewModel>(this);
             this.BindingContext = this.vm;
             //this.GridItemlayoutSettings.Span = this.currentGridSize;
         }

@@ -5,6 +5,7 @@
 using DrasticMedia.Core.Library;
 using DrasticMedia.Services;
 using DrasticMedia.Utilities;
+
 namespace DrasticMedia.ViewModels
 {
     /// <summary>
@@ -15,13 +16,16 @@ namespace DrasticMedia.ViewModels
         private bool isBusy;
         private bool isRefreshing;
         private string title;
+        private Page? originalPage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseViewModel"/> class.
         /// </summary>
         /// <param name="services">IServiceProvider.</param>
-        public BaseViewModel(IServiceProvider services)
+        /// <param name="originalPage">Original Page.</param>
+        public BaseViewModel(IServiceProvider services, Page? originalPage = null)
         {
+            this.originalPage = originalPage;
             this.Services = services;
             this.Navigation = services.GetService<INavigationService>();
             this.Error = services.GetService<IErrorHandlerService>();
@@ -135,9 +139,25 @@ namespace DrasticMedia.ViewModels
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Check if the original page exists.
+        /// </summary>
+        /// <returns>Page.</returns>
+        /// <exception cref="NullReferenceException">Throws if page doesn't exist.</exception>
+        internal Page CheckIfPageExists()
+        {
+            if (this.originalPage == null)
+            {
+                throw new NullReferenceException(nameof(this.originalPage));
+            }
+
+            return this.originalPage;
+        }
+
         private async Task ExecuteCloseDialogCommand()
         {
-            await this.Navigation.PopModalPageInMainWindowAsync();
+            var page = this.CheckIfPageExists();
+            await this.Navigation.PopModalPageInWindowViaPageAsync(page);
         }
     }
 }

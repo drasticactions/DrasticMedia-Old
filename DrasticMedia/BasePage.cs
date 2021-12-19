@@ -43,7 +43,10 @@ namespace DrasticMedia
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await this.ViewModel?.LoadAsync();
+            if (this.ViewModel != null)
+            {
+                await this.ViewModel.LoadAsync();
+            }
         }
     }
 }
