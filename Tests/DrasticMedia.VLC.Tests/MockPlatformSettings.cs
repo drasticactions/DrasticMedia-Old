@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 
-namespace DrasticMedia.Core.Tests
+namespace DrasticMedia.VLC.Tests
 {
     /// <summary>
     /// Mock platform Settings.

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DrasticMedia.Core.Tests
+namespace DrasticMedia.VLC.Tests
 {
     public static class ExtensionHelpers
     {

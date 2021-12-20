@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DrasticMedia.Core.Tests
+namespace DrasticMedia.VLC.Tests
 {
     /// <summary>
     /// Setup.

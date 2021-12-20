@@ -5,6 +5,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Helpers;
 using DrasticMedia.Core.Library;
@@ -15,7 +16,7 @@ using DrasticMedia.SQLite.Database;
 using LibVLCSharp.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DrasticMedia.Core.Tests
+namespace DrasticMedia.VLC.Tests
 {
     /// <summary>
     /// Media Library Tests.
@@ -58,10 +59,10 @@ namespace DrasticMedia.Core.Tests
             Assert.IsTrue(this.videoDB.IsInitialized);
         }
 
-        [DataRow(@"Media\Media Library Test\Music", Library.MediaType.Audio)]
-        [DataRow(@"Media\Media Library Test\Video", Library.MediaType.Video)]
+        [DataRow(@"Media\Media Library Test\Music", Core.Library.MediaType.Audio)]
+        [DataRow(@"Media\Media Library Test\Video", Core.Library.MediaType.Video)]
         [DataTestMethod]
-        public async Task ParseMediaDiriectory (string mediaDirectory, Library.MediaType type)
+        public async Task ParseMediaDiriectory (string mediaDirectory, Core.Library.MediaType type)
         {
             this.AddEventHandlers();
 
@@ -69,7 +70,7 @@ namespace DrasticMedia.Core.Tests
             // For this test, we're going to await for the result.
             await this.mediaLibrary.ScanMediaDirectoriesAsync(mediaDirectory);
 
-            if (type == Library.MediaType.Audio)
+            if (type == Core.Library.MediaType.Audio)
             {
                 var artists = await this.mediaLibrary.FetchArtistsAsync();
                 Assert.IsTrue(artists.Any());
@@ -89,7 +90,7 @@ namespace DrasticMedia.Core.Tests
                 Assert.IsTrue(albumWithTracks.Tracks.Any());
             }
 
-            if (type == Library.MediaType.Video)
+            if (type == Core.Library.MediaType.Video)
             {
                 var videos = await this.mediaLibrary.FetchVideosAsync();
                 Assert.IsTrue(videos.Any());
@@ -183,7 +184,7 @@ namespace DrasticMedia.Core.Tests
         {
             if (e != null)
             {
-                this.logger.Log(LogLevel.Info, e.ToString());
+                this.logger.Log(Core.LogLevel.Info, e.ToString());
             }
         }
 
@@ -191,7 +192,7 @@ namespace DrasticMedia.Core.Tests
         {
             if (e != null)
             {
-                this.logger.Log(LogLevel.Info, e.ToString());
+                this.logger.Log(Core.LogLevel.Info, e.ToString());
             }
         }
 
@@ -199,7 +200,7 @@ namespace DrasticMedia.Core.Tests
         {
             if (e != null)
             {
-                this.logger.Log(LogLevel.Info, e.ToString());
+                this.logger.Log(Core.LogLevel.Info, e.ToString());
             }
         }
 
@@ -207,7 +208,7 @@ namespace DrasticMedia.Core.Tests
         {
             if (e != null)
             {
-                this.logger.Log(LogLevel.Info, e.ToString());
+                this.logger.Log(Core.LogLevel.Info, e.ToString());
             }
         }
 

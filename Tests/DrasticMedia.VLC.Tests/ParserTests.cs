@@ -9,7 +9,7 @@ using DrasticMedia.Core.Model;
 using LibVLCSharp.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DrasticMedia.Core.Tests
+namespace DrasticMedia.VLC.Tests
 {
     /// <summary>
     /// Parser Tests.
