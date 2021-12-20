@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace DrasticMedia;
+namespace DrasticMedia.VLC.App;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

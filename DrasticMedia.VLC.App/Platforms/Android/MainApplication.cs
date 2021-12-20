@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace DrasticMedia;
+namespace DrasticMedia.VLC.App;
 
 [Application]
 public class MainApplication : MauiApplication

@@ -1,10 +1,9 @@
-﻿using LibVLCSharp.Shared;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace DrasticMedia.WinUI;
+namespace DrasticMedia.VLC.App.WinUI;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.
@@ -26,6 +25,8 @@ public partial class App : MauiWinUIApplication
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
+
         Platform.OnLaunched(args);
     }
 }
+

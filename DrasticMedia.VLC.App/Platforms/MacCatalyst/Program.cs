@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace DrasticMedia;
+namespace DrasticMedia.VLC.App;
 
 public class Program
 {

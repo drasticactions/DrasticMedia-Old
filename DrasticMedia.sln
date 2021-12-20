@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Controls", "Dr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.VLC", "DrasticMedia.VLC\DrasticMedia.VLC.csproj", "{38312898-CD87-4347-86A4-05F045B9BBC0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.VLC.App", "DrasticMedia.VLC.App\DrasticMedia.VLC.App.csproj", "{2863A9C3-5F03-4D0E-8C62-18A6483F418E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,18 @@ Global
 		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{2863A9C3-5F03-4D0E-8C62-18A6483F418E}.Win32Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
