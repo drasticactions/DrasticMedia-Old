@@ -8,11 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Database;
-using DrasticMedia.Core.Helpers;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
-using LibVLCSharp.Shared;
 
 namespace DrasticMedia.Core.Library
 {
@@ -27,23 +25,23 @@ namespace DrasticMedia.Core.Library
         private IPodcastDatabase podcastDatabase;
         private IPlatformSettings platform;
         private IPodcastService podcastService;
-        private LibVLC libVLC;
+        private ILocalMetadataParser mediaParser;
         private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaLibrary"/> class.
         /// </summary>
-        /// <param name="libVLC">LibVLC Instance.</param>
+        /// <param name="mediaParser">mediaParser Instance.</param>
         /// <param name="musicDatabase">Music Database.</param>
         /// <param name="videoDatabase">Video Database.</param>
         /// <param name="podcastDatabase">Podcast Database.</param>
         /// <param name="platform">Storage File APIs.</param>
         /// <param name="logger">Logger.</param>
-        public MediaLibrary(LibVLC libVLC, IMusicDatabase musicDatabase, IVideoDatabase videoDatabase, IPodcastDatabase podcastDatabase, IPlatformSettings platform, ILogger logger)
+        public MediaLibrary(ILocalMetadataParser mediaParser, IMusicDatabase musicDatabase, IVideoDatabase videoDatabase, IPodcastDatabase podcastDatabase, IPlatformSettings platform, ILogger logger)
         {
             this.platform = platform;
             this.logger = logger;
-            this.libVLC = libVLC;
+            this.mediaParser = mediaParser;
             this.podcastDatabase = podcastDatabase;
             this.musicDatabase = musicDatabase;
             this.videoDatabase = videoDatabase;
@@ -215,7 +213,7 @@ namespace DrasticMedia.Core.Library
                         return true;
                     }
 
-                    var mP = await this.libVLC.GetMusicPropertiesAsync(path) as TrackItem;
+                    var mP = await this.mediaParser.GetMusicPropertiesAsync(path) as TrackItem;
                     if (mP is null || (string.IsNullOrEmpty(mP.Artist) && string.IsNullOrEmpty(mP.Album) && string.IsNullOrEmpty(mP.Title)))
                     {
                         // We couldn't parse the file or the metadata is empty. Skip it.
@@ -271,7 +269,7 @@ namespace DrasticMedia.Core.Library
                         return true;
                     }
 
-                    var videoItem = await this.libVLC.GetVideoPropertiesAsync(path).ConfigureAwait(false) as VideoItem;
+                    var videoItem = await this.mediaParser.GetVideoPropertiesAsync(path).ConfigureAwait(false) as VideoItem;
                     if (videoItem == null)
                     {
                         // We couldn't parse the file or the metadata is empty. Skip it.
@@ -382,7 +380,6 @@ namespace DrasticMedia.Core.Library
             {
                 if (disposing)
                 {
-                    this.libVLC.Dispose();
                 }
 
                 this.disposedValue = true;

@@ -13,6 +13,7 @@ using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
 using DrasticMedia.SQLite.Database;
+using DrasticMedia.VLC.Library;
 using LibVLCSharp.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,6 +32,7 @@ namespace DrasticMedia.VLC.Tests
         private IVideoDatabase videoDB;
         private IMusicDatabase musicDB;
         private IPlatformSettings settings;
+        private ILocalMetadataParser localMetadataParser;
         private MediaLibrary mediaLibrary;
 
         /// <summary>
@@ -40,12 +42,13 @@ namespace DrasticMedia.VLC.Tests
         {
             this.settings = new MockPlatformSettings();
             this.libVLC = new LibVLC();
+            this.localMetadataParser = new VLCMediaParser(this.libVLC);
             this.logger = new ConsoleLogger();
             this.podcastService = new PodcastService(this.logger);
             this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());
             this.videoDB = new VideoDatabase(ExtensionHelpers.VideoDatabase());
             this.musicDB = new MusicDatabase(ExtensionHelpers.MusicDatabase());
-            this.mediaLibrary = new MediaLibrary(this.libVLC, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.logger);
+            this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.logger);
         }
 
         /// <summary>
@@ -59,6 +62,12 @@ namespace DrasticMedia.VLC.Tests
             Assert.IsTrue(this.videoDB.IsInitialized);
         }
 
+        /// <summary>
+        /// Parse Media Directory.
+        /// </summary>
+        /// <param name="mediaDirectory">Media Directory.</param>
+        /// <param name="type">Media Type.</param>
+        /// <returns>Task.</returns>
         [DataRow(@"Media\Media Library Test\Music", Core.Library.MediaType.Audio)]
         [DataRow(@"Media\Media Library Test\Video", Core.Library.MediaType.Video)]
         [DataTestMethod]
