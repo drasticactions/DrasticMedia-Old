@@ -33,6 +33,7 @@ namespace DrasticMedia.Core.Services
         /// </summary>
         public NativeMediaService()
         {
+            this.positionTimer = new Timer(this.PositionTimerElapsed, null, 0, 500);
             this.avPlayer = new AVPlayer();
         }
 
@@ -41,19 +42,19 @@ namespace DrasticMedia.Core.Services
         {
             get
             {
-                if (this.avPlayer == null)
+                if (this.avPlayer?.CurrentItem == null)
                 {
                     return 0;
                 }
 
-                return (float)this.avPlayer.CurrentTime.Seconds;
+                return (float)(this.avPlayer.CurrentTime.Seconds / this.avPlayer.CurrentItem.Duration.Seconds);
             }
 
             set
             {
-                if (this.avPlayer != null)
+                if (this.avPlayer?.CurrentItem != null)
                 {
-                    this.avPlayer.Seek(new CoreMedia.CMTime((long)value, 1));
+                    this.avPlayer.Seek(new CoreMedia.CMTime((long)(this.avPlayer.CurrentItem.Duration.Seconds * value), 1));
                 }
             }
         }

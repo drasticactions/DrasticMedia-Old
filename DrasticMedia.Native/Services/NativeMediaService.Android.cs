@@ -25,6 +25,7 @@ namespace DrasticMedia.Core.Services
         /// <param name="activity">Android Activity.</param>
         public NativeMediaService(IMediaActivity activity)
         {
+            this.positionTimer = new Timer(this.PositionTimerElapsed, null, 0, 500);
             this.instance = activity;
             if (this.MediaPlayerService != null)
             {
@@ -33,21 +34,11 @@ namespace DrasticMedia.Core.Services
             }
         }
 
-        private void MediaPlayerService_StatusChanged(object sender, EventArgs e)
-        {
-            this.RaiseCanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void MediaPlayerService_Playing(object sender, EventArgs e)
-        {
-            this.RaiseCanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
-
         /// <inheritdoc/>
         public float CurrentPosition
         {
-            get { return this.MediaPlayer?.CurrentPosition / 1000 ?? 0; }
-            set { this.MediaPlayer?.SeekTo((int)value); }
+            get { return this.MediaPlayer?.CurrentPosition / this.MediaPlayer?.Duration ?? 0; }
+            set { this.MediaPlayer?.SeekTo((int)(this.MediaPlayer?.Duration * value)); }
         }
 
         /// <inheritdoc/>
@@ -117,6 +108,16 @@ namespace DrasticMedia.Core.Services
         private async Task<string> GetMetadata()
         {
             return string.Empty;
+        }
+
+        private void MediaPlayerService_StatusChanged(object sender, EventArgs e)
+        {
+            this.RaiseCanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void MediaPlayerService_Playing(object sender, EventArgs e)
+        {
+            this.RaiseCanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
