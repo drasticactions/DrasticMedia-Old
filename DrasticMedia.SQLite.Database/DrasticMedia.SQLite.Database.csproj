@@ -11,7 +11,7 @@
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\DrasticMedia.Controls\DrasticMedia.Core.csproj" />
+	  <ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
 	</ItemGroup>
 
 </Project>
