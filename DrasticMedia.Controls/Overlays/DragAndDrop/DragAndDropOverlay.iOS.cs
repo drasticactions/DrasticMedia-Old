@@ -12,17 +12,23 @@ namespace DrasticMedia.Overlays
 
         public override bool Initialize()
         {
-            if (dragAndDropOverlayNativeElementsInitialized)
+            if (this.dragAndDropOverlayNativeElementsInitialized)
+            {
                 return true;
+            }
 
             base.Initialize();
 
-            var nativeLayer = Window?.GetNative(true);
+            var nativeLayer = this.Window?.GetNative(true);
             if (nativeLayer is not UIWindow nativeWindow)
+            {
                 return false;
+            }
 
             if (nativeWindow?.RootViewController?.View == null)
+            {
                 return false;
+            }
 
             // We're going to create a new view.
             // This will handle the "drop" events, and nothing else.
@@ -43,7 +49,6 @@ namespace DrasticMedia.Overlays
             }
             return base.Deinitialize();
         }
-
 
         class DragAndDropView : UIView, IUIDropInteractionDelegate
 		{
