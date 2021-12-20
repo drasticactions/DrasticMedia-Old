@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{7C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibVLCSharp.Android.AWindow", "external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj", "{239A82A5-19A1-4382-8F9B-4A9705648017}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Controls", "DrasticMedia.Controls\DrasticMedia.Controls.csproj", "{80F749DD-C35C-4D54-B09E-B82363EA5961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.VLC", "DrasticMedia.VLC\DrasticMedia.VLC.csproj", "{38312898-CD87-4347-86A4-05F045B9BBC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,22 @@ Global
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
 		{239A82A5-19A1-4382-8F9B-4A9705648017}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F749DD-C35C-4D54-B09E-B82363EA5961}.Win32Release|Any CPU.Build.0 = Release|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38312898-CD87-4347-86A4-05F045B9BBC0}.Win32Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

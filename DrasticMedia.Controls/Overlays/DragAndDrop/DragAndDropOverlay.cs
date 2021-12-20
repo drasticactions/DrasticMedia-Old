@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Events;
 using DrasticMedia.Core.Model;
-using LibVLCSharp.Shared;
 
 namespace DrasticMedia.Overlays
 {
@@ -21,8 +20,6 @@ namespace DrasticMedia.Overlays
         private DropElementOverlay dropElement;
         private bool dragAndDropOverlayNativeElementsInitialized;
 
-        internal LibVLC libVLC;
-
         internal bool IsDragging
         {
             get => dropElement.IsDragging;
@@ -33,10 +30,9 @@ namespace DrasticMedia.Overlays
             }
         }
 
-        public DragAndDropOverlay(IWindow window, LibVLC libVLC)
+        public DragAndDropOverlay(IWindow window)
             : base(window)
         {
-            this.libVLC = libVLC;
             this.dropElement = new DropElementOverlay();
             this.AddWindowElement(dropElement);
         }

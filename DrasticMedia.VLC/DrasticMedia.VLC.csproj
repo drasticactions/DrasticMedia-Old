@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../MultiTargeting.targets" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
@@ -9,5 +9,10 @@
 
 	<ItemGroup>
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
+		<ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
 	</ItemGroup>
 </Project>

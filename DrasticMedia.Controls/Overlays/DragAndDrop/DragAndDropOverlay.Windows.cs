@@ -2,18 +2,11 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Events;
-using DrasticMedia.Core.Helpers;
 using DrasticMedia.Core.Model;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace DrasticMedia.Overlays
 {
@@ -87,21 +80,9 @@ namespace DrasticMedia.Overlays
                         if (item is StorageFile storageItem)
                         {
                             var fileType = Path.GetExtension(storageItem.Path);
-                            if (FileExtensions.AudioExtensions.Contains(fileType))
+                            if (FileExtensions.AudioExtensions.Contains(fileType) || FileExtensions.VideoExtensions.Contains(fileType))
                             {
-                                var mP = await this.libVLC.GetMusicPropertiesAsync(item.Path) as TrackItem;
-                                if (mP != null)
-                                {
-                                    mediaItems.Add(mP);
-                                }
-                            }
-                            else if (FileExtensions.AudioExtensions.Contains(fileType))
-                            {
-                                var vP = await this.libVLC.GetVideoPropertiesAsync(item.Path) as VideoItem;
-                                if (vP != null)
-                                {
-                                    mediaItems.Add(vP);
-                                }
+                                mediaItems.Add(new MediaItem() { Path = storageItem.Path });
                             }
                         }
                     }

@@ -36,7 +36,7 @@ namespace DrasticMedia
             this.errorHandler = serviceProvider.GetService<IErrorHandlerService>();
             this.player = serviceProvider.GetService<PlayerService>();
             this.libVLC = serviceProvider.GetService<LibVLC>();
-            this.dragAndDropOverlay = new DragAndDropOverlay(this, this.libVLC);
+            this.dragAndDropOverlay = new DragAndDropOverlay(this);
             this.miniPlayerOverlay = new PageOverlay(this);
             this.playerOverlay = new PageOverlay(this);
             this.dragAndDropOverlay.Drop += DragAndDropOverlay_Drop;

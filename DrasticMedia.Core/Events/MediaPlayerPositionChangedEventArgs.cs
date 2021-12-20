@@ -18,7 +18,7 @@ namespace DrasticMedia.Core
         /// Initializes a new instance of the <see cref="MediaPlayerPositionChangedEventArgs"/> class.
         /// </summary>
         /// <param name="position">Position.</param>
-        internal MediaPlayerPositionChangedEventArgs(float position)
+        public MediaPlayerPositionChangedEventArgs(float position)
         {
             Position = position;
         }

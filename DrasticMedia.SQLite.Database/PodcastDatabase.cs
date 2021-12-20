@@ -6,7 +6,6 @@ using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
-using LibVLCSharp.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
