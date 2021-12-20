@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<Import Project="../VLC.props" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
@@ -44,25 +44,6 @@
 		<MauiFont Include="Resources\Fonts\*" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
-		<PackageReference Include="VideoLAN.LibVLC.iOS " Version="3.3.17" />
-	</ItemGroup>
-
-	<ItemGroup Condition="$(TargetFramework.Contains('-maccatalyst'))">
-		<PackageReference Include="VideoLAN.LibVLC.iOS " Version="3.3.17" />
-	</ItemGroup>
-
-	<ItemGroup Condition="$(TargetFramework.Contains('-android'))">
-		<PackageReference Include="VideoLAN.LibVLC.Android" Version="3.2.0.1" />
-	</ItemGroup>
-
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-	</ItemGroup>
-
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<OutputType>WinExe</OutputType>
 		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
@@ -88,8 +69,6 @@
       <ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
       <ProjectReference Include="..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
       <ProjectReference Include="..\DrasticMedia.VLC\DrasticMedia.VLC.csproj" />
-	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
-	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
     </ItemGroup>
 	
     <ItemGroup>
@@ -105,30 +84,6 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>Common.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-    </ItemGroup>
-	
-    <ItemGroup>
-      <MauiXaml Update="AlbumArtPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="MenuPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="MiniPlayerPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="PlayerPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="PodcastEpisodeListPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="PodcastListPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
-      <MauiXaml Update="RecentlyPlayedPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
     </ItemGroup>
 
 </Project>

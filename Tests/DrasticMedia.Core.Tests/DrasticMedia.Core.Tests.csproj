@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../Database.props" />
+	<Import Project="../../VLC.props" />
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -27,9 +28,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\DrasticMedia.Controls\DrasticMedia.Controls.csproj" />
 	  <ProjectReference Include="..\..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
 	  <ProjectReference Include="..\..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
-	  <ProjectReference Include="..\..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
+	  <ProjectReference Include="..\..\DrasticMedia.VLC\DrasticMedia.VLC.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
