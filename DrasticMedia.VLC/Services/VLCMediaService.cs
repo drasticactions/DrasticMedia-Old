@@ -110,7 +110,7 @@ namespace DrasticMedia.Core.Services
         /// <inheritdoc/>
         public Task<string> GetArtworkUrl() => this.GetMetadata(MetadataType.ArtworkURL);
 
-        private void MediaPlayer_PositionChanged(object? sender, LibVLCSharp.Shared.MediaPlayerPositionChangedEventArgs e) 
+        private void MediaPlayer_PositionChanged(object? sender, LibVLCSharp.Shared.MediaPlayerPositionChangedEventArgs e)
             => this.PositionChanged?.Invoke(this, new MediaPlayerPositionChangedEventArgs(e.Position));
 
         private void MediaPlayer_PausableChanged(object? sender, MediaPlayerPausableChangedEventArgs e)

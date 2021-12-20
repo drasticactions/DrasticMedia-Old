@@ -17,11 +17,6 @@ namespace DrasticMedia.Core.Services
     public interface IMediaService
     {
         /// <summary>
-        /// Gets or sets the current media.
-        /// </summary>
-        MediaItem CurrentMedia { get; set; }
-
-        /// <summary>
         /// Position Changed.
         /// </summary>
         event EventHandler<MediaPlayerPositionChangedEventArgs>? PositionChanged;
@@ -40,6 +35,11 @@ namespace DrasticMedia.Core.Services
         /// RaiseCanExecuteChanged.
         /// </summary>
         event EventHandler<EventArgs>? RaiseCanExecuteChanged;
+
+        /// <summary>
+        /// Gets or sets the current media.
+        /// </summary>
+        MediaItem? CurrentMedia { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the stream is playing.
