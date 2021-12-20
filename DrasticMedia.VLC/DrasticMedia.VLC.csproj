@@ -14,5 +14,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
+		<ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
+		<ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
 	</ItemGroup>
 </Project>

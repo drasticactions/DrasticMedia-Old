@@ -56,6 +56,8 @@
 	  <ProjectReference Include="..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
 	  <ProjectReference Include="..\DrasticMedia.VLC\DrasticMedia.VLC.csproj" />
 	  <ProjectReference Include="..\DrasticMedia\DrasticMedia.csproj" />
+	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
+	  <ProjectReference Include="..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

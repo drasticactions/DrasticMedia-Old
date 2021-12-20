@@ -12,7 +12,6 @@ using DrasticMedia.Core.Services;
 using DrasticMedia.Overlays;
 using DrasticMedia.Services;
 using DrasticMedia.Utilities;
-using LibVLCSharp.Shared;
 
 namespace DrasticMedia
 {
@@ -26,7 +25,6 @@ namespace DrasticMedia
         private DragAndDropOverlay dragAndDropOverlay;
         private PageOverlay miniPlayerOverlay;
         private PageOverlay playerOverlay;
-        private LibVLC libVLC;
         private PlayerService player;
         private PlayerPage playerPage;
 
@@ -35,7 +33,6 @@ namespace DrasticMedia
             this.serviceProvider = serviceProvider;
             this.errorHandler = serviceProvider.GetService<IErrorHandlerService>();
             this.player = serviceProvider.GetService<PlayerService>();
-            this.libVLC = serviceProvider.GetService<LibVLC>();
             this.dragAndDropOverlay = new DragAndDropOverlay(this);
             this.miniPlayerOverlay = new PageOverlay(this);
             this.playerOverlay = new PageOverlay(this);

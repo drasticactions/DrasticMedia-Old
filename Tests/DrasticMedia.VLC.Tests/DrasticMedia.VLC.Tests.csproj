@@ -32,6 +32,8 @@
 	  <ProjectReference Include="..\..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
 	  <ProjectReference Include="..\..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
 	  <ProjectReference Include="..\..\DrasticMedia.VLC\DrasticMedia.VLC.csproj" />
+	  <ProjectReference Include="..\..\external\libvlcsharp\src\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
+	  <ProjectReference Include="..\..\external\libvlcsharp\src\LibVLCSharp\LibVLCSharp.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
