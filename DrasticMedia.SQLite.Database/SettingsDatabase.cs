@@ -17,11 +17,10 @@ namespace DrasticMedia.SQLite.Database
     public class SettingsDatabase : DbContext, ISettingsDatabase
     {
         private string dbPath;
-        private IPlatformSettings settings;
+        private IPlatformSettings? settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsDatabase"/> class.
-        /// VLC Settings Database.
         /// </summary>
         /// <param name="dbPath">Path to Database File.</param>
         public SettingsDatabase(string dbPath)
@@ -47,7 +46,7 @@ namespace DrasticMedia.SQLite.Database
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            this.dbPath = System.IO.Path.Combine(settings.DatabasePath, "vlc.settings.db");
+            this.dbPath = System.IO.Path.Combine(settings.DatabasePath, "drastic.sqlite.settings.db");
             this.settings = settings;
             this.Initialize();
         }
@@ -58,12 +57,12 @@ namespace DrasticMedia.SQLite.Database
         /// <summary>
         /// Gets or sets the AppSettings Table.
         /// </summary>
-        public DbSet<AppSettings> AppSettings { get; set; }
+        public DbSet<AppSettings>? AppSettings { get; set; }
 
         /// <summary>
         /// Gets or sets the MediaFolders Table.
         /// </summary>
-        public DbSet<MediaFolder> MediaFolders { get; set; }
+        public DbSet<MediaFolder>? MediaFolders { get; set; }
 
         /// <inheritdoc/>
         public void DeleteAll()
@@ -87,10 +86,7 @@ namespace DrasticMedia.SQLite.Database
             var settings = await this.AppSettings.FirstOrDefaultAsync();
             if (settings == null)
             {
-                settings = new AppSettings()
-                {
-                    IsDarkMode = this.settings is not null && this.settings.IsDarkTheme,
-                };
+                settings = new AppSettings();
             }
 
             return settings;

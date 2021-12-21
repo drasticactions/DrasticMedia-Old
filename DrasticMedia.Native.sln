@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Controls", "Dr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Database", "DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj", "{60D3C576-77E6-4D6E-A2A1-108F8261B131}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.LiteDB.Database", "DrasticMedia.LiteDB.Database\DrasticMedia.LiteDB.Database.csproj", "{0305C790-BEC5-4EB4-A823-C0EFFD3BB856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{60D3C576-77E6-4D6E-A2A1-108F8261B131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60D3C576-77E6-4D6E-A2A1-108F8261B131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60D3C576-77E6-4D6E-A2A1-108F8261B131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0305C790-BEC5-4EB4-A823-C0EFFD3BB856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0305C790-BEC5-4EB4-A823-C0EFFD3BB856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0305C790-BEC5-4EB4-A823-C0EFFD3BB856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0305C790-BEC5-4EB4-A823-C0EFFD3BB856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
