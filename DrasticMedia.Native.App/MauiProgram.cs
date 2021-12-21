@@ -18,6 +18,9 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         IMediaService service = null;
+#if IOS || MACCATALYST
+        SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_sqlite3());
+#endif
 #if ANDROID
         service = new NativeMediaService(MainActivity.instance as DrasticMedia.Native.Activity.IMediaActivity);
 #else

@@ -11,12 +11,12 @@
 
     <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.1" />
-        <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.0.7" />
+        <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.0.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-maccatalyst'))">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.1" />
-        <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.0.7" />
+       <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.0.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-android'))">
