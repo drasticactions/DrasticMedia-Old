@@ -4,10 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Controls"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
-             BackgroundColor="#666666"
-             TranslationY="2000"
+             BackgroundColor="Transparent"
              xmlns:local="clr-namespace:DrasticMedia">
-    <GridLayout RowDefinitions="Auto, *, Auto">
+    <GridLayout x:Name="FullPlayerControls" BackgroundColor="#666666" TranslationY="2000" RowDefinitions="Auto, *, Auto">
         <Button Margin="10"
                 HorizontalOptions="End"
              FontSize="70"

@@ -73,7 +73,7 @@ namespace DrasticMedia.ViewModels
 
         private void SetPlayerPageVisibility(double y)
         {
-            this.playerPage.TranslateTo(0, y);
+            this.playerPage.SetPlayerVisiblity(y);
         }
     }
 }

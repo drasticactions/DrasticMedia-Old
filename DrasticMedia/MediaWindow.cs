@@ -66,7 +66,8 @@ namespace DrasticMedia
             this.AddOverlay(this.dragAndDropOverlay);
             this.AddOverlay(this.playerOverlay);
             this.AddOverlay(this.miniPlayerOverlay);
-            this.playerOverlay.SetPage(this.playerPage = new PlayerPage(this.serviceProvider), zindex: 101);
+            this.playerPage = new PlayerPage(this.serviceProvider);
+            this.playerOverlay.SetPage(this.playerPage, zindex: 101);
             this.miniPlayerOverlay.SetPage(new MiniPlayerPage(this.playerPage, this.serviceProvider), zindex: 100);
             base.OnCreated();
         }

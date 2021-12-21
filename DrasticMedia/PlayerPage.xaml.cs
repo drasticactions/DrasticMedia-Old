@@ -21,7 +21,7 @@ namespace DrasticMedia
     /// <summary>
     /// Player Page.
     /// </summary>
-    public partial class PlayerPage : BasePage, IDisposable
+    public partial class PlayerPage : BasePage, IHitTestPage, IDisposable
     {
         private PlayerPageViewModel vm;
         private bool disposedValue;
@@ -34,6 +34,7 @@ namespace DrasticMedia
             : base(provider)
         {
             this.InitializeComponent();
+            this.HitTestViews = new List<IView>() { this.FullPlayerControls };
             this.ViewModel = this.vm = provider.ResolveWith<PlayerPageViewModel>(this);
             this.BindingContext = this.ViewModel;
 
@@ -42,9 +43,14 @@ namespace DrasticMedia
             this.DrasticSlider.NewPositionRequested += this.DrasticSlider_NewPositionRequested;
         }
 
+        /// <summary>
+        /// Gets the hit test views.
+        /// </summary>
+        public List<IView> HitTestViews { get; }
+
         public void SetPlayerVisiblity(double height)
         {
-            this.TranslateTo(0, height);
+            this.FullPlayerControls.TranslateTo(0, height);
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

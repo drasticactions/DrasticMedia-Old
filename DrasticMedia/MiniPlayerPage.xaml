@@ -7,7 +7,11 @@
              BackgroundColor="Transparent"
              xmlns:local="clr-namespace:DrasticMedia">
     <GridLayout TranslationY="50" x:Name="PlayerControls" ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="10" BackgroundColor="#555555" HeightRequest="50" VerticalOptions="End">
-        <Image Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}" />
+        <Image Source="{Binding Player.CurrentAlbumArt, Converter={StaticResource AlbumArtConverter}}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShowPlayerPageCommand}" NumberOfTapsRequired="1" />
+            </Image.GestureRecognizers>
+        </Image>
         <Label VerticalOptions="Center" GridLayout.Column="1" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding Player.CurrentTrackTitle}">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ShowPlayerPageCommand}" NumberOfTapsRequired="1" />
