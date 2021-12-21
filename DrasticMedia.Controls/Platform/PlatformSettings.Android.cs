@@ -14,7 +14,7 @@ namespace DrasticMedia.Core.Platform
     public class PlatformSettings : IPlatformSettings
     {
         /// <inheritdoc/>
-        public string DatabasePath => Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "DrasticMediaLibrary");
+        public string DatabasePath => Path.Combine(Microsoft.Maui.Essentials.FileSystem.AppDataDirectory, "DrasticMediaLibrary");
 
         /// <inheritdoc/>
         public bool IsDarkTheme

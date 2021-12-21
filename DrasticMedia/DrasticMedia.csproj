@@ -12,11 +12,7 @@
     <ItemGroup>
 	    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
     </ItemGroup>
-	
-    <ItemGroup>
-      <PackageReference Include="ReorderableCollectionView.Maui" Version="1.0.0-preview.10.2068" />
-    </ItemGroup>
-	
+
     <ItemGroup>
       <ProjectReference Include="..\DrasticMedia.Controls\DrasticMedia.Controls.csproj" />
       <ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />

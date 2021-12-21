@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:DrasticMedia;assembly=DrasticMedia.Core"
              xmlns:styles="clr-namespace:DrasticMedia.Styles"
-             xmlns:rcv="clr-namespace:ReorderableCollectionView.Maui;assembly=ReorderableCollectionView.Maui"
              xmlns:local="clr-namespace:DrasticMedia">
     <GridLayout x:Name="PodcastGrid"
         RowSpacing="5"
@@ -21,21 +20,15 @@
                 Text="{x:Static styles:IconFont.EllipsisH}" 
                 FontFamily="FontAwesomeSolid"  />
         </GridLayout>
-        <rcv:ReorderableCollectionView x:Name="PodcastCollectionView" SelectionMode="Single" GridLayout.Row="1"
+        <CollectionView x:Name="PodcastCollectionView" SelectionMode="Single" GridLayout.Row="1"
                                        SelectionChangedCommand="{Binding NavigateToPodcastCommand,  Mode=OneWay}"
                                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference PodcastCollectionView}}"
                                        ItemsSource="{Binding Shows}">
-            <rcv:ReorderableCollectionView.ItemsLayout>
-                <rcv:VariableSpanGridItemsLayout ItemWidth="300"
-                                                 ItemHeight="300"
-                                                VerticalItemSpacing="0"
-                                                HorizontalItemSpacing="0" />
-            </rcv:ReorderableCollectionView.ItemsLayout>
-            <rcv:ReorderableCollectionView.ItemTemplate>
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Image MaximumHeightRequest="300" Source="{Binding Image}" />
                 </DataTemplate>
-            </rcv:ReorderableCollectionView.ItemTemplate>
-        </rcv:ReorderableCollectionView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </GridLayout>
 </local:BasePage>

@@ -10,7 +10,6 @@ using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
 using DrasticMedia.SQLite.Database;
 using DrasticMedia.ViewModels;
-using ReorderableCollectionView.Maui;
 
 namespace DrasticMedia.Native.App;
 
@@ -47,7 +46,6 @@ public static class MauiProgram
         builder.Services.AddTransient<PodcastEpisodeListPage>();
         builder
           .UseMauiApp<DrasticMedia.App>()
-          .RegisterReorderableCollectionView()
           .ConfigureFonts(fonts =>
           {
               fonts.AddFont("FontAwesome6Brands-Regular-400.otf", "FontAwesomeBrands");
