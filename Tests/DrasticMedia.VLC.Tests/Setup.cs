@@ -56,6 +56,21 @@ namespace DrasticMedia.VLC.Tests
                 Directory.Delete(mediaPath, true);
             }
 
+            if (File.Exists(ExtensionHelpers.VideoDatabase()))
+            {
+                File.Delete(ExtensionHelpers.VideoDatabase());
+            }
+
+            if (File.Exists(ExtensionHelpers.MusicDatabase()))
+            {
+                File.Delete(ExtensionHelpers.MusicDatabase());
+            }
+
+            if (File.Exists(ExtensionHelpers.PodcastDatabase()))
+            {
+                File.Delete(ExtensionHelpers.PodcastDatabase());
+            }
+
             Directory.CreateDirectory(mediaPath);
 
             string[] files = System.IO.Directory.GetFiles(mediaTestFiles, "*.*", new EnumerationOptions() { RecurseSubdirectories = true });
