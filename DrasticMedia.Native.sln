@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native", "Dras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core", "DrasticMedia.Core\DrasticMedia.Core.csproj", "{6615B5A2-29DA-4E5F-A2E6-5BDD3BAEDDFA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native.App", "DrasticMedia.Native.App\DrasticMedia.Native.App.csproj", "{D7A0F61A-945F-4251-A1C3-B3FF978F00E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native.App", "DrasticMedia.Native-App\DrasticMedia.Native.App.csproj", "{D7A0F61A-945F-4251-A1C3-B3FF978F00E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia", "DrasticMedia\DrasticMedia.csproj", "{AADB40C4-9C95-40F0-991D-F2C684309F91}"
 EndProject
