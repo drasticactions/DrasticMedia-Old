@@ -103,7 +103,7 @@ namespace DrasticMedia.Core.Services
         private MediaPlayerService? MediaPlayerService => this.instance?.Binder.GetMediaPlayerService();
 
         private MediaPlayer? MediaPlayer => this.MediaPlayerService != null ?
-            this.MediaPlayerService.mediaPlayer : null;
+            this.MediaPlayerService.MediaPlayer : null;
 
         private async Task<string> GetMetadata()
         {

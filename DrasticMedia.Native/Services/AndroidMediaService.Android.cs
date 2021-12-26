@@ -3,81 +3,132 @@
 // </copyright>
 
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Media;
+using Android.Media.Session;
 using Android.Net;
 using Android.Net.Wifi;
 using Android.OS;
-using Android.Media.Session;
-using AndroidNet = Android.Net;
-using Android.Graphics;
 using DrasticMedia.Core.Recievers;
+using AndroidNet = Android.Net;
 
 namespace DrasticMedia.Core.Services
 {
+    /// <summary>
+    /// Android Media Player Service.
+    /// </summary>
     [Service]
     [IntentFilter(new[] { ActionPlay, ActionPause, ActionStop, ActionTogglePlayback, ActionNext, ActionPrevious })]
+#pragma warning disable SA1649 // File name should match first type name
     public class MediaPlayerService : Service,
+#pragma warning restore SA1649 // File name should match first type name
            AudioManager.IOnAudioFocusChangeListener,
            MediaPlayer.IOnBufferingUpdateListener,
            MediaPlayer.IOnCompletionListener,
            MediaPlayer.IOnErrorListener,
            MediaPlayer.IOnPreparedListener
     {
-        //Actions
+        // Actions
+
+        /// <summary>
+        /// Action Player.
+        /// </summary>
         public const string ActionPlay = "com.xamarin.action.PLAY";
+
+        /// <summary>
+        /// Action Pause.
+        /// </summary>
         public const string ActionPause = "com.xamarin.action.PAUSE";
+
+        /// <summary>
+        /// Action Stop.
+        /// </summary>
         public const string ActionStop = "com.xamarin.action.STOP";
+
+        /// <summary>
+        /// Action Toggle Playback.
+        /// </summary>
         public const string ActionTogglePlayback = "com.xamarin.action.TOGGLEPLAYBACK";
+
+        /// <summary>
+        /// Action Next.
+        /// </summary>
         public const string ActionNext = "com.xamarin.action.NEXT";
+
+        /// <summary>
+        /// Action Prevous.
+        /// </summary>
         public const string ActionPrevious = "com.xamarin.action.PREVIOUS";
 
-        public MediaPlayer mediaPlayer;
+        public MediaPlayer? MediaPlayer;
+
+        public Android.Media.Session.MediaController MediaController;
+
         private AudioManager audioManager;
 
         private MediaSession mediaSession;
-        public Android.Media.Session.MediaController mediaController;
+
+        private int buffered = 0;
 
         private WifiManager wifiManager;
-        private WifiManager.WifiLock wifiLock;
+        private WifiManager.WifiLock? wifiLock;
 
+        /// <summary>
+        /// Status Changed.
+        /// </summary>
         public event StatusChangedEventHandler StatusChanged;
 
+        /// <summary>
+        /// Cover Reloaded.
+        /// </summary>
         public event CoverReloadedEventHandler CoverReloaded;
 
+        /// <summary>
+        /// Is Playing.
+        /// </summary>
         public event PlayingEventHandler Playing;
 
+        /// <summary>
+        /// Is Buffering.
+        /// </summary>
         public event BufferingEventHandler Buffering;
 
-        private readonly Handler PlayingHandler;
-        private readonly Java.Lang.Runnable PlayingHandlerRunnable;
+        private readonly Handler playingHandler;
+        private readonly Java.Lang.Runnable playingHandlerRunnable;
 
         private ComponentName remoteComponentName;
 
+        /// <summary>
+        /// Gets the Media Player State.
+        /// </summary>
         public PlaybackStateCode MediaPlayerState
         {
             get
             {
-                return (mediaController.PlaybackState != null
-                    ? mediaController.PlaybackState.State
-                    : PlaybackStateCode.None);
+                return this.MediaController.PlaybackState != null
+                    ? this.MediaController.PlaybackState.State
+                    : PlaybackStateCode.None;
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPlayerService"/> class.
+        /// </summary>
         public MediaPlayerService()
         {
-            PlayingHandler = new Handler(Looper.MainLooper);
+            this.playingHandler = new Handler(Looper.MainLooper);
 
             // Create a runnable, restarting itself if the status still is "playing"
-            PlayingHandlerRunnable = new Java.Lang.Runnable(() => {
+            playingHandlerRunnable = new Java.Lang.Runnable(() => {
                 OnPlaying(EventArgs.Empty);
 
                 if (MediaPlayerState == PlaybackStateCode.Playing)
                 {
-                    PlayingHandler.PostDelayed(PlayingHandlerRunnable, 250);
+                    playingHandler.PostDelayed(playingHandlerRunnable, 250);
                 }
             });
 
@@ -85,34 +136,50 @@ namespace DrasticMedia.Core.Services
             StatusChanged += (object sender, EventArgs e) => {
                 if (MediaPlayerState == PlaybackStateCode.Playing)
                 {
-                    PlayingHandler.PostDelayed(PlayingHandlerRunnable, 0);
+                    playingHandler.PostDelayed(playingHandlerRunnable, 0);
                 }
             };
         }
 
+        /// <summary>
+        /// On Status Changed.
+        /// </summary>
+        /// <param name="e">Event Args.</param>
         protected virtual void OnStatusChanged(EventArgs e)
         {
-            StatusChanged?.Invoke(this, e);
+            this.StatusChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// On Cover Reloaded.
+        /// </summary>
+        /// <param name="e">Event Args.</param>
         protected virtual void OnCoverReloaded(EventArgs e)
         {
-            if (CoverReloaded != null)
+            if (this.CoverReloaded != null)
             {
-                CoverReloaded(this, e);
-                StartNotification();
-                UpdateMediaMetadataCompat();
+                this.CoverReloaded(this, e);
+                this.StartNotification();
+                this.UpdateMediaMetadataCompat();
             }
         }
 
+        /// <summary>
+        /// On Playing.
+        /// </summary>
+        /// <param name="e">Event Args.</param>
         protected virtual void OnPlaying(EventArgs e)
         {
-            Playing?.Invoke(this, e);
+            this.Playing?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// On Buffering.
+        /// </summary>
+        /// <param name="e">Event Args.</param>
         protected virtual void OnBuffering(EventArgs e)
         {
-            Buffering?.Invoke(this, e);
+            this.Buffering?.Invoke(this, e);
         }
 
         /// <summary>
@@ -121,187 +188,188 @@ namespace DrasticMedia.Core.Services
         public override void OnCreate()
         {
             base.OnCreate();
-            //Find our audio and notificaton managers
-            audioManager = (AudioManager)GetSystemService(AudioService);
-            wifiManager = (WifiManager)GetSystemService(WifiService);
 
-            remoteComponentName = new ComponentName(PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+            // Find our audio and notificaton managers
+            this.audioManager = (AudioManager)GetSystemService(AudioService);
+            this.wifiManager = (WifiManager)GetSystemService(WifiService);
+
+            this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
         }
 
         /// <summary>
-        /// Will register for the remote control client commands in audio manager
+        /// On Buffering Update.
         /// </summary>
-        private void InitMediaSession()
+        /// <param name="mp">Media Player.</param>
+        /// <param name="percent">Precent Buffered.</param>
+        public void OnBufferingUpdate(MediaPlayer? mp, int percent)
         {
-            try
+            if (mp is null)
             {
-                if (mediaSession == null)
-                {
-                    Intent nIntent = new Intent(ApplicationContext, typeof(Activity));
-
-                    remoteComponentName = new ComponentName(PackageName, new RemoteControlBroadcastReceiver().ComponentName);
-
-                    mediaSession = new MediaSession(ApplicationContext, "MauiStreamingAudio"/*, remoteComponentName*/); //TODO
-                    mediaSession.SetSessionActivity(PendingIntent.GetActivity(ApplicationContext, 0, nIntent, 0));
-                    mediaController = new Android.Media.Session.MediaController(ApplicationContext, mediaSession.SessionToken);
-                }
-
-                mediaSession.Active = true;
-                mediaSession.SetCallback(new MediaSessionCallback((MediaPlayerServiceBinder)binder));
-
-                mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
+                return;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
 
-        /// <summary>
-        /// Intializes the player.
-        /// </summary>
-        private void InitializePlayer()
-        {
-            mediaPlayer = new MediaPlayer();
-
-            mediaPlayer.SetAudioAttributes(
-                new AudioAttributes.Builder()
-                .SetContentType(AudioContentType.Music)
-                .SetUsage(AudioUsageKind.Media)
-                    .Build());
-
-            mediaPlayer.SetWakeMode(ApplicationContext, WakeLockFlags.Partial);
-
-            mediaPlayer.SetOnBufferingUpdateListener(this);
-            mediaPlayer.SetOnCompletionListener(this);
-            mediaPlayer.SetOnErrorListener(this);
-            mediaPlayer.SetOnPreparedListener(this);
-        }
-
-
-        public void OnBufferingUpdate(MediaPlayer mp, int percent)
-        {
             int duration = 0;
-            if (MediaPlayerState == PlaybackStateCode.Playing || MediaPlayerState == PlaybackStateCode.Paused)
+            if (this.MediaPlayerState == PlaybackStateCode.Playing || this.MediaPlayerState == PlaybackStateCode.Paused)
+            {
                 duration = mp.Duration;
+            }
 
             int newBufferedTime = duration * percent / 100;
-            if (newBufferedTime != Buffered)
+            if (newBufferedTime != this.Buffered)
             {
-                Buffered = newBufferedTime;
+                this.Buffered = newBufferedTime;
             }
         }
 
-        public async void OnCompletion(MediaPlayer mp)
+        /// <summary>
+        /// On Completion.
+        /// </summary>
+        /// <param name="mp">Media Player.</param>
+        public async void OnCompletion(MediaPlayer? mp)
         {
-            await PlayNext();
+            await this.PlayNext();
         }
 
-        public bool OnError(MediaPlayer mp, MediaError what, int extra)
+        /// <summary>
+        /// On Error.
+        /// </summary>
+        /// <param name="mp">Media Player.</param>
+        /// <param name="what">The Error.</param>
+        /// <param name="extra">Extra.</param>
+        /// <returns>Bool.</returns>
+        public bool OnError(MediaPlayer? mp, MediaError what, int extra)
         {
-            UpdatePlaybackState(PlaybackStateCode.Error);
+            this.UpdatePlaybackState(PlaybackStateCode.Error);
             return true;
         }
 
+        /// <summary>
+        /// On Prepared.
+        /// </summary>
+        /// <param name="mp">Media Player.</param>
         public void OnPrepared(MediaPlayer mp)
         {
             mp.Start();
-            UpdatePlaybackState(PlaybackStateCode.Playing);
+            this.UpdatePlaybackState(PlaybackStateCode.Playing);
         }
 
         public string AudioUrl;
 
+        /// <summary>
+        /// Gets the position.
+        /// </summary>
         public int Position
         {
             get
             {
-                if (mediaPlayer == null
-                    || (MediaPlayerState != PlaybackStateCode.Playing
-                        && MediaPlayerState != PlaybackStateCode.Paused))
+                if (this.MediaPlayer == null
+                    || (this.MediaPlayerState != PlaybackStateCode.Playing
+                        && this.MediaPlayerState != PlaybackStateCode.Paused))
+                {
                     return -1;
+                }
                 else
-                    return mediaPlayer.CurrentPosition;
+                {
+                    return this.MediaPlayer.CurrentPosition;
+                }
             }
         }
 
+        /// <summary>
+        /// Gets the duration.
+        /// </summary>
         public int Duration
         {
             get
             {
-                if (mediaPlayer == null
-                    || (MediaPlayerState != PlaybackStateCode.Playing
-                        && MediaPlayerState != PlaybackStateCode.Paused))
+                if (this.MediaPlayer == null
+                    || (this.MediaPlayerState != PlaybackStateCode.Playing
+                        && this.MediaPlayerState != PlaybackStateCode.Paused))
+                {
                     return 0;
+                }
                 else
-                    return mediaPlayer.Duration;
+                {
+                    return this.MediaPlayer.Duration;
+                }
             }
         }
 
-        private int buffered = 0;
+      
 
         public int Buffered
         {
             get
             {
-                if (mediaPlayer == null)
+                if (this.MediaPlayer == null)
                     return 0;
                 else
-                    return buffered;
+                    return this.buffered;
             }
+
             private set
             {
-                buffered = value;
-                OnBuffering(EventArgs.Empty);
+                this.buffered = value;
+                this.OnBuffering(EventArgs.Empty);
             }
         }
 
-        private Bitmap cover;
+        private Bitmap? cover;
 
-        public object Cover
+        public object? Cover
         {
             get
             {
-                //if (cover == null)
-                //    cover = BitmapFactory.DecodeResource(Resources, Resource.Drawable.player_play);
-                return cover;
+                return this.cover;
             }
+
             private set
             {
-                cover = value as Bitmap;
-                OnCoverReloaded(EventArgs.Empty);
+                this.cover = value as Bitmap;
+                this.OnCoverReloaded(EventArgs.Empty);
             }
         }
 
         /// <summary>
         /// Intializes the player.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task Play()
         {
-            if (mediaPlayer != null && MediaPlayerState == PlaybackStateCode.Paused)
+            if (this.MediaPlayer != null && this.MediaPlayerState == PlaybackStateCode.Paused)
             {
-                //We are simply paused so just start again
-                mediaPlayer.Start();
-                UpdatePlaybackState(PlaybackStateCode.Playing);
-                StartNotification();
+                // We are simply paused so just start again
+                this.MediaPlayer.Start();
+                this.UpdatePlaybackState(PlaybackStateCode.Playing);
+                this.StartNotification();
 
-                //Update the metadata now that we are playing
-                UpdateMediaMetadataCompat();
+                // Update the metadata now that we are playing
+                this.UpdateMediaMetadataCompat();
                 return;
             }
 
-            if (mediaPlayer == null)
-                InitializePlayer();
-
-            if (mediaSession == null)
-                InitMediaSession();
-
-            if (mediaPlayer.IsPlaying)
+            if (this.MediaPlayer == null)
             {
-                UpdatePlaybackState(PlaybackStateCode.Playing);
+                this.InitializePlayer();
+            }
+
+            if (this.mediaSession == null)
+            {
+                this.InitMediaSession();
+            }
+
+            if (this.MediaPlayer is null)
+            {
                 return;
             }
 
-            await PrepareAndPlayMediaPlayerAsync();
+            if (this.MediaPlayer.IsPlaying)
+            {
+                this.UpdatePlaybackState(PlaybackStateCode.Playing);
+                return;
+            }
+
+            await this.PrepareAndPlayMediaPlayerAsync();
         }
 
         private async Task PrepareAndPlayMediaPlayerAsync()
@@ -310,11 +378,11 @@ namespace DrasticMedia.Core.Services
             {
                 MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
 
-                await mediaPlayer.SetDataSourceAsync(ApplicationContext, AndroidNet.Uri.Parse(AudioUrl));
+                await this.MediaPlayer.SetDataSourceAsync(this.ApplicationContext, AndroidNet.Uri.Parse(AudioUrl));
 
-                await metaRetriever.SetDataSourceAsync(AudioUrl, new Dictionary<string, string>());
+                await metaRetriever.SetDataSourceAsync(this.AudioUrl, new Dictionary<string, string>());
 
-                var focusResult = audioManager.RequestAudioFocus(new AudioFocusRequestClass
+                var focusResult = this.audioManager.RequestAudioFocus(new AudioFocusRequestClass
                     .Builder(AudioFocus.Gain)
                     .SetOnAudioFocusChangeListener(this)
                     .Build());
@@ -325,126 +393,161 @@ namespace DrasticMedia.Core.Services
                     Console.WriteLine("Could not get audio focus");
                 }
 
-                UpdatePlaybackState(PlaybackStateCode.Buffering);
-                mediaPlayer.PrepareAsync();
+                this.UpdatePlaybackState(PlaybackStateCode.Buffering);
+                this.MediaPlayer.PrepareAsync();
 
-                AquireWifiLock();
-                UpdateMediaMetadataCompat(metaRetriever);
-                StartNotification();
+                this.AquireWifiLock();
+                this.UpdateMediaMetadataCompat(metaRetriever);
+                this.StartNotification();
 
                 byte[] imageByteArray = metaRetriever.GetEmbeddedPicture();
-                //if (imageByteArray == null)
-                //    Cover = await BitmapFactory.DecodeResourceAsync(Resources, Resource.Drawable.player_play);
-                //else
-                    Cover = await BitmapFactory.DecodeByteArrayAsync(imageByteArray, 0, imageByteArray.Length);
+                this.Cover = await BitmapFactory.DecodeByteArrayAsync(imageByteArray, 0, imageByteArray.Length);
             }
             catch (Exception ex)
             {
-                UpdatePlaybackState(PlaybackStateCode.Stopped);
+                this.UpdatePlaybackState(PlaybackStateCode.Stopped);
 
-                mediaPlayer.Reset();
-                mediaPlayer.Release();
-                mediaPlayer = null;
+                this.MediaPlayer.Reset();
+                this.MediaPlayer.Release();
+                this.MediaPlayer = null;
 
                 // Unable to start playback log error
                 Console.WriteLine(ex);
             }
         }
 
+        /// <summary>
+        /// Seek.
+        /// </summary>
+        /// <param name="position">Position to seek.</param>
+        /// <returns>Task.</returns>
         public async Task Seek(int position)
         {
             await Task.Run(() => {
-                if (mediaPlayer != null)
+                if (this.MediaPlayer != null)
                 {
-                    mediaPlayer.SeekTo(position);
+                    this.MediaPlayer.SeekTo(position);
                 }
             });
         }
 
+        /// <summary>
+        /// Play Next.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task PlayNext()
         {
-            if (mediaPlayer != null)
+            if (this.MediaPlayer != null)
             {
-                mediaPlayer.Reset();
-                mediaPlayer.Release();
-                mediaPlayer = null;
+                this.MediaPlayer.Reset();
+                this.MediaPlayer.Release();
+                this.MediaPlayer = null;
             }
 
-            UpdatePlaybackState(PlaybackStateCode.SkippingToNext);
+            this.UpdatePlaybackState(PlaybackStateCode.SkippingToNext);
 
-            await Play();
+            await this.Play();
         }
 
+        /// <summary>
+        /// Play Pause.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task PlayPrevious()
         {
             // Start current track from beginning if it's the first track or the track has played more than 3sec and you hit "playPrevious".
-            if (Position > 3000)
+            if (this.Position > 3000)
             {
-                await Seek(0);
+                await this.Seek(0);
             }
             else
             {
-                if (mediaPlayer != null)
+                if (this.MediaPlayer != null)
                 {
-                    mediaPlayer.Reset();
-                    mediaPlayer.Release();
-                    mediaPlayer = null;
+                    this.MediaPlayer.Reset();
+                    this.MediaPlayer.Release();
+                    this.MediaPlayer = null;
                 }
 
-                UpdatePlaybackState(PlaybackStateCode.SkippingToPrevious);
+                this.UpdatePlaybackState(PlaybackStateCode.SkippingToPrevious);
 
-                await Play();
+                await this.Play();
             }
         }
 
+        /// <summary>
+        /// Play Pause.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task PlayPause()
         {
-            if (mediaPlayer == null || (mediaPlayer != null && MediaPlayerState == PlaybackStateCode.Paused))
+            if (this.MediaPlayer == null || (this.MediaPlayer != null && this.MediaPlayerState == PlaybackStateCode.Paused))
             {
-                await Play();
+                await this.Play();
             }
             else
             {
-                await Pause();
+                await this.Pause();
             }
         }
 
+        /// <summary>
+        /// Pause Media Player.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task Pause()
         {
             await Task.Run(() => {
-                if (mediaPlayer == null)
+                if (this.MediaPlayer == null)
+                {
                     return;
+                }
 
-                if (mediaPlayer.IsPlaying)
-                    mediaPlayer.Pause();
+                if (this.MediaPlayer.IsPlaying)
+                {
+                    this.MediaPlayer.Pause();
+                }
 
-                UpdatePlaybackState(PlaybackStateCode.Paused);
+                this.UpdatePlaybackState(PlaybackStateCode.Paused);
             });
         }
 
+        /// <summary>
+        /// Stop Media Player.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task Stop()
         {
             await Task.Run(() => {
-                if (mediaPlayer == null)
-                    return;
-
-                if (mediaPlayer.IsPlaying)
+                if (this.MediaPlayer == null)
                 {
-                    mediaPlayer.Stop();
+                    return;
                 }
 
-                UpdatePlaybackState(PlaybackStateCode.Stopped);
-                mediaPlayer.Reset();
-                NotificationHelper.StopNotification(ApplicationContext);
-                StopForeground(true);
-                ReleaseWifiLock();
-                UnregisterMediaSessionCompat();
+                if (this.MediaPlayer.IsPlaying)
+                {
+                    this.MediaPlayer.Stop();
+                }
+
+                this.UpdatePlaybackState(PlaybackStateCode.Stopped);
+                this.MediaPlayer.Reset();
+                NotificationHelper.StopNotification(this.ApplicationContext);
+                this.StopForeground(true);
+                this.ReleaseWifiLock();
+                this.UnregisterMediaSessionCompat();
             });
+        }
+
+        /// <inheritdoc/>
+        public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
+        {
+            this.HandleIntent(intent);
+            return base.OnStartCommand(intent, flags, startId);
         }
 
         private void UpdatePlaybackState(PlaybackStateCode state)
         {
-            if (mediaSession == null || mediaPlayer == null)
+            if (this.mediaSession == null || this.MediaPlayer == null)
                 return;
 
             try
@@ -477,24 +580,28 @@ namespace DrasticMedia.Core.Services
 
         private void StartNotification()
         {
-            if (mediaSession == null)
+            if (this.mediaSession == null)
+            {
                 return;
+            }
 
             NotificationHelper.StartNotification(
-                ApplicationContext,
-                mediaController.Metadata,
-                mediaSession,
-                Cover,
-                MediaPlayerState == PlaybackStateCode.Playing);
+                this.ApplicationContext,
+                this.MediaController.Metadata,
+                this.mediaSession,
+                this.Cover,
+                this.MediaPlayerState == PlaybackStateCode.Playing);
         }
 
         /// <summary>
-        /// Updates the metadata on the lock screen
+        /// Updates the metadata on the lock screen.
         /// </summary>
-        private void UpdateMediaMetadataCompat(MediaMetadataRetriever metaRetriever = null)
+        private void UpdateMediaMetadataCompat(MediaMetadataRetriever? metaRetriever = null)
         {
-            if (mediaSession == null)
+            if (this.mediaSession == null)
+            {
                 return;
+            }
 
             MediaMetadata.Builder builder = new MediaMetadata.Builder();
 
@@ -512,78 +619,126 @@ namespace DrasticMedia.Core.Services
                     .PutString(MediaMetadata.MetadataKeyArtist, mediaSession.Controller.Metadata.GetString(MediaMetadata.MetadataKeyArtist))
                     .PutString(MediaMetadata.MetadataKeyTitle, mediaSession.Controller.Metadata.GetString(MediaMetadata.MetadataKeyTitle));
             }
-            builder.PutBitmap(MediaMetadata.MetadataKeyAlbumArt, Cover as Bitmap);
 
-            mediaSession.SetMetadata(builder.Build());
+            builder.PutBitmap(MediaMetadata.MetadataKeyAlbumArt, this.Cover as Bitmap);
+
+            this.mediaSession.SetMetadata(builder.Build());
         }
 
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
-        {
-            HandleIntent(intent);
-            return base.OnStartCommand(intent, flags, startId);
-        }
-
-        private void HandleIntent(Intent intent)
+        private void HandleIntent(Intent? intent)
         {
             if (intent == null || intent.Action == null)
+            {
                 return;
+            }
 
             string action = intent.Action;
 
             if (action.Equals(ActionPlay))
             {
-                mediaController.GetTransportControls().Play();
+                this.MediaController.GetTransportControls().Play();
             }
             else if (action.Equals(ActionPause))
             {
-                mediaController.GetTransportControls().Pause();
+                this.MediaController.GetTransportControls().Pause();
             }
             else if (action.Equals(ActionPrevious))
             {
-                mediaController.GetTransportControls().SkipToPrevious();
+                this.MediaController.GetTransportControls().SkipToPrevious();
             }
             else if (action.Equals(ActionNext))
             {
-                mediaController.GetTransportControls().SkipToNext();
+                this.MediaController.GetTransportControls().SkipToNext();
             }
             else if (action.Equals(ActionStop))
             {
-                mediaController.GetTransportControls().Stop();
+                this.MediaController.GetTransportControls().Stop();
             }
         }
 
         /// <summary>
-        /// Lock the wifi so we can still stream under lock screen
+        /// Lock the wifi so we can still stream under lock screen.
         /// </summary>
         private void AquireWifiLock()
         {
-            if (wifiLock == null)
+            if (this.wifiLock == null)
             {
-                wifiLock = wifiManager.CreateWifiLock(WifiMode.Full, "xamarin_wifi_lock");
+                this.wifiLock = wifiManager.CreateWifiLock(WifiMode.Full, "xamarin_wifi_lock");
             }
-            wifiLock.Acquire();
+
+            this.wifiLock.Acquire();
         }
 
         /// <summary>
-        /// This will release the wifi lock if it is no longer needed
+        /// This will release the wifi lock if it is no longer needed.
         /// </summary>
         private void ReleaseWifiLock()
         {
-            if (wifiLock == null)
+            if (this.wifiLock == null)
                 return;
 
-            wifiLock.Release();
-            wifiLock = null;
+            this.wifiLock.Release();
+            this.wifiLock = null;
+        }
+
+        /// <summary>
+        /// Will register for the remote control client commands in audio manager
+        /// </summary>
+        private void InitMediaSession()
+        {
+            try
+            {
+                if (this.mediaSession == null)
+                {
+                    Intent nIntent = new Intent(this.ApplicationContext, typeof(Activity));
+
+                    this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+
+                    this.mediaSession = new MediaSession(ApplicationContext, "MauiStreamingAudio"/*, remoteComponentName*/); //TODO
+                    this.mediaSession.SetSessionActivity(PendingIntent.GetActivity(ApplicationContext, 0, nIntent, 0));
+                    this.MediaController = new Android.Media.Session.MediaController(ApplicationContext, mediaSession.SessionToken);
+                }
+
+                this.mediaSession.Active = true;
+                this.mediaSession.SetCallback(new MediaSessionCallback((MediaPlayerServiceBinder)binder));
+
+                this.mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        /// <summary>
+        /// Intializes the player.
+        /// </summary>
+        private void InitializePlayer()
+        {
+            this.MediaPlayer = new MediaPlayer();
+
+            this.MediaPlayer.SetAudioAttributes(
+                new AudioAttributes.Builder()
+                .SetContentType(AudioContentType.Music)
+                .SetUsage(AudioUsageKind.Media)
+                    .Build());
+
+            this.MediaPlayer.SetWakeMode(this.ApplicationContext, WakeLockFlags.Partial);
+
+            this.MediaPlayer.SetOnBufferingUpdateListener(this);
+            this.MediaPlayer.SetOnCompletionListener(this);
+            this.MediaPlayer.SetOnErrorListener(this);
+            this.MediaPlayer.SetOnPreparedListener(this);
         }
 
         private void UnregisterMediaSessionCompat()
         {
             try
             {
-                if (mediaSession != null)
+                if (this.mediaSession != null)
                 {
-                    mediaSession.Dispose();
-                    mediaSession = null;
+                    this.mediaSession.Dispose();
+                    this.mediaSession = null;
                 }
             }
             catch (Exception ex)
@@ -596,8 +751,8 @@ namespace DrasticMedia.Core.Services
 
         public override IBinder OnBind(Intent intent)
         {
-            binder = new MediaPlayerServiceBinder(this);
-            return binder;
+            this.binder = new MediaPlayerServiceBinder(this);
+            return this.binder;
         }
 
         public override bool OnUnbind(Intent intent)
@@ -612,109 +767,163 @@ namespace DrasticMedia.Core.Services
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (mediaPlayer != null)
+            if (this.MediaPlayer != null)
             {
-                mediaPlayer.Release();
-                mediaPlayer = null;
+                this.MediaPlayer.Release();
+                this.MediaPlayer = null;
 
                 NotificationHelper.StopNotification(ApplicationContext);
-                StopForeground(true);
-                ReleaseWifiLock();
-                UnregisterMediaSessionCompat();
+                this.StopForeground(true);
+                this.ReleaseWifiLock();
+                this.UnregisterMediaSessionCompat();
             }
         }
 
         public async void OnAudioFocusChange(AudioFocus focusChange)
         {
+            if (this.MediaPlayer is null)
+            {
+                return;
+            }
+
             switch (focusChange)
             {
                 case AudioFocus.Gain:
-                    if (mediaPlayer == null)
-                        InitializePlayer();
-
-                    if (!mediaPlayer.IsPlaying)
+                    if (this.MediaPlayer == null)
                     {
-                        mediaPlayer.Start();
+                        this.InitializePlayer();
                     }
 
-                    mediaPlayer.SetVolume(1.0f, 1.0f);
+                    if (!this.MediaPlayer.IsPlaying)
+                    {
+                        this.MediaPlayer.Start();
+                    }
+
+                    this.MediaPlayer.SetVolume(1.0f, 1.0f);
                     break;
                 case AudioFocus.Loss:
-                    //We have lost focus stop!
-                    await Stop();
+                    // We have lost focus stop!
+                    await this.Stop();
                     break;
                 case AudioFocus.LossTransient:
-                    //We have lost focus for a short time, but likely to resume so pause
-                    await Pause();
+                    // We have lost focus for a short time, but likely to resume so pause
+                    await this.Pause();
                     break;
                 case AudioFocus.LossTransientCanDuck:
-                    //We have lost focus but should till play at a muted 10% volume
-                    if (mediaPlayer.IsPlaying)
-                        mediaPlayer.SetVolume(.1f, .1f);
+                    // We have lost focus but should till play at a muted 10% volume
+                    if (this.MediaPlayer.IsPlaying)
+                    {
+                        this.MediaPlayer.SetVolume(.1f, .1f);
+                    }
+
                     break;
             }
         }
 
+        /// <summary>
+        /// Media Session Callback.
+        /// </summary>
         public class MediaSessionCallback : MediaSession.Callback
         {
             private readonly MediaPlayerServiceBinder mediaPlayerService;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="MediaSessionCallback"/> class.
+            /// </summary>
+            /// <param name="service">Media Player Service Binder.</param>
             public MediaSessionCallback(MediaPlayerServiceBinder service)
             {
-                mediaPlayerService = service;
+                this.mediaPlayerService = service;
             }
 
+            /// <inheritdoc/>
             public override async void OnPause()
             {
-                await mediaPlayerService.GetMediaPlayerService().Pause();
+                await this.mediaPlayerService.GetMediaPlayerService().Pause();
                 base.OnPause();
             }
 
+            /// <inheritdoc/>
             public override async void OnPlay()
             {
-                await mediaPlayerService.GetMediaPlayerService().Play();
+                await this.mediaPlayerService.GetMediaPlayerService().Play();
                 base.OnPlay();
             }
 
+            /// <inheritdoc/>
             public override async void OnSkipToNext()
             {
-                await mediaPlayerService.GetMediaPlayerService().PlayNext();
+                await this.mediaPlayerService.GetMediaPlayerService().PlayNext();
                 base.OnSkipToNext();
             }
 
+            /// <inheritdoc/>
             public override async void OnSkipToPrevious()
             {
-                await mediaPlayerService.GetMediaPlayerService().PlayPrevious();
+                await this.mediaPlayerService.GetMediaPlayerService().PlayPrevious();
                 base.OnSkipToPrevious();
             }
 
+            /// <inheritdoc/>
             public override async void OnStop()
             {
-                await mediaPlayerService.GetMediaPlayerService().Stop();
+                await this.mediaPlayerService.GetMediaPlayerService().Stop();
                 base.OnStop();
             }
         }
     }
 
+    /// <summary>
+    /// Status Changed Event Handler.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Event Args.</param>
     public delegate void StatusChangedEventHandler(object sender, EventArgs e);
 
+    /// <summary>
+    /// Buffering Event Handler.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Event Args.</param>
     public delegate void BufferingEventHandler(object sender, EventArgs e);
 
+    /// <summary>
+    /// Cover Reloaded Event.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Event Args.</param>
     public delegate void CoverReloadedEventHandler(object sender, EventArgs e);
 
+    /// <summary>
+    /// Playing Event Handler.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Event Args.</param>
     public delegate void PlayingEventHandler(object sender, EventArgs e);
 
+    /// <summary>
+    /// Media Player Service Binder.
+    /// </summary>
     public class MediaPlayerServiceBinder : Binder
     {
         private readonly MediaPlayerService service;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPlayerServiceBinder"/> class.
+        /// </summary>
+        /// <param name="service">Media Player Service.</param>
         public MediaPlayerServiceBinder(MediaPlayerService service)
         {
             this.service = service;
         }
 
+        /// <summary>
+        /// Gets the media player service.
+        /// </summary>
+        /// <returns></returns>
         public MediaPlayerService GetMediaPlayerService()
         {
-            return service;
+            return this.service;
         }
     }
 }

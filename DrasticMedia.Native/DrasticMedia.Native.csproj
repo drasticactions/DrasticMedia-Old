@@ -16,8 +16,7 @@
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
-	  <PackageReference Include="Xamarin.AndroidX.Core">
-	    <Version>1.6.0.3</Version>
+	  <PackageReference Include="Xamarin.AndroidX.Core" Version="1.6.0.3">
 	  </PackageReference>
 	</ItemGroup>
 </Project>

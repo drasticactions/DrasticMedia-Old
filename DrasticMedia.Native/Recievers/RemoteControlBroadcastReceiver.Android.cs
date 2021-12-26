@@ -1,15 +1,21 @@
-﻿using Android.App;
+﻿// <copyright file="RemoteControlBroadcastReceiver.Android.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using Android.App;
 using Android.Content;
 using Android.Views;
 using DrasticMedia.Core.Services;
 
 namespace DrasticMedia.Core.Recievers
 {
+    /// <summary>
+    /// Remove Control Broadcast Reciever.
+    /// </summary>
     [BroadcastReceiver]
     [IntentFilter(new[] { Intent.ActionMediaButton })]
     public class RemoteControlBroadcastReceiver : BroadcastReceiver
     {
-
         /// <summary>
         /// gets the class name for the component.
         /// </summary>
@@ -23,16 +29,20 @@ namespace DrasticMedia.Core.Recievers
         /// </summary>
         /// <param name="context">Context.</param>
         /// <param name="intent">Intent.</param>
-        public override void OnReceive(Context context, Intent intent)
+        public override void OnReceive(Context? context, Intent? intent)
         {
-            if (intent.Action != Intent.ActionMediaButton)
+            if (intent?.Action != Intent.ActionMediaButton)
+            {
                 return;
+            }
 
-            //The event will fire twice, up and down.
+            // The event will fire twice, up and down.
             // we only want to handle the down event though.
-            var key = (KeyEvent)intent.GetParcelableExtra(Intent.ExtraKeyEvent);
-            if (key.Action != KeyEventActions.Down)
+            var key = intent.GetParcelableExtra(Intent.ExtraKeyEvent) as KeyEvent;
+            if (key?.Action != KeyEventActions.Down)
+            {
                 return;
+            }
 
             string action;
 
@@ -62,7 +72,7 @@ namespace DrasticMedia.Core.Recievers
             }
 
             var remoteIntent = new Intent(action);
-            context.StartService(remoteIntent);
+            context?.StartService(remoteIntent);
         }
     }
 }
