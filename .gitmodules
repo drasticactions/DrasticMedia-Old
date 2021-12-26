@@ -1,4 +1,3 @@
-[submodule "external/libvlcsharp"]
-	path = external/libvlcsharp
-	url = git@github.com:drasticactions/libvlcsharp.git
-	branch = 3.x
+[submodule "external/drasticmaui"]
+	path = external/drasticmaui
+	url = git@github.com:drasticactions/DrasticMaui.git
