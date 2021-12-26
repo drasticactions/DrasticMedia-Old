@@ -17,6 +17,11 @@ namespace DrasticMedia.Core.Library
     public interface ILocalMetadataParser : IDisposable
     {
         /// <summary>
+        /// Gets the base metadata location for where to store parsed files.
+        /// </summary>
+        string BaseMetadataLocation { get; }
+
+        /// <summary>
         /// Get the music properties for a given item path.
         /// </summary>
         /// <param name="path">Path to item.</param>

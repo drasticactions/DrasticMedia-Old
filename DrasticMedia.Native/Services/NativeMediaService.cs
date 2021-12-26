@@ -52,5 +52,52 @@ namespace DrasticMedia.Core.Services
             this.SetCurrentMediaNative();
             this.RaiseCanExecuteChanged?.Invoke(this, new EventArgs());
         }
+
+#if !ANDROID && !IOS && !MACCATALYST && !WINDOWS
+
+        internal void SetCurrentMediaNative()
+        {
+
+        }
+
+        public Task<string> GetArtworkUrl()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PauseAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PlayAsync(double position = 0, bool fromPosition = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResumeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SkipAhead(double amount = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SkipBack(double amount = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task StopAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPlaying => throw new NotImplementedException();
+
+        public float CurrentPosition { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+#endif
     }
 }
