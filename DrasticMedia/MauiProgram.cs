@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using DrasticMaui.Services;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
@@ -37,10 +38,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<MediaLibrary>();
         builder.Services.AddSingleton<ILogger>(consoleLogger);
         builder.Services.AddSingleton<IMediaService>(service);
-        //builder.Services.AddSingleton<IWindowTappedService, WindowTappedService>();
-        //builder.Services.AddSingleton<INavigationService, NavigationService>();
-        //builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
-        //builder.Services.AddSingleton<PlayerService>();
+        builder.Services.AddSingleton<IWindowTappedService, WindowTappedService>();
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
+        builder.Services.AddSingleton<PlayerService>();
         //builder.Services.AddSingleton<PlayerPageViewModel>();
         //builder.Services.AddTransient<PodcastListPageViewModel>();
         //builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
