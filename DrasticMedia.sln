@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C94ED47
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Native.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Native.Test\DrasticMedia.SQLite.Native.Test.csproj", "{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Test\DrasticMedia.SQLite.Test.csproj", "{48FF1BEF-1279-4092-9923-699372C028F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,9 +58,14 @@ Global
 		{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48FF1BEF-1279-4092-9923-699372C028F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48FF1BEF-1279-4092-9923-699372C028F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48FF1BEF-1279-4092-9923-699372C028F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48FF1BEF-1279-4092-9923-699372C028F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3DB0ECB5-22B1-4134-B507-94376D58439B} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 		{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
+		{48FF1BEF-1279-4092-9923-699372C028F6} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 	EndGlobalSection
 EndGlobal
