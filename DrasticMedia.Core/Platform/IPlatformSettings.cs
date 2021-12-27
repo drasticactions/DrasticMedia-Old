@@ -19,6 +19,11 @@ namespace DrasticMedia.Core.Platform
         /// <summary>
         /// Gets the path to where the database is stored.
         /// </summary>
+        string MetadataPath { get; }
+
+        /// <summary>
+        /// Gets the path to where the database is stored.
+        /// </summary>
         string DatabasePath { get; }
 
         /// <summary>

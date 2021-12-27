@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Native.Test", "DrasticMedia.Test\DrasticMedia.Native.Test\DrasticMedia.Native.Test.csproj", "{3DB0ECB5-22B1-4134-B507-94376D58439B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia", "DrasticMedia\DrasticMedia.csproj", "{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMaui", "external\drasticmaui\DrasticMaui\DrasticMaui.csproj", "{D83F0347-45A2-40D6-91A2-3BA535019089}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{3DB0ECB5-22B1-4134-B507-94376D58439B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB0ECB5-22B1-4134-B507-94376D58439B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB0ECB5-22B1-4134-B507-94376D58439B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D83F0347-45A2-40D6-91A2-3BA535019089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D83F0347-45A2-40D6-91A2-3BA535019089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D83F0347-45A2-40D6-91A2-3BA535019089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D83F0347-45A2-40D6-91A2-3BA535019089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
