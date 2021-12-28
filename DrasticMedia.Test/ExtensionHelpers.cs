@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,23 @@ namespace DrasticMedia.Tests
         public static string GetPath(string path)
         {
             var assemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            return System.IO.Path.Join(assemblyPath, path);
+            return new DirectoryInfo(System.IO.Path.Join(assemblyPath, path)).FullName;
+        }
+
+        public static string? GetSubdirectory(string startingPath, string directoryName)
+        {
+            if (!System.IO.Directory.Exists(startingPath))
+            {
+                return null;
+            }
+
+            var directories = System.IO.Directory.GetDirectories(startingPath);
+            if (directories.Any(n => System.IO.Path.GetFileName(n) == directoryName))
+            {
+                return new DirectoryInfo(directories.First(n => System.IO.Path.GetFileName(n) == directoryName)).FullName;
+            }
+
+            return GetSubdirectory(System.IO.Path.Combine(startingPath, @"..\"), directoryName);
         }
     }
 }

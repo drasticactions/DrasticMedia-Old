@@ -48,7 +48,7 @@ namespace DrasticMedia.Tests
         private static void MediaSetup()
         {
             var mediaPath = ExtensionHelpers.GetPath("Media");
-            var mediaTestFiles = ExtensionHelpers.GetPath("MediaTestFiles");
+            var mediaTestFiles = ExtensionHelpers.GetSubdirectory(ExtensionHelpers.GetPath(string.Empty), "MediaTestFiles");
             if (Directory.Exists(mediaPath))
             {
                 Directory.Delete(mediaPath, true);
@@ -79,7 +79,8 @@ namespace DrasticMedia.Tests
             string[] files = System.IO.Directory.GetFiles(mediaTestFiles, "*.*", new EnumerationOptions() { RecurseSubdirectories = true });
             foreach (string s in files)
             {
-                var destFile = s.Replace("MediaTestFiles", "Media");
+                var cutPath = s.Replace($"{mediaTestFiles}{Path.DirectorySeparatorChar}", string.Empty);
+                var destFile = Path.Combine(mediaPath, cutPath);
                 Directory.CreateDirectory(Path.GetDirectoryName(destFile));
                 System.IO.File.Copy(s, destFile, true);
             }

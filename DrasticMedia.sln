@@ -1,33 +1,36 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Core", "DrasticMedia.Core\DrasticMedia.Core.csproj", "{9AE41E25-463F-48FA-8950-993A4A15E42D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core", "DrasticMedia.Core\DrasticMedia.Core.csproj", "{9AE41E25-463F-48FA-8950-993A4A15E42D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Native", "DrasticMedia.Native\DrasticMedia.Native.csproj", "{58C9117E-ABF7-4083-B5BB-C1CBACDB5F04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native", "DrasticMedia.Native\DrasticMedia.Native.csproj", "{58C9117E-ABF7-4083-B5BB-C1CBACDB5F04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Database", "DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj", "{D87DC275-B84A-4937-8458-A4B56A09917B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Database", "DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj", "{D87DC275-B84A-4937-8458-A4B56A09917B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.Native.Test", "DrasticMedia.Test\DrasticMedia.Native.Test\DrasticMedia.Native.Test.csproj", "{3DB0ECB5-22B1-4134-B507-94376D58439B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native.Test", "DrasticMedia.Test\DrasticMedia.Native.Test\DrasticMedia.Native.Test.csproj", "{3DB0ECB5-22B1-4134-B507-94376D58439B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia", "DrasticMedia\DrasticMedia.csproj", "{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia", "DrasticMedia\DrasticMedia.csproj", "{84DE6971-BE1D-47AF-BAB5-7214BAFE2DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMaui", "external\drasticmaui\DrasticMaui\DrasticMaui.csproj", "{D83F0347-45A2-40D6-91A2-3BA535019089}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMaui", "external\drasticmaui\DrasticMaui\DrasticMaui.csproj", "{D83F0347-45A2-40D6-91A2-3BA535019089}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Native.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Native.Test\DrasticMedia.SQLite.Native.Test.csproj", "{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Native.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Native.Test\DrasticMedia.SQLite.Native.Test.csproj", "{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.SQLite.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Test\DrasticMedia.SQLite.Test.csproj", "{48FF1BEF-1279-4092-9923-699372C028F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Test\DrasticMedia.SQLite.Test.csproj", "{48FF1BEF-1279-4092-9923-699372C028F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{4C4DC650-C59F-4225-B90F-4CEF124AA7BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{A6AC59EA-B60F-4020-A901-BA2C5A345A8A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Metadata.Test", "DrasticMedia.Test\DrasticMedia.Metadata.Test\DrasticMedia.Metadata.Test.csproj", "{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9AE41E25-463F-48FA-8950-993A4A15E42D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -62,10 +65,23 @@ Global
 		{48FF1BEF-1279-4092-9923-699372C028F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48FF1BEF-1279-4092-9923-699372C028F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48FF1BEF-1279-4092-9923-699372C028F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{D87DC275-B84A-4937-8458-A4B56A09917B} = {4C4DC650-C59F-4225-B90F-4CEF124AA7BE}
 		{3DB0ECB5-22B1-4134-B507-94376D58439B} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
+		{D83F0347-45A2-40D6-91A2-3BA535019089} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
 		{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 		{48FF1BEF-1279-4092-9923-699372C028F6} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
+		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02861446-20CB-4458-9CEC-F6E3333942C0}
 	EndGlobalSection
 EndGlobal
