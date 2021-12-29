@@ -2,12 +2,14 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
+using DrasticMedia.Core.Metadata;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
@@ -31,6 +33,7 @@ public class DatabaseTest
     private ILocalMetadataParser localMetadataParser;
     private MediaLibrary mediaLibrary;
     private IPodcastService podcastService;
+    private List<IMetadataService> metadataServices = new List<IMetadataService>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseTest"/> class.
@@ -44,7 +47,9 @@ public class DatabaseTest
         this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());
         this.videoDB = new VideoDatabase(ExtensionHelpers.VideoDatabase());
         this.musicDB = new MusicDatabase(ExtensionHelpers.MusicDatabase());
-        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.logger);
+        //this.metadataServices.Add(new SpotifyMetadataService(this.settings));
+        //this.metadataServices.Add(new LastfmMetadataService(this.settings));
+        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.metadataServices, this.logger);
     }
 
     /// <summary>

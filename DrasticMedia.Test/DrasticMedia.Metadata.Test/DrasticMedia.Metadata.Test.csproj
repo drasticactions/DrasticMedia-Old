@@ -20,6 +20,7 @@
 		<ProjectReference Include="..\..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Include="..\..\DrasticMedia.Core\Tools\ApiTokens.cs" Link="ApiTokens.cs" />
 		<Compile Include="..\Setup.cs">
 			<Link>Setup.cs</Link>
 		</Compile>

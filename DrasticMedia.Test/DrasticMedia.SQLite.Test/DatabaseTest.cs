@@ -42,7 +42,7 @@ public class DatabaseTest
         this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());
         this.videoDB = new VideoDatabase(ExtensionHelpers.VideoDatabase());
         this.musicDB = new MusicDatabase(ExtensionHelpers.MusicDatabase());
-        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.logger);
+        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, null, this.logger);
     }
 
     /// <summary>

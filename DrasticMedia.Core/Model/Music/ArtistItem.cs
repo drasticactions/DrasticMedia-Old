@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using DrasticMedia.Core.Model.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,5 +60,15 @@ namespace DrasticMedia.Core.Model
         /// Gets or sets the last time this item was accessed.
         /// </summary>
         public DateTime LastAccessed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the spotify metadata.
+        /// </summary>
+        public virtual ArtistSpotifyMetadata? SpotifyMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lastfm metadata.
+        /// </summary>
+        public virtual ArtistLastFmMetadata? LastFmMetadata { get; set; }
     }
 }

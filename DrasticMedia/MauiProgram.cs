@@ -6,6 +6,7 @@ using DrasticMaui.Services;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
+using DrasticMedia.Core.Metadata;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
@@ -32,6 +33,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         var consoleLogger = new ConsoleLogger();
         builder.Services.AddSingleton<IPlatformSettings, PlatformSettings>();
+        builder.Services.AddSingleton<IMetadataService, LastfmMetadataService>();
+        builder.Services.AddSingleton<IMetadataService, SpotifyMetadataService>();
         builder.Services.AddSingleton<IPodcastDatabase, PodcastDatabase>();
         builder.Services.AddSingleton<IMusicDatabase, MusicDatabase>();
         builder.Services.AddSingleton<IVideoDatabase, VideoDatabase>();
@@ -48,6 +51,9 @@ public static class MauiProgram
         builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
         //builder.Services.AddTransient<PlayerPage>();
         builder.Services.AddTransient<PodcastListPage>();
+        builder.Services.AddTransient<DebugPage>();
+        builder.Services.AddTransient<DesktopMusicArtistPage>();
+        builder.Services.AddTransient<DesktopPodcastPage>();
         //builder.Services.AddTransient<PodcastEpisodeListPage>();
 
         builder

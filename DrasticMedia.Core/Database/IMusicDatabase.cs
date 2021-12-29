@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Model.Metadata;
 
 namespace DrasticMedia.Core.Database
 {
@@ -153,5 +154,61 @@ namespace DrasticMedia.Core.Database
         /// <param name="track">TrackItem.</param>
         /// <returns>Removed Item.</returns>
         Task<TrackItem> RemoveTrackAsync(TrackItem track);
+
+        /// <summary>
+        /// Add Artist Spotify Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="ArtistSpotifyMetadata"/>.</param>
+        /// <returns>New <see cref="ArtistSpotifyMetadata"/>.</returns>
+        Task<ArtistSpotifyMetadata> AddArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata);
+
+        /// <summary>
+        /// Add Album Spotify Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="AlbumSpotifyMetadata"/>.</param>
+        /// <returns>New <see cref="AlbumSpotifyMetadata"/>.</returns>
+        Task<AlbumSpotifyMetadata> AddAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata);
+
+        /// <summary>
+        /// Add Album Last FM Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="AlbumLastFmMetadata"/>.</param>
+        /// <returns>New <see cref="AlbumLastFmMetadata"/>.</returns>
+        Task<AlbumLastFmMetadata> AddAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata);
+
+        /// <summary>
+        /// Add Artist LastFM Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="ArtistLastFmMetadata"/>.</param>
+        /// <returns>New <see cref="ArtistLastFmMetadata"/>.</returns>
+        Task<ArtistLastFmMetadata> AddArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata);
+
+        /// <summary>
+        /// Update Artist Spotify Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="ArtistSpotifyMetadata"/>.</param>
+        /// <returns>New <see cref="ArtistSpotifyMetadata"/>.</returns>
+        Task<ArtistSpotifyMetadata> UpdateArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata);
+
+        /// <summary>
+        /// Update Album Spotify Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="AlbumSpotifyMetadata"/>.</param>
+        /// <returns>New <see cref="AlbumSpotifyMetadata"/>.</returns>
+        Task<AlbumSpotifyMetadata> UpdateAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata);
+
+        /// <summary>
+        /// Album LastFM Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="AlbumLastFmMetadata"/>.</param>
+        /// <returns>New <see cref="AlbumLastFmMetadata"/>.</returns>
+        Task<AlbumLastFmMetadata> UpdateAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata);
+
+        /// <summary>
+        /// Update Artist LastFM Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="ArtistLastFmMetadata"/>.</param>
+        /// <returns>New <see cref="ArtistLastFmMetadata"/>.</returns>
+        Task<ArtistLastFmMetadata> UpdateArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata);
     }
 }

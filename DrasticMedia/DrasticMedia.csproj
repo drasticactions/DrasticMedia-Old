@@ -80,6 +80,15 @@
 	  <Folder Include="Services\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="DebugPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="DesktopMusicArtistPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="DesktopPodcastPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="PodcastListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -34,5 +34,22 @@ namespace DrasticMedia.Core.Library
         /// <param name="path">Path to item.</param>
         /// <returns><see cref="VideoItem"/>.</returns>
         Task<VideoItem?> GetVideoPropertiesAsync(string path);
+
+        /// <summary>
+        /// Cache an image to the artist.
+        /// </summary>
+        /// <param name="artist">Artist.</param>
+        /// <param name="path">Path to file.</param>
+        /// <returns>Path.</returns>
+        Task<string> CacheArtistImageToStorage(ArtistItem artist, string path);
+
+        /// <summary>
+        /// Cache an album art path to an album.
+        /// </summary>
+        /// <param name="artist">Artist.</param>
+        /// <param name="album">Album.</param>
+        /// <param name="path">Path.</param>
+        /// <returns>String.</returns>
+        Task<string> CacheAlbumImageToStorage(ArtistItem artist, AlbumItem album, string path);
     }
 }

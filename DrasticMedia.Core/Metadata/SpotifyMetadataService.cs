@@ -1,19 +1,113 @@
-﻿using System;
+﻿// <copyright file="SpotifyMetadataService.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Model.Metadata;
+using DrasticMedia.Core.Platform;
 using SpotifyAPI.Web;
 
 namespace DrasticMedia.Core.Metadata
 {
+    /// <summary>
+    /// Spotify Metadata Service.
+    /// </summary>
     public class SpotifyMetadataService : IMetadataService
     {
-        private SpotifyClient client;
-        private HttpClient httpClient;
+        private SpotifyClient? client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpotifyMetadataService"/> class.
+        /// </summary>
+        /// <param name="settings"><see cref="IPlatformSettings"/>.</param>
+        public SpotifyMetadataService(IPlatformSettings settings)
+        {
+            this.Initialize(settings.MetadataPath, Core.Tools.ApiTokens.SpotifyClientToken, Core.Tools.ApiTokens.SpotifyClientSecretToken);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpotifyMetadataService"/> class.
+        /// </summary>
+        /// <param name="baseLocation">Base Location.</param>
+        /// <param name="apiKey">API Key.</param>
+        /// <param name="apiSecret">API Secret.</param>
         public SpotifyMetadataService(string baseLocation, string apiKey = "", string apiSecret = "")
+        {
+            this.Initialize(baseLocation, apiKey, apiSecret);
+        }
+
+        /// <inheritdoc/>
+        public string BaseMetadataLocation { get; internal set; } = string.Empty;
+
+        /// <inheritdoc/>
+        public async Task<IArtistMetadata> GetArtistMetadataAsync(ArtistItem artist)
+        {
+            if (this.client is null)
+            {
+                return new ArtistSpotifyMetadata();
+            }
+
+            if (artist.Name is null)
+            {
+                return new ArtistSpotifyMetadata();
+            }
+
+            var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Artist, artist.Name));
+
+            var artistList = result.Artists.Items;
+
+            if (artistList is not null && artistList.Any())
+            {
+                var artistInfo = artistList.First();
+                if (artistInfo is null)
+                {
+                    return new ArtistSpotifyMetadata();
+                }
+
+                return new ArtistSpotifyMetadata(artist.Id, artistInfo);
+            }
+
+            return new ArtistSpotifyMetadata();
+        }
+
+        /// <inheritdoc/>
+        public async Task<IAlbumMetadata> GetAlbumMetadataAsync(AlbumItem album, string? artistName = null)
+        {
+            if (this.client is null)
+            {
+                return new AlbumSpotifyMetadata();
+            }
+
+            artistName = artistName ?? album.ArtistItem?.Name;
+            if (artistName is null)
+            {
+                return new AlbumSpotifyMetadata();
+            }
+
+            var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Album, $"{artistName} - {album.Name}"));
+
+            var albumList = result.Albums.Items;
+
+            if (albumList is not null && albumList.Any())
+            {
+                var albumInfo = albumList.First();
+                if (albumInfo is null)
+                {
+                    return new AlbumSpotifyMetadata();
+                }
+
+                return new AlbumSpotifyMetadata(album.Id, albumInfo);
+            }
+
+            return new AlbumSpotifyMetadata();
+        }
+
+        private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")
         {
             if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
             {
@@ -37,43 +131,7 @@ namespace DrasticMedia.Core.Metadata
                 throw new ArgumentNullException(nameof(baseLocation));
             }
 
-            this.httpClient = new HttpClient();
             this.BaseMetadataLocation = baseLocation;
-            this.IsEnabled = true;
-        }
-
-        public string BaseMetadataLocation { get; }
-
-        public bool IsEnabled { get; }
-
-        public async Task UpdatetArtistItemInfo(ArtistItem artist)
-        {
-            if (!this.IsEnabled)
-            {
-                return;
-            }
-
-            if (this.httpClient is null)
-            {
-                return;
-            }
-
-            if (artist.Name is null)
-            {
-                return;
-            }
-
-            var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Artist, artist.Name));
-            if (result is not null && result.Artists.Items.Any())
-            {
-                var artistInfo = result.Artists.Items.First();
-                artist.Name = artistInfo.Name;
-                artist.SpotifyId = artistInfo.Id;
-                if (artistInfo.Images.Any())
-                {
-                    await artist.SaveArtistImage(this.BaseMetadataLocation, new Uri(artistInfo.Images[0].Url), this.httpClient);
-                }
-            }
         }
     }
 }

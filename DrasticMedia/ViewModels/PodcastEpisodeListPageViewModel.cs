@@ -68,10 +68,23 @@ namespace DrasticMedia.ViewModels
         public override async Task LoadAsync()
         {
             await base.LoadAsync();
-            if (this.show == null)
+            if (this.show == null && this.podcastId > 0)
             {
                 await this.LoadPodcast(this.podcastId);
             }
+        }
+
+        /// <summary>
+        /// Load Podcast.
+        /// </summary>
+        /// <param name="podcastId">Podcast Id.</param>
+        /// <returns>Task.</returns>
+        public async Task LoadPodcast(int podcastId)
+        {
+            this.podcastId = podcastId;
+            this.show = await this.MediaLibrary.FetchPodcastWithEpisodesAsync(podcastId);
+            this.OnPropertyChanged(nameof(this.Show));
+            this.OnPropertyChanged(nameof(this.Episodes));
         }
 
         private async Task PlayPodcastEpisode(PodcastEpisodeItem item)
@@ -82,13 +95,6 @@ namespace DrasticMedia.ViewModels
             }
 
             await this.playerService.AddMedia(item, true);
-        }
-
-        private async Task LoadPodcast(int podcastId)
-        {
-            this.show = await this.MediaLibrary.FetchPodcastWithEpisodesAsync(podcastId);
-            this.OnPropertyChanged(nameof(this.Show));
-            this.OnPropertyChanged(nameof(this.Episodes));
         }
     }
 }

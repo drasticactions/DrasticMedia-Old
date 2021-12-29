@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage x:Class="DrasticMedia.DesktopPodcastPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:DrasticMedia.Styles"
+             xmlns:local="clr-namespace:DrasticMedia">
+    <GridLayout ColumnDefinitions="300, *">
+        <GridLayout x:Name="PodcastListLayout"  GridLayout.Column="0">
+            <CollectionView x:Name="PodcastShowList" SelectionMode="Single" ItemsSource="{Binding Shows}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <GridLayout ColumnSpacing="10" ColumnDefinitions="Auto, *">
+                            <Image Source="{Binding Image}" WidthRequest="50" HeightRequest="50"/>
+                            <Label GridLayout.Column="1" VerticalOptions="Center" VerticalTextAlignment="Center" MaxLines="2" Text="{Binding Title}"/>
+                        </GridLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </GridLayout>
+        <GridLayout x:Name="PodcastEpisodeListLayout" GridLayout.Column="1">
+            <CollectionView ItemsSource="{Binding Episodes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,15,0,0" ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout VerticalOptions="Center">
+                                <!--<Label Text="{Binding ReleaseDate, StringFormat='{0:dddd, dd MMMM yyyy}'}}" FontSize="Micro" />-->
+                                <Label Text="{Binding ReleaseDate}"  />
+                                <Label LineBreakMode="TailTruncation" MaxLines="2"  Text="{Binding Title}" />
+                            </VerticalStackLayout>
+                            <Button GridLayout.Column="1"
+                            FontSize="35"
+                            HeightRequest="55"
+                            x:Name="PlayButton"
+                            Command="{Binding BindingContext.PlayPodcastEpisodeCommand, Source={x:Reference PodcastEpisodeListLayout}}"
+                            CommandParameter="{Binding .}"
+                            Text="{x:Static styles:IconFont.PlayCircle}" 
+                            FontFamily="FontAwesomeSolid"  />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </GridLayout>
+    </GridLayout>
+</local:BasePage>

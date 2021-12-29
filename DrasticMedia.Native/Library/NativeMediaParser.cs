@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
+using DrasticMedia.Core.Utilities;
 using FFMpegCore;
 using Orthogonal.NTagLite;
 
@@ -21,6 +22,7 @@ namespace DrasticMedia.Core.Library
     public class NativeMediaParser : ILocalMetadataParser
     {
         private bool disposedValue;
+        private HttpClient httpClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeMediaParser"/> class.
@@ -40,6 +42,7 @@ namespace DrasticMedia.Core.Library
             }
 
             this.BaseMetadataLocation = baseLocation;
+            this.httpClient = new HttpClient();
         }
 
         /// <summary>
@@ -60,10 +63,97 @@ namespace DrasticMedia.Core.Library
             }
 
             this.BaseMetadataLocation = platformSettings.MetadataPath;
+            this.httpClient = new HttpClient();
         }
 
         /// <inheritdoc/>
         public string BaseMetadataLocation { get; }
+
+        /// <inheritdoc/>
+        public async Task<string> CacheAlbumImageToStorage(ArtistItem artist, AlbumItem album, string path)
+        {
+            if (artist.Name is null || album.Name is null)
+            {
+                return string.Empty;
+            }
+
+            var albumArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name, album.Name, "album.jpg");
+            if (System.IO.File.Exists(albumArtPath))
+            {
+                return albumArtPath;
+            }
+
+            try
+            {
+                if (path.IsPathUri())
+                {
+                    var result = await this.httpClient.GetByteArrayAsync(path);
+                    await File.WriteAllBytesAsync(albumArtPath, result);
+                    if (File.Exists(albumArtPath))
+                    {
+                        return albumArtPath;
+                    }
+
+                    return string.Empty;
+                }
+
+                var file = await File.ReadAllBytesAsync(path);
+                await File.WriteAllBytesAsync(albumArtPath, file);
+                if (File.Exists(albumArtPath))
+                {
+                    return albumArtPath;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<string> CacheArtistImageToStorage(ArtistItem artist, string path)
+        {
+            if (artist.Name is null)
+            {
+                return string.Empty;
+            }
+
+            var artistArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name, "artist.jpg");
+            if (System.IO.File.Exists(artistArtPath))
+            {
+                return artistArtPath;
+            }
+
+            try
+            {
+                if (path.IsPathUri())
+                {
+                    var result = await this.httpClient.GetByteArrayAsync(path);
+                    await File.WriteAllBytesAsync(artistArtPath, result);
+                    if (File.Exists(artistArtPath))
+                    {
+                        return artistArtPath;
+                    }
+
+                    return string.Empty;
+                }
+
+                var file = await File.ReadAllBytesAsync(path);
+                await File.WriteAllBytesAsync(artistArtPath, file);
+                if (File.Exists(artistArtPath))
+                {
+                    return artistArtPath;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
 
         /// <inheritdoc/>
         public void Dispose()

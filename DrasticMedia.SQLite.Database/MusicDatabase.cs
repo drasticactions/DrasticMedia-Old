@@ -5,6 +5,7 @@
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -59,6 +60,26 @@ namespace DrasticMedia.SQLite.Database
         public DbSet<ArtistItem> Artists { get; set; }
 
         /// <summary>
+        /// Gets or sets the ArtistsSpotifyMetadata Table.
+        /// </summary>
+        public DbSet<ArtistSpotifyMetadata> ArtistsSpotifyMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the AlbumsSpotifyMetadata Table.
+        /// </summary>
+        public DbSet<AlbumSpotifyMetadata> AlbumsSpotifyMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ArtistsLastFmMetadata Table.
+        /// </summary>
+        public DbSet<ArtistLastFmMetadata> ArtistsLastFmMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the AlbumsLastFmMetadata Table.
+        /// </summary>
+        public DbSet<AlbumLastFmMetadata> AlbumsLastFmMetadata { get; set; }
+
+        /// <summary>
         /// Gets or sets the Albums table.
         /// </summary>
         public DbSet<AlbumItem> Albums { get; set; }
@@ -82,6 +103,90 @@ namespace DrasticMedia.SQLite.Database
             await this.Artists.AddAsync(artist);
             await this.SaveChangesAsync();
             return artist;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ArtistSpotifyMetadata> AddArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
+        {
+            await this.ArtistsSpotifyMetadata.AddAsync(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<AlbumSpotifyMetadata> AddAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
+        {
+            await this.AlbumsSpotifyMetadata.AddAsync(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<AlbumLastFmMetadata> AddAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
+        {
+            await this.AlbumsLastFmMetadata.AddAsync(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ArtistLastFmMetadata> AddArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
+        {
+            await this.ArtistsLastFmMetadata.AddAsync(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ArtistSpotifyMetadata> UpdateArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
+        {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
+            this.ArtistsSpotifyMetadata.Update(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<AlbumSpotifyMetadata> UpdateAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
+        {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
+            this.AlbumsSpotifyMetadata.Update(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<AlbumLastFmMetadata> UpdateAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
+        {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
+            this.AlbumsLastFmMetadata.Update(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ArtistLastFmMetadata> UpdateArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
+        {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
+            this.ArtistsLastFmMetadata.Update(metadata);
+            await this.SaveChangesAsync();
+            return metadata;
         }
 
         /// <inheritdoc/>
@@ -269,9 +374,17 @@ namespace DrasticMedia.SQLite.Database
             modelBuilder.Entity<ArtistItem>().HasKey(n => n.Id);
             modelBuilder.Entity<AlbumItem>().HasKey(n => n.Id);
             modelBuilder.Entity<TrackItem>().HasKey(n => n.Id);
+            modelBuilder.Entity<AlbumSpotifyMetadata>().HasKey(n => n.Id);
+            modelBuilder.Entity<ArtistSpotifyMetadata>().HasKey(n => n.Id);
+            modelBuilder.Entity<ArtistLastFmMetadata>().HasKey(n => n.Id);
+            modelBuilder.Entity<AlbumLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<ArtistItem>().HasMany(n => n.Albums).WithOne().HasForeignKey(y => y.ArtistItemId);
+            modelBuilder.Entity<ArtistItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<ArtistSpotifyMetadata>(y => y.ArtistItemId);
+            modelBuilder.Entity<ArtistItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<ArtistLastFmMetadata>(y => y.ArtistItemId);
             modelBuilder.Entity<AlbumItem>().HasMany(n => n.Tracks).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<AlbumItem>().HasOne(n => n.ArtistItem).WithMany(n => n.Albums).HasForeignKey(n => n.ArtistItemId);
+            modelBuilder.Entity<AlbumItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<AlbumSpotifyMetadata>(y => y.AlbumItemId);
+            modelBuilder.Entity<AlbumItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<AlbumLastFmMetadata>(y => y.AlbumItemId);
             modelBuilder.Entity<TrackItem>().HasOne(n => n.AlbumItem).WithMany(n => n.Tracks).HasForeignKey(n => n.AlbumItemId);
         }
     }

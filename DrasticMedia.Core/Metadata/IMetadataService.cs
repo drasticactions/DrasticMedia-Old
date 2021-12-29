@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Model.Metadata;
 
 namespace DrasticMedia.Core.Metadata
 {
@@ -22,15 +23,18 @@ namespace DrasticMedia.Core.Metadata
         string BaseMetadataLocation { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the service is enabled.
+        /// Get Aritst Metadata.
         /// </summary>
-        public bool IsEnabled { get; }
+        /// <param name="artist">Artist Item.</param>
+        /// <returns><see cref="IArtistMetadata"/>.</returns>
+        Task<IArtistMetadata> GetArtistMetadataAsync(ArtistItem artist);
 
         /// <summary>
-        /// Updates an artist item with updated information.
+        /// Get Album Metadata.
         /// </summary>
-        /// <param name="artist">Artist.</param>
-        /// <returns>ArtistItem.</returns>
-        Task UpdatetArtistItemInfo(ArtistItem artist);
+        /// <param name="album">Album Item.</param>
+        /// <param name="artistName">Artist Name.</param>
+        /// <returns><see cref="IAlbumMetadata"/>.</returns>
+        Task<IAlbumMetadata> GetAlbumMetadataAsync(AlbumItem album, string? artistName = null);
     }
 }

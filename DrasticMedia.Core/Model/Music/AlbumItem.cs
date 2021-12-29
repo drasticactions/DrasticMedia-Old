@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core.Model.Metadata;
 
 namespace DrasticMedia.Core.Model
 {
@@ -46,8 +47,23 @@ namespace DrasticMedia.Core.Model
         public DateTime LastAccessed { get; set; }
 
         /// <summary>
+        /// Gets or sets the path to the album art.
+        /// </summary>
+        public string? AlbumArt { get; set; }
+
+        /// <summary>
         /// Gets or sets the artist for the album.
         /// </summary>
         public virtual ArtistItem? ArtistItem { get; set; }
+
+        /// <summary>
+        /// Gets or sets the spotify metadata.
+        /// </summary>
+        public virtual AlbumSpotifyMetadata? SpotifyMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lastfm metadata.
+        /// </summary>
+        public virtual AlbumLastFmMetadata? LastFmMetadata { get; set; }
     }
 }

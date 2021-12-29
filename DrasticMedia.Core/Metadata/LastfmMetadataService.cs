@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Model.Metadata;
+using DrasticMedia.Core.Platform;
 using Hqub.Lastfm;
 using Hqub.Lastfm.Entities;
 
@@ -18,10 +20,72 @@ namespace DrasticMedia.Core.Metadata
     /// </summary>
     public class LastfmMetadataService : IMetadataService
     {
-        private LastfmClient client;
-        private HttpClient httpClient;
+        private LastfmClient? client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LastfmMetadataService"/> class.
+        /// </summary>
+        /// <param name="settings"><see cref="IPlatformSettings"/>.</param>
+        public LastfmMetadataService(IPlatformSettings settings)
+        {
+            this.Initialize(settings.MetadataPath, Core.Tools.ApiTokens.LastFMClientToken, Tools.ApiTokens.LastFMClientSecretToken);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LastfmMetadataService"/> class.
+        /// </summary>
+        /// <param name="baseLocation">Base Metadata Location.</param>
+        /// <param name="apiKey">API Key.</param>
+        /// <param name="apiSecret">API Secret.</param>
         public LastfmMetadataService(string baseLocation, string apiKey = "", string apiSecret = "")
+        {
+            this.Initialize(baseLocation, apiKey, apiSecret);
+        }
+
+        /// <inheritdoc/>
+        public string BaseMetadataLocation { get; internal set; } = string.Empty;
+
+        /// <inheritdoc/>
+        public async Task<IArtistMetadata> GetArtistMetadataAsync(ArtistItem artist)
+        {
+            if (this.client is null)
+            {
+                return new ArtistLastFmMetadata();
+            }
+
+            var result = await this.client.Artist.GetInfoAsync(artist.Name);
+            if (result is null)
+            {
+                return new ArtistLastFmMetadata();
+            }
+
+            return new ArtistLastFmMetadata(artist.Id, result);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IAlbumMetadata> GetAlbumMetadataAsync(AlbumItem album, string? artistName = null)
+        {
+            if (this.client is null)
+            {
+                return new AlbumLastFmMetadata();
+            }
+
+            artistName = artistName ?? album.ArtistItem?.Name;
+            if (artistName is null)
+            {
+                return new AlbumLastFmMetadata();
+            }
+
+            var result = await this.client.Album.GetInfoAsync(artistName, album.Name);
+            if (result is null)
+            {
+                return new AlbumLastFmMetadata();
+            }
+
+            return new AlbumLastFmMetadata(album.Id, result);
+        }
+
+        private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")
         {
             if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
             {
@@ -29,7 +93,6 @@ namespace DrasticMedia.Core.Metadata
             }
 
             this.client = new LastfmClient(apiKey, apiSecret);
-            this.httpClient = new HttpClient();
             if (string.IsNullOrEmpty(baseLocation))
             {
                 throw new ArgumentNullException(nameof(baseLocation));
@@ -42,47 +105,6 @@ namespace DrasticMedia.Core.Metadata
             }
 
             this.BaseMetadataLocation = baseLocation;
-            this.IsEnabled = true;
-        }
-
-        /// <inheritdoc/>
-        public string BaseMetadataLocation { get; }
-
-        /// <inheritdoc/>
-        public bool IsEnabled { get; }
-
-        public async Task UpdatetArtistItemInfo(ArtistItem artist)
-        {
-            if (!this.IsEnabled)
-            {
-                return;
-            }
-
-            var result = await this.client.Artist.GetInfoAsync(artist.Name);
-            if (result is null)
-            {
-                return;
-            }
-
-            artist.Name = result.Name;
-            artist.Biography = result.Biography.Content;
-            artist.MBID = result.MBID;
-
-            //if (string.IsNullOrEmpty(artist.ArtistImage) && result.Images.Any())
-            //{
-            //    var image = result.Images[0];
-            //    var artPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name,  "artist.jpg");
-            //    var imageContent = await this.httpClient.GetByteArrayAsync(image.Url);
-            //    if (imageContent != null)
-            //    {
-            //        System.IO.Directory.CreateDirectory(Path.GetDirectoryName(artPath));
-            //        System.IO.File.WriteAllBytes(artPath, imageContent);
-            //        if (File.Exists(artPath))
-            //        {
-            //            artist.ArtistImage = artPath;
-            //        }
-            //    }
-            //}
         }
     }
 }
