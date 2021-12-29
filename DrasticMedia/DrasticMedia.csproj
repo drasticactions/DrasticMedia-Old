@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
-		<OutputType>Library</OutputType>
+		<OutputType>Exe</OutputType>
 		<RootNamespace>DrasticMedia</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -54,6 +54,7 @@
 	  <ProjectReference Include="..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
 	  <ProjectReference Include="..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
 	  <ProjectReference Include="..\external\drasticmaui\DrasticMaui\DrasticMaui.csproj" />
+	  <ProjectReference Include="..\external\reordercollection\src\ReorderableCollectionView.Maui\ReorderableCollectionView.Maui.csproj" />
 	</ItemGroup>
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<OutputType>WinExe</OutputType>
@@ -77,5 +78,10 @@
 	  <Folder Include="Utilities\" />
 	  <Folder Include="Styles\" />
 	  <Folder Include="Services\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="PodcastListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 </Project>

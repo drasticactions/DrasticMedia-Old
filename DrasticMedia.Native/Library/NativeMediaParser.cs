@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Model;
+using DrasticMedia.Core.Platform;
 using FFMpegCore;
 using Orthogonal.NTagLite;
 
@@ -39,6 +40,26 @@ namespace DrasticMedia.Core.Library
             }
 
             this.BaseMetadataLocation = baseLocation;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NativeMediaParser"/> class.
+        /// </summary>
+        /// <param name="platformSettings">Location to store metadata.</param>
+        public NativeMediaParser(IPlatformSettings platformSettings)
+        {
+            if (platformSettings == null)
+            {
+                throw new ArgumentNullException(nameof(platformSettings));
+            }
+
+            var directory = Directory.CreateDirectory(platformSettings.MetadataPath);
+            if (!directory.Exists)
+            {
+                throw new ArgumentNullException(nameof(platformSettings.MetadataPath));
+            }
+
+            this.BaseMetadataLocation = platformSettings.MetadataPath;
         }
 
         /// <inheritdoc/>

@@ -11,6 +11,7 @@ using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
 using DrasticMedia.SQLite.Database;
 using DrasticMedia.ViewModels;
+using ReorderableCollectionView.Maui;
 
 namespace DrasticMedia;
 
@@ -43,13 +44,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
         builder.Services.AddSingleton<PlayerService>();
         //builder.Services.AddSingleton<PlayerPageViewModel>();
-        //builder.Services.AddTransient<PodcastListPageViewModel>();
-        //builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
+        builder.Services.AddTransient<PodcastListPageViewModel>();
+        builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
         //builder.Services.AddTransient<PlayerPage>();
-        //builder.Services.AddTransient<PodcastListPage>();
+        builder.Services.AddTransient<PodcastListPage>();
         //builder.Services.AddTransient<PodcastEpisodeListPage>();
+
         builder
           .UseMauiApp<DrasticMedia.App>()
+          .RegisterReorderableCollectionView()
           .ConfigureFonts(fonts =>
           {
               fonts.AddFont("FontAwesome6Brands-Regular-400.otf", "FontAwesomeBrands");

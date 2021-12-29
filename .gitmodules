@@ -1,3 +1,7 @@
 [submodule "external/drasticmaui"]
 	path = external/drasticmaui
 	url = git@github.com:drasticactions/DrasticMaui.git
+[submodule "external/reordercollection"]
+	path = external/reordercollection
+	url = git@github.com:drasticactions/ReorderableCollectionView.Maui.git
+	branch = fork
