@@ -79,6 +79,9 @@
 	  <Folder Include="Services\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="AlbumPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="DebugPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

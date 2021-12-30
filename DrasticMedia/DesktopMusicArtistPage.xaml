@@ -5,41 +5,47 @@
              xmlns:rcv="clr-namespace:ReorderableCollectionView.Maui;assembly=ReorderableCollectionView.Maui"
              xmlns:local="clr-namespace:DrasticMedia">
     <GridLayout ColumnDefinitions="300, *">
-        <GridLayout 
-        RowSpacing="5"
-        RowDefinitions="50, *">
-            <GridLayout GridLayout.Row="1" ColumnDefinitions="300, *">
-                <GridLayout x:Name="ArtistListLayout"  GridLayout.Column="0">
-                    <CollectionView x:Name="ArtistList" SelectionMode="Single" ItemsSource="{Binding Artists}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <GridLayout ColumnSpacing="10" ColumnDefinitions="Auto, *">
-                                    <Image Source="{Binding ArtistImage}" WidthRequest="50" HeightRequest="50"/>
-                                    <Label GridLayout.Column="1" VerticalOptions="Center" VerticalTextAlignment="Center" MaxLines="2" Text="{Binding Name}"/>
-                                </GridLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </GridLayout>
-                <GridLayout x:Name="AlbumListLayout" RowDefinitions="Auto, *" GridLayout.Column="1">
-                    <Label Text="{Binding Artist.Name}"/>
-                    <rcv:ReorderableCollectionView GridLayout.Row="1" ItemsSource="{Binding Albums}">
-                        <rcv:ReorderableCollectionView.ItemsLayout>
-                            <rcv:VariableSpanGridItemsLayout ItemWidth="300" ItemHeight="300"
+        <GridLayout x:Name="ArtistListLayout"  GridLayout.Column="0">
+            <CollectionView x:Name="ArtistList" SelectionMode="Single" ItemsSource="{Binding Artists}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <GridLayout ColumnSpacing="10" ColumnDefinitions="Auto, *">
+                            <Frame VerticalOptions="Center" CornerRadius="5" Padding="0" WidthRequest="75" HeightRequest="75" IsClippedToBounds="True">
+                                <Image Source="{Binding ArtistImage, Converter={StaticResource AlbumArtConverter}}" WidthRequest="75" HeightRequest="75"/>
+                            </Frame>
+                            <Label  GridLayout.Column="1" VerticalOptions="Center" VerticalTextAlignment="Center" MaxLines="2" Text="{Binding Name}"/>
+                        </GridLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </GridLayout>
+        <GridLayout x:Name="AlbumListLayout" RowDefinitions="Auto, *" GridLayout.Column="1">
+            <rcv:ReorderableCollectionView GridLayout.Row="1" SelectionMode="Single" x:Name="AlbumCollectionView"
+                                           SelectionChangedCommand="{Binding PlayAlbumItemCommand, Mode=OneWay}"
+                                           SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference AlbumCollectionView}}"
+                                           ItemsSource="{Binding Albums}">
+                <rcv:ReorderableCollectionView.ItemsLayout>
+                    <rcv:VariableSpanGridItemsLayout ItemWidth="300" ItemHeight="300" 
                                                 VerticalItemSpacing="5"
                                                 HorizontalItemSpacing="5" />
-                        </rcv:ReorderableCollectionView.ItemsLayout>
-                        <rcv:ReorderableCollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout Spacing="2">
-                                    <Image Source="{Binding AlbumArt}"/>
-                                    <Label Text="{Binding Name}"/>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </rcv:ReorderableCollectionView.ItemTemplate>
-                    </rcv:ReorderableCollectionView>
-                </GridLayout>
-            </GridLayout>
+                </rcv:ReorderableCollectionView.ItemsLayout>
+                <rcv:ReorderableCollectionView.Header>
+                    <GridLayout MaximumHeightRequest="300" ColumnDefinitions="Auto, *">
+                        <Label Margin="15,0,0,0" FontSize="Header"  VerticalOptions="Center" Text="{Binding Artist.Name}"/>
+                        <Image HorizontalOptions="End" WidthRequest="600" GridLayout.Column="1" Source="{Binding Artist.ArtistImage, Converter={StaticResource AlbumArtConverter}}" />
+                    </GridLayout>
+                </rcv:ReorderableCollectionView.Header>
+                <rcv:ReorderableCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Spacing="10">
+                            <Frame CornerRadius="5" Padding="0" IsClippedToBounds="True">
+                                <Image WidthRequest="250" HeightRequest="250" Source="{Binding AlbumArt, Converter={StaticResource AlbumArtConverter}}" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Frame>
+                            <Label Text="{Binding Name}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </rcv:ReorderableCollectionView.ItemTemplate>
+            </rcv:ReorderableCollectionView>
         </GridLayout>
     </GridLayout>
 </local:BasePage>

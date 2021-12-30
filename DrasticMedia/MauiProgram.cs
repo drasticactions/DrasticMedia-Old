@@ -51,9 +51,11 @@ public static class MauiProgram
         builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
         builder.Services.AddTransient<ArtistListPageViewModel>();
         builder.Services.AddTransient<AlbumListPageViewModel>();
+        builder.Services.AddTransient<AlbumPageViewModel>();
         //builder.Services.AddTransient<PlayerPage>();
         builder.Services.AddTransient<PodcastListPage>();
         builder.Services.AddTransient<DebugPage>();
+        builder.Services.AddTransient<AlbumPage>();
         builder.Services.AddTransient<DesktopMusicArtistPage>();
         builder.Services.AddTransient<DesktopPodcastPage>();
         //builder.Services.AddTransient<PodcastEpisodeListPage>();

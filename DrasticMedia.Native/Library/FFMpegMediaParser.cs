@@ -83,6 +83,14 @@ namespace DrasticMedia.Core.Library
                 return albumArtPath;
             }
 
+            var directory = Path.GetDirectoryName(albumArtPath);
+            if (directory is null)
+            {
+                return string.Empty;
+            }
+
+            System.IO.Directory.CreateDirectory(directory);
+
             try
             {
                 if (path.IsPathUri())
@@ -106,8 +114,9 @@ namespace DrasticMedia.Core.Library
 
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return string.Empty;
             }
         }
@@ -125,6 +134,14 @@ namespace DrasticMedia.Core.Library
             {
                 return artistArtPath;
             }
+
+            var directory = Path.GetDirectoryName(artistArtPath);
+            if (directory is null)
+            {
+                return string.Empty;
+            }
+
+            System.IO.Directory.CreateDirectory(directory);
 
             try
             {

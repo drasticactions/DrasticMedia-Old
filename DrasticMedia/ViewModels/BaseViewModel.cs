@@ -113,6 +113,11 @@ namespace DrasticMedia.ViewModels
         protected MediaLibrary MediaLibrary { get; private set; }
 
         /// <summary>
+        /// Gets the original page.
+        /// </summary>
+        protected Page OriginalPage => this.originalPage;
+
+        /// <summary>
         /// Load VM Async.
         /// </summary>
         /// <returns><see cref="Task"/>.</returns>

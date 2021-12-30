@@ -20,6 +20,7 @@ namespace DrasticMedia.ViewModels
     {
         private int artistId;
         private ArtistItem? artist;
+        private AsyncCommand<AlbumItem>? playAlbumItemCommand;
 
         public AlbumListPageViewModel(IServiceProvider services, Page originalPage = null, int artistId = 0)
             : base(services, originalPage)
@@ -31,6 +32,17 @@ namespace DrasticMedia.ViewModels
         /// Gets the podcast.
         /// </summary>
         public ArtistItem? Artist => this.artist;
+
+        /// <summary>
+        /// Gets the add navigate to podcast command.
+        /// </summary>
+        public AsyncCommand<AlbumItem> PlayAlbumItemCommand
+        {
+            get
+            {
+                return this.playAlbumItemCommand ??= new AsyncCommand<AlbumItem>(this.PlayAlbumItem, null, this.Error);
+            }
+        }
 
         /// <summary>
         /// Gets the list of episodes.
@@ -58,6 +70,12 @@ namespace DrasticMedia.ViewModels
             this.artist = await this.MediaLibrary.FetchArtistWithAlbumsViaIdAsync(artistId);
             this.OnPropertyChanged(nameof(this.Artist));
             this.OnPropertyChanged(nameof(this.Albums));
+        }
+
+        private async Task PlayAlbumItem(AlbumItem item)
+        {
+            var newPage = this.Services.ResolveWith<AlbumPage>(item.Id);
+            await this.Navigation.PushPageInWindowViaPageAsync(newPage, this.OriginalPage);
         }
     }
 }
