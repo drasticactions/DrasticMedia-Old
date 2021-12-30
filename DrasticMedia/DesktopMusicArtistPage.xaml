@@ -21,10 +21,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <GridLayout ColumnSpacing="10" ColumnDefinitions="Auto, *">
-                                <Frame VerticalOptions="Center" CornerRadius="5" Padding="0" WidthRequest="75" HeightRequest="75" IsClippedToBounds="True">
-                                    <Image Source="{Binding ArtistImage, Converter={StaticResource AlbumArtConverter}}" WidthRequest="75" HeightRequest="75"/>
-                                </Frame>
-                                <Label  GridLayout.Column="1" VerticalOptions="Center" VerticalTextAlignment="Center" MaxLines="2" Text="{Binding Name}"/>
+                                <Image VerticalOptions="Center" Source="{Binding ArtistImage, Converter={StaticResource AlbumArtConverter}}" WidthRequest="75" HeightRequest="75"/>
+                                <Label GridLayout.Column="1" VerticalOptions="Center" VerticalTextAlignment="Center" MaxLines="2" Text="{Binding Name}"/>
                             </GridLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -49,9 +47,7 @@
                     <rcv:ReorderableCollectionView.ItemTemplate>
                         <DataTemplate>
                             <VerticalStackLayout Spacing="10">
-                                <Frame CornerRadius="5" Padding="0" IsClippedToBounds="True">
-                                    <Image WidthRequest="250" HeightRequest="250" Source="{Binding AlbumArt, Converter={StaticResource AlbumArtConverter}}" HorizontalOptions="Center" VerticalOptions="Center" />
-                                </Frame>
+                                <Image WidthRequest="250" HeightRequest="250" Source="{Binding AlbumArt, Converter={StaticResource AlbumArtConverter}}" HorizontalOptions="Center" VerticalOptions="Center" />
                                 <Label Text="{Binding Name}"/>
                             </VerticalStackLayout>
                         </DataTemplate>
