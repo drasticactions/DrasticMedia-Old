@@ -278,7 +278,14 @@ namespace DrasticMedia.Core.Library
                             {
                                 foreach (var service in this.metadataServices)
                                 {
-                                    await this.UpdateAlbumMetadata(service, artist, album);
+                                    try
+                                    {
+                                        await this.UpdateAlbumMetadata(service, artist, album);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // TODO: Handle Exception.
+                                    }
                                 }
                             }
 

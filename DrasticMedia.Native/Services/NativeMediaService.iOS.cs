@@ -123,7 +123,7 @@ namespace DrasticMedia.Core.Services
                 return;
             }
 
-            NSUrl url = this.CurrentMedia.Path != null ? new NSUrl(this.CurrentMedia.Path) : new NSUrl(this.CurrentMedia.OnlinePath.ToString());
+            NSUrl url = this.CurrentMedia.Path != null ? NSUrl.CreateFileUrl(this.CurrentMedia.Path, false, null) : new NSUrl(this.CurrentMedia.OnlinePath.ToString());
 
             var playerItem = new AVPlayerItem(url);
             this.avPlayer?.ReplaceCurrentItemWithPlayerItem(playerItem);
