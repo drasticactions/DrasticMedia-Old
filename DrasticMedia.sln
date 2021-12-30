@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReorderableCollectionView.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrasticMedia.VLC", "DrasticMedia.VLC\DrasticMedia.VLC.csproj", "{CEC1F32B-72FC-4E7C-88DA-C51DFFE52115}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hqub.Lastfm", "external\lastfm\src\Hqub.Lastfm\Hqub.Lastfm.csproj", "{C90EC2CC-8474-4B80-BC1A-7443C5822AB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{CEC1F32B-72FC-4E7C-88DA-C51DFFE52115}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC1F32B-72FC-4E7C-88DA-C51DFFE52115}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC1F32B-72FC-4E7C-88DA-C51DFFE52115}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C90EC2CC-8474-4B80-BC1A-7443C5822AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C90EC2CC-8474-4B80-BC1A-7443C5822AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C90EC2CC-8474-4B80-BC1A-7443C5822AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C90EC2CC-8474-4B80-BC1A-7443C5822AB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{48FF1BEF-1279-4092-9923-699372C028F6} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 		{E817E3BC-6344-48DA-B3A1-6F9A9AFF9B38} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 		{BE84F568-AEB0-494B-B206-0B696D8913DB} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
+		{C90EC2CC-8474-4B80-BC1A-7443C5822AB7} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02861446-20CB-4458-9CEC-F6E3333942C0}

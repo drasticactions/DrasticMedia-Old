@@ -5,3 +5,7 @@
 	path = external/reordercollection
 	url = git@github.com:drasticactions/ReorderableCollectionView.Maui.git
 	branch = fork
+[submodule "external/lastfm"]
+	path = external/lastfm
+	url = git@github.com:drasticactions/Last.fm.git
+	branch = fork

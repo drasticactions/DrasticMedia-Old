@@ -8,8 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hqub.Last.fm" Version="2.1.0" />
 		<PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\external\lastfm\src\Hqub.Lastfm\Hqub.Lastfm.csproj" />
 	</ItemGroup>
 </Project>
