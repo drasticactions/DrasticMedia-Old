@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../MultiTargeting.targets" />
+	<Import Project="../VLC.props" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
@@ -53,6 +54,7 @@
 	  <ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
 	  <ProjectReference Include="..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
 	  <ProjectReference Include="..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
+	  <ProjectReference Include="..\DrasticMedia.VLC\DrasticMedia.VLC.csproj" />
 	  <ProjectReference Include="..\external\drasticmaui\DrasticMaui\DrasticMaui.csproj" />
 	  <ProjectReference Include="..\external\reordercollection\src\ReorderableCollectionView.Maui\ReorderableCollectionView.Maui.csproj" />
 	</ItemGroup>

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DrasticMedia.Core;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Services;
@@ -33,6 +34,11 @@ namespace DrasticMedia.ViewModels
             {
                 throw new ArgumentNullException(nameof(this.playerService));
             }
+
+            this.MediaLibrary.NewMediaItemAdded += this.Library_NewMediaItemAdded;
+            this.MediaLibrary.NewMediaItemError += this.Library_NewMediaItemError;
+            this.MediaLibrary.RemoveMediaItem += this.Library_RemoveMediaItem;
+            this.MediaLibrary.UpdateMediaItemAdded += this.Library_UpdateMediaItemAdded;
         }
 
         /// <summary>
@@ -65,7 +71,7 @@ namespace DrasticMedia.ViewModels
         /// <summary>
         /// Gets the list of episodes.
         /// </summary>
-        public List<TrackItem>? Tracks => this.album?.Tracks ?? new List<TrackItem>();
+        public ObservableCollection<TrackItem> Tracks { get; private set; } = new ObservableCollection<TrackItem>();
 
         /// <inheritdoc/>
         public override async Task LoadAsync()
@@ -85,7 +91,14 @@ namespace DrasticMedia.ViewModels
         public async Task LoadAlbum(int albumId)
         {
             this.albumId = albumId;
+            this.Tracks.Clear();
             this.album = await this.MediaLibrary.FetchAlbumWithTracksViaIdAsync(albumId);
+            var tracks = this.album.Tracks.OrderBy(n => n.Tracknumber);
+            foreach (var track in tracks)
+            {
+                this.Tracks.Add(track);
+            }
+
             this.OnPropertyChanged(nameof(this.Album));
             this.OnPropertyChanged(nameof(this.Tracks));
         }
@@ -102,6 +115,36 @@ namespace DrasticMedia.ViewModels
             }
 
             await this.playerService.AddMedia(item, true);
+        }
+
+        private void Library_UpdateMediaItemAdded(object sender, UpdateMediaItemEventArgs e)
+        {
+        }
+
+        private void Library_RemoveMediaItem(object sender, RemoveMediaItemEventArgs e)
+        {
+        }
+
+        private void Library_NewMediaItemError(object sender, NewMediaItemErrorEventArgs e)
+        {
+        }
+
+        private void Library_NewMediaItemAdded(object sender, NewMediaItemEventArgs e)
+        {
+            if (e.MediaItem is TrackItem track)
+            {
+                if (this.Tracks.Contains(track))
+                {
+                    return;
+                }
+
+                // If this album belongs to this artist.
+                if (track.AlbumItemId == this.albumId)
+                {
+                    this.Tracks.Add(track);
+                    this.Tracks.Sort((a, b) => a.Tracknumber.CompareTo(b.Tracknumber));
+                }
+            }
         }
     }
 }

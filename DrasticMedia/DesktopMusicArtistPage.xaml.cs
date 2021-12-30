@@ -29,8 +29,9 @@ namespace DrasticMedia
             this.ViewModel = this.artistVm = services.ResolveWith<ArtistListPageViewModel>(this);
             this.albumVm = services.ResolveWith<AlbumListPageViewModel>(this);
             this.ArtistListLayout.BindingContext = this.artistVm;
+            this.ArtistControlLayout.BindingContext = this.artistVm;
             this.AlbumListLayout.BindingContext = this.albumVm;
-            this.ArtistList.SelectionChanged += ArtistList_SelectionChanged;
+            this.ArtistList.SelectionChanged += this.ArtistList_SelectionChanged;
         }
 
         private void ArtistList_SelectionChanged(object sender, SelectionChangedEventArgs e)
