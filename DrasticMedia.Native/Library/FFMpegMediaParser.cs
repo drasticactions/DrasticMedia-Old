@@ -17,18 +17,18 @@ using Orthogonal.NTagLite;
 namespace DrasticMedia.Core.Library
 {
     /// <summary>
-    /// Native Media Parser.
+    /// FFMpeg Media Parser.
     /// </summary>
-    public class NativeMediaParser : ILocalMetadataParser
+    public class FFMpegMediaParser : ILocalMetadataParser
     {
         private bool disposedValue;
         private HttpClient httpClient;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NativeMediaParser"/> class.
+        /// Initializes a new instance of the <see cref="FFMpegMediaParser"/> class.
         /// </summary>
         /// <param name="baseLocation">Location to store metadata.</param>
-        public NativeMediaParser(string baseLocation)
+        public FFMpegMediaParser(string baseLocation)
         {
             if (string.IsNullOrEmpty(baseLocation))
             {
@@ -46,10 +46,10 @@ namespace DrasticMedia.Core.Library
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NativeMediaParser"/> class.
+        /// Initializes a new instance of the <see cref="FFMpegMediaParser"/> class.
         /// </summary>
         /// <param name="platformSettings">Location to store metadata.</param>
-        public NativeMediaParser(IPlatformSettings platformSettings)
+        public FFMpegMediaParser(IPlatformSettings platformSettings)
         {
             if (platformSettings == null)
             {
@@ -169,7 +169,7 @@ namespace DrasticMedia.Core.Library
 
             if (string.IsNullOrEmpty(file.Tag.Id))
             {
-                throw new ArgumentException($"Could not parse {path}");
+                return await this.GetMusicPropertiesViaFFMpegAsync(path);
             }
 
             var albumArt = await this.ParseAlbumArt(file);
@@ -195,6 +195,29 @@ namespace DrasticMedia.Core.Library
                 Width = (uint)(mediainfo.PrimaryVideoStream?.Width ?? 0),
                 Height = (uint)(mediainfo.PrimaryVideoStream?.Height ?? 0),
                 Duration = mediainfo.PrimaryVideoStream?.Duration ?? TimeSpan.Zero,
+                Path = path,
+            };
+        }
+
+        private async Task<TrackItem?> GetMusicPropertiesViaFFMpegAsync(string path)
+        {
+            var mediainfo = await FFProbe.AnalyseAsync(path);
+            var format = mediainfo.Format;
+            if (format?.Tags is null)
+            {
+                throw new NullReferenceException($"Could not parse {path}");
+            }
+
+            var year = format.Tags.ContainsKey("date") ? Convert.ToInt32(format.Tags["date"]) : 0;
+            year = year <= 0 && format.Tags.ContainsKey("WM/Year") ? Convert.ToInt32(format.Tags["WM/Year"]) : 0;
+
+            return new TrackItem()
+            {
+                Artist = format.Tags["artist"],
+                Album = format.Tags["album"],
+                Title = format.Tags["title"],
+                Year = year,
+                Tracknumber = format.Tags["track"] is not null ? (uint)Convert.ToInt32(format.Tags["track"]) : 0,
                 Path = path,
             };
         }

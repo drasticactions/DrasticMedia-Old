@@ -41,7 +41,7 @@ public class DatabaseTest
     public DatabaseTest()
     {
         this.settings = new MockPlatformSettings();
-        this.localMetadataParser = new NativeMediaParser(ExtensionHelpers.MetadataLocation());
+        this.localMetadataParser = new FFMpegMediaParser(ExtensionHelpers.MetadataLocation());
         this.logger = new ConsoleLogger();
         this.podcastService = new PodcastService(this.logger);
         this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());

@@ -38,7 +38,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPodcastDatabase, PodcastDatabase>();
         builder.Services.AddSingleton<IMusicDatabase, MusicDatabase>();
         builder.Services.AddSingleton<IVideoDatabase, VideoDatabase>();
-        builder.Services.AddSingleton<ILocalMetadataParser, NativeMediaParser>();
+        builder.Services.AddSingleton<ILocalMetadataParser, FFMpegMediaParser>();
         builder.Services.AddSingleton<MediaLibrary>();
         builder.Services.AddSingleton<ILogger>(consoleLogger);
         builder.Services.AddSingleton<IMediaService>(service);

@@ -24,7 +24,7 @@ namespace DrasticMedia.Native.Test
         /// </summary>
         public ParseMediaTest()
         {
-            this.mediaParser = new NativeMediaParser(ExtensionHelpers.MetadataLocation());
+            this.mediaParser = new FFMpegMediaParser(ExtensionHelpers.MetadataLocation());
         }
 
         /// <summary>
