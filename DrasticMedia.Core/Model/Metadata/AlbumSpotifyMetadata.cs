@@ -43,7 +43,7 @@ namespace DrasticMedia.Core.Model.Metadata
 
         public string? AlbumType { get; set; }
 
-        public string Artists { get; set; }
+        public string? Artists { get; set; }
 
         public string? SpotifyId { get; set; }
 

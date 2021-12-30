@@ -77,7 +77,7 @@ namespace DrasticMedia.Core.Library
                 return string.Empty;
             }
 
-            var albumArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name, album.Name, "album.jpg");
+            var albumArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name.CleanPath(), album.Name.CleanPath(), "album.jpg");
             if (System.IO.File.Exists(albumArtPath))
             {
                 return albumArtPath;
@@ -120,7 +120,7 @@ namespace DrasticMedia.Core.Library
                 return string.Empty;
             }
 
-            var artistArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name, "artist.jpg");
+            var artistArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, artist.Name.CleanPath(), "artist.jpg");
             if (System.IO.File.Exists(artistArtPath))
             {
                 return artistArtPath;
@@ -167,6 +167,11 @@ namespace DrasticMedia.Core.Library
         {
             var file = LiteFile.LoadFromFile(path);
 
+            if (string.IsNullOrEmpty(file.Tag.Id))
+            {
+                throw new ArgumentException($"Could not parse {path}");
+            }
+
             var albumArt = await this.ParseAlbumArt(file);
 
             return new TrackItem()
@@ -212,7 +217,7 @@ namespace DrasticMedia.Core.Library
 
         private async Task<string> ParseAlbumArt(LiteFile file)
         {
-            var albumArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, file.Tag.Artist, file.Tag.Album, "album.jpg");
+            var albumArtPath = System.IO.Path.Combine(this.BaseMetadataLocation, file.Tag.Artist.CleanPath(), file.Tag.Album.CleanPath(), "album.jpg");
             if (System.IO.File.Exists(albumArtPath))
             {
                 return albumArtPath;

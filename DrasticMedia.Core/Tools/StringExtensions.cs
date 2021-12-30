@@ -37,5 +37,21 @@ namespace DrasticMedia.Core.Utilities
                 return false;
             }
         }
+
+        public static List<char> InvalidPathCharacters()
+        {
+            var list = new List<char>();
+            list.AddRange(Path.GetInvalidPathChars());
+            list.Add('?');
+            list.Add(':');
+            return list;
+        }
+
+        /// <summary>
+        /// Generate a clean path.
+        /// </summary>
+        /// <param name="path">Path.</param>
+        /// <returns>String.</returns>
+        public static string CleanPath(this string path) => string.Join("_", path.Split(Path.GetInvalidFileNameChars()));
     }
 }

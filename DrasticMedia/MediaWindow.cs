@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrasticMaui.Overlays;
+using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
 using DrasticMedia.Utilities;
@@ -23,14 +24,19 @@ namespace DrasticMedia
         private IServiceProvider serviceProvider;
         private DragAndDropOverlay dragAndDropOverlay;
         private PlayerService player;
-
+        private MediaLibrary library;
         public MediaWindow(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.errorHandler = serviceProvider.GetService<IErrorHandlerService>();
             this.player = serviceProvider.GetService<PlayerService>();
+            this.library = serviceProvider.GetService<MediaLibrary>();
             this.dragAndDropOverlay = new DragAndDropOverlay(this);
-            this.dragAndDropOverlay.Drop += DragAndDropOverlay_Drop;
+            this.dragAndDropOverlay.Drop += this.DragAndDropOverlay_Drop;
+            this.library.NewMediaItemAdded += this.Library_NewMediaItemAdded;
+            this.library.NewMediaItemError += this.Library_NewMediaItemError;
+            this.library.RemoveMediaItem += this.Library_RemoveMediaItem;
+            this.library.UpdateMediaItemAdded += this.Library_UpdateMediaItemAdded;
         }
 
         /// <inheritdoc/>
@@ -59,6 +65,22 @@ namespace DrasticMedia
         }
 
         private void DragAndDropOverlay_Drop(object sender, DragAndDropOverlayTappedEventArgs e)
+        {
+        }
+
+        private void Library_UpdateMediaItemAdded(object sender, UpdateMediaItemEventArgs e)
+        {
+        }
+
+        private void Library_RemoveMediaItem(object sender, RemoveMediaItemEventArgs e)
+        {
+        }
+
+        private void Library_NewMediaItemError(object sender, NewMediaItemErrorEventArgs e)
+        {
+        }
+
+        private void Library_NewMediaItemAdded(object sender, NewMediaItemEventArgs e)
         {
         }
     }

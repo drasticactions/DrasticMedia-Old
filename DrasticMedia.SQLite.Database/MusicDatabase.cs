@@ -92,6 +92,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumItem> AddAlbumAsync(AlbumItem album)
         {
+            if (album.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(album)} has id greater than 0");
+            }
+
             await this.Albums.AddAsync(album);
             await this.SaveChangesAsync();
             return album;
@@ -100,6 +105,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistItem> AddArtistAsync(ArtistItem artist)
         {
+            if (artist.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(artist)} has id greater than 0");
+            }
+
             await this.Artists.AddAsync(artist);
             await this.SaveChangesAsync();
             return artist;
@@ -108,6 +118,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistSpotifyMetadata> AddArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
         {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
             await this.ArtistsSpotifyMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -116,6 +131,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumSpotifyMetadata> AddAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
         {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
             await this.AlbumsSpotifyMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -124,6 +144,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumLastFmMetadata> AddAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
         {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
             await this.AlbumsLastFmMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -132,6 +157,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistLastFmMetadata> AddArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
         {
+            if (metadata.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+            }
+
             await this.ArtistsLastFmMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -140,11 +170,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistSpotifyMetadata> UpdateArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
         {
-            if (metadata.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
-            }
-
             this.ArtistsSpotifyMetadata.Update(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -153,11 +178,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumSpotifyMetadata> UpdateAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
         {
-            if (metadata.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
-            }
-
             this.AlbumsSpotifyMetadata.Update(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -166,11 +186,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumLastFmMetadata> UpdateAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
         {
-            if (metadata.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
-            }
-
             this.AlbumsLastFmMetadata.Update(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -179,11 +194,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistLastFmMetadata> UpdateArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
         {
-            if (metadata.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
-            }
-
             this.ArtistsLastFmMetadata.Update(metadata);
             await this.SaveChangesAsync();
             return metadata;
@@ -192,6 +202,11 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<TrackItem> AddTrackAsync(TrackItem track)
         {
+            if (track.Id > 0)
+            {
+                throw new ArgumentException($"{nameof(track)} has id greater than 0");
+            }
+
             await this.Tracks.AddAsync(track);
             await this.SaveChangesAsync();
             return track;
@@ -200,11 +215,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<AlbumItem> UpdateAlbumAsync(AlbumItem album)
         {
-            if (album.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(album)} has id greater than 0");
-            }
-
             this.Albums.Update(album);
             await this.SaveChangesAsync();
             return album;
@@ -213,11 +223,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<ArtistItem> UpdateArtistAsync(ArtistItem artist)
         {
-            if (artist.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(artist)} has id greater than 0");
-            }
-
             this.Artists.Update(artist);
             await this.SaveChangesAsync();
             return artist;
@@ -226,11 +231,6 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<TrackItem> UpdateTrackAsync(TrackItem track)
         {
-            if (track.Id > 0)
-            {
-                throw new ArgumentException($"{nameof(track)} has id greater than 0");
-            }
-
             this.Tracks.Update(track);
             await this.SaveChangesAsync();
             return track;
@@ -261,49 +261,49 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public Task<List<AlbumItem>> FetchAlbumsAsync()
         {
-            return this.Albums.ToListAsync();
+            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumViaIdAsync(int id)
         {
-            return await this.Albums.FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<AlbumItem?> FetchAlbumViaNameAsync(int artistId, string name)
         {
-            return this.Albums.FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
+            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id)
         {
-            return await this.Albums.Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<List<ArtistItem>> FetchArtistsAsync()
         {
-            return this.Artists.ToListAsync();
+            return this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaIdAsync(int id)
         {
-            return await this.Artists.FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaNameAsync(string name)
         {
-            return await this.Artists.FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id)
         {
-            return await this.Artists.Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -323,6 +323,7 @@ namespace DrasticMedia.SQLite.Database
         {
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(this.dbPath));
             this.Database.EnsureCreated();
+            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.IsInitialized = true;
         }
 

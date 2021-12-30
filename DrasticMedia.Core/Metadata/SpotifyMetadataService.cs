@@ -49,12 +49,12 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new ArtistSpotifyMetadata();
+                return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
             }
 
             if (artist.Name is null)
             {
-                return new ArtistSpotifyMetadata();
+                return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
             }
 
             var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Artist, artist.Name));
@@ -66,13 +66,13 @@ namespace DrasticMedia.Core.Metadata
                 var artistInfo = artistList.First();
                 if (artistInfo is null)
                 {
-                    return new ArtistSpotifyMetadata();
+                    return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
                 }
 
                 return new ArtistSpotifyMetadata(artist.Id, artistInfo);
             }
 
-            return new ArtistSpotifyMetadata();
+            return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
         }
 
         /// <inheritdoc/>
@@ -80,13 +80,13 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new AlbumSpotifyMetadata();
+                return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
             }
 
             artistName = artistName ?? album.ArtistItem?.Name;
             if (artistName is null)
             {
-                return new AlbumSpotifyMetadata();
+                return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
             }
 
             var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Album, $"{artistName} - {album.Name}"));
@@ -98,13 +98,13 @@ namespace DrasticMedia.Core.Metadata
                 var albumInfo = albumList.First();
                 if (albumInfo is null)
                 {
-                    return new AlbumSpotifyMetadata();
+                    return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
                 }
 
                 return new AlbumSpotifyMetadata(album.Id, albumInfo);
             }
 
-            return new AlbumSpotifyMetadata();
+            return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
         }
 
         private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")

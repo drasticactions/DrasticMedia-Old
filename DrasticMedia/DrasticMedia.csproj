@@ -73,7 +73,6 @@
 	  <None Remove="Services\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="ViewModels\" />
 	  <Folder Include="Converters\" />
 	  <Folder Include="Utilities\" />
 	  <Folder Include="Styles\" />

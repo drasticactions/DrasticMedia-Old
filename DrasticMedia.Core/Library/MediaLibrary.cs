@@ -252,8 +252,9 @@ namespace DrasticMedia.Core.Library
                         if (artist.SpotifyMetadata?.Image is not null)
                         {
                             artist.ArtistImage = await this.mediaParser.CacheArtistImageToStorage(artist, artist.SpotifyMetadata.Image);
-                            artist = await this.musicDatabase.UpdateArtistAsync(artist);
                         }
+
+                        artist = await this.musicDatabase.UpdateArtistAsync(artist);
 
                         this.OnNewMediaItemAdded(new NewMediaItemEventArgs(artist));
                     }
@@ -272,25 +273,26 @@ namespace DrasticMedia.Core.Library
                             };
                             album.AlbumArt = mP.AlbumArt;
                             album = await this.musicDatabase.AddAlbumAsync(album);
+
+                            if (this.metadataServices.Any())
+                            {
+                                foreach (var service in this.metadataServices)
+                                {
+                                    await this.UpdateAlbumMetadata(service, artist, album);
+                                }
+                            }
+
+                            if (string.IsNullOrEmpty(album.AlbumArt) && album.SpotifyMetadata?.Image is not null)
+                            {
+                                album.AlbumArt = await this.mediaParser.CacheAlbumImageToStorage(artist, album, album.SpotifyMetadata.Image);
+                                album = await this.musicDatabase.UpdateAlbumAsync(album);
+                            }
+
                             this.OnNewMediaItemAdded(new NewMediaItemEventArgs(album));
                         }
 
                         mP.AlbumItemId = album.Id;
                         mP.ArtistItemId = artist.Id;
-
-                        if (this.metadataServices.Any())
-                        {
-                            foreach (var service in this.metadataServices)
-                            {
-                                await this.UpdateAlbumMetadata(service, artist, album);
-                            }
-                        }
-
-                        if (string.IsNullOrEmpty(album.AlbumArt) && album.SpotifyMetadata?.Image is not null)
-                        {
-                            album.AlbumArt = await this.mediaParser.CacheAlbumImageToStorage(artist, album, album.SpotifyMetadata.Image);
-                            album = await this.musicDatabase.UpdateAlbumAsync(album);
-                        }
                     }
 
                     mP = await this.musicDatabase.AddTrackAsync(mP).ConfigureAwait(false);
@@ -421,16 +423,6 @@ namespace DrasticMedia.Core.Library
             }
         }
 
-        private async Task CacheAlbumArtAsync(AlbumItem album, TrackItem item)
-        {
-            if (!string.IsNullOrEmpty(album.AlbumArt) && File.Exists(album.AlbumArt))
-            {
-                return;
-            }
-
-            
-        } 
-
         private async Task UpdateArtistMetadata(IMetadataService service, ArtistItem artist)
         {
             if (service is SpotifyMetadataService spotify)
@@ -446,6 +438,7 @@ namespace DrasticMedia.Core.Library
                 {
                     await this.musicDatabase.AddArtistSpotifyMetadataAsync(metadata);
                     artist.SpotifyMetadata = metadata;
+                    artist.SpotifyMetadataId = metadata.Id;
                 }
             }
             else if (service is LastfmMetadataService lastFM)
@@ -461,6 +454,7 @@ namespace DrasticMedia.Core.Library
                 {
                     await this.musicDatabase.AddArtistLastFmMetadataAsync(metadata);
                     artist.LastFmMetadata = metadata;
+                    artist.LastFmMetadataId = metadata.Id;
                 }
             }
         }
@@ -480,6 +474,7 @@ namespace DrasticMedia.Core.Library
                 {
                     await this.musicDatabase.AddAlbumSpotifyMetadataAsync(metadata);
                     album.SpotifyMetadata = metadata;
+                    album.SpotifyMetadataId = metadata.Id;
                 }
             }
             else if (service is LastfmMetadataService lastFM)
@@ -495,6 +490,7 @@ namespace DrasticMedia.Core.Library
                 {
                     await this.musicDatabase.AddAlbumLastFmMetadataAsync(metadata);
                     album.LastFmMetadata = metadata;
+                    album.LastFmMetadataId = metadata.Id;
                 }
             }
         }

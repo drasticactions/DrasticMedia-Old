@@ -50,13 +50,13 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new ArtistLastFmMetadata();
+                return new ArtistLastFmMetadata() { ArtistItemId = artist.Id };
             }
 
             var result = await this.client.Artist.GetInfoAsync(artist.Name);
             if (result is null)
             {
-                return new ArtistLastFmMetadata();
+                return new ArtistLastFmMetadata() { ArtistItemId = artist.Id };
             }
 
             return new ArtistLastFmMetadata(artist.Id, result);
@@ -67,19 +67,19 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new AlbumLastFmMetadata();
+                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
             }
 
             artistName = artistName ?? album.ArtistItem?.Name;
             if (artistName is null)
             {
-                return new AlbumLastFmMetadata();
+                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
             }
 
             var result = await this.client.Album.GetInfoAsync(artistName, album.Name);
             if (result is null)
             {
-                return new AlbumLastFmMetadata();
+                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
             }
 
             return new AlbumLastFmMetadata(album.Id, result);
