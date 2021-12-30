@@ -59,7 +59,11 @@ namespace DrasticMedia.ViewModels
 
         private async Task RefreshMusicLibrary()
         {
+#if WINDOWS
             this.MediaLibrary.ScanMediaDirectoriesAsync(@"C:\Users\t_mil\Music").FireAndForgetSafeAsync();
+#elif __MACCATALYST__
+            this.MediaLibrary.ScanMediaDirectoriesAsync(@"/Users/drasticactions/Music").FireAndForgetSafeAsync();
+#endif
         }
 
         private async Task RefreshArtists()

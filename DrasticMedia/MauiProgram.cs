@@ -33,23 +33,22 @@ public static class MauiProgram
         service = new NativeMediaService();
 #endif
 
-#if IOS || MACCATALYST || WINDOWS || ANDROID
-        LibVLCSharp.Shared.Core.Initialize();
-#endif
-        var consoleLogger = new ConsoleLogger();
+        var builder = MauiApp.CreateBuilder();
 
+#if WINDOWS || ANDROID
+        LibVLCSharp.Shared.Core.Initialize();
         var libvlc = new LibVLCSharp.Shared.LibVLC();
         var mediaplayer = new LibVLCSharp.Shared.MediaPlayer(libvlc);
         var mediaService = new VLCMediaService(mediaplayer, libvlc);
-        var builder = MauiApp.CreateBuilder();
-
         builder.Services.AddSingleton(libvlc);
         builder.Services.AddSingleton(mediaplayer);
         builder.Services.AddSingleton<ILocalMetadataParser, VLCMediaParser>();
         builder.Services.AddSingleton<IMediaService>(mediaService);
-
-        //builder.Services.AddSingleton<ILocalMetadataParser, FFMpegMediaParser>();
-        //builder.Services.AddSingleton<IMediaService>(service);
+#else
+        builder.Services.AddSingleton<ILocalMetadataParser, FFMpegMediaParser>();
+        builder.Services.AddSingleton<IMediaService>(service);
+#endif
+        var consoleLogger = new ConsoleLogger();
 
         builder.Services.AddSingleton<IPlatformSettings, PlatformSettings>();
         builder.Services.AddSingleton<IMetadataService, LastfmMetadataService>();
