@@ -63,13 +63,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<IErrorHandlerService, ErrorHandlerService>();
         builder.Services.AddSingleton<PlayerService>();
-        //builder.Services.AddSingleton<PlayerPageViewModel>();
+        builder.Services.AddSingleton<PlayerPageViewModel>();
         builder.Services.AddTransient<PodcastListPageViewModel>();
         builder.Services.AddTransient<PodcastEpisodeListPageViewModel>();
         builder.Services.AddTransient<ArtistListPageViewModel>();
         builder.Services.AddTransient<AlbumListPageViewModel>();
         builder.Services.AddTransient<AlbumPageViewModel>();
-        //builder.Services.AddTransient<PlayerPage>();
+        builder.Services.AddTransient<PlayerPage>();
         builder.Services.AddTransient<PodcastListPage>();
         builder.Services.AddTransient<DebugPage>();
         builder.Services.AddTransient<AlbumPage>();

@@ -2,6 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Microsoft.Maui.Platform;
+
 namespace DrasticMedia;
 
 /// <summary>
@@ -19,6 +21,17 @@ public partial class App : Application
     {
         this.InitializeComponent();
         this.services = services;
+
+        Microsoft.Maui.Handlers.LayoutHandler.LayoutMapper.AppendToMapping(nameof(IView.Background), (handler, view) =>
+        {
+            if (view is PlayerGrid playerGrid)
+            {
+#if WINDOWS
+                var grid = playerGrid.Handler.GetWrappedNativeView() as LayoutPanel;
+                grid.Background = MauiWinUIApplication.Current.Resources["SystemControlAcrylicElementBrush"] as Microsoft.UI.Xaml.Media.Brush;
+#endif
+            }
+        });
     }
 
     /// <inheritdoc/>

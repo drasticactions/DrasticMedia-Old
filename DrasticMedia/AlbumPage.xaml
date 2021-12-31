@@ -19,7 +19,7 @@
             <DataTemplate>
                 <Grid Margin="0,15,0,0" ColumnDefinitions="*, Auto">
                     <HorizontalStackLayout VerticalOptions="Center">
-                        <Label Text="{Binding Tracknumber, StringFormat='{0}.'}" />
+                        <Label Text="{Binding Tracknumber, StringFormat='{0}. '}" />
                         <Label LineBreakMode="TailTruncation" MaxLines="2"  Text="{Binding Title}" />
                     </HorizontalStackLayout>
                     <Button GridLayout.Column="1"

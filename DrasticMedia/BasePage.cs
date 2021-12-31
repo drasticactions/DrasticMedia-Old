@@ -47,5 +47,27 @@ namespace DrasticMedia
                 await this.ViewModel.LoadAsync();
             }
         }
+
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+            this.SetPlayerHeight(this.ViewModel);
+        }
+
+        public void SetPlayerHeight(BaseViewModel? vm)
+        {
+            if (vm is null)
+            {
+                return;
+            }
+
+            var parentWindow = this.GetParentWindow() as MediaWindow;
+            if (parentWindow is null)
+            {
+                return;
+            }
+
+            this.ViewModel.SetPlayerHeight(parentWindow.GetPlayerHeight());
+        }
     }
 }

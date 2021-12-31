@@ -12,6 +12,7 @@ using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Services;
 using DrasticMedia.Services;
 using DrasticMedia.Utilities;
+using Microsoft.Maui.Platform;
 
 namespace DrasticMedia
 {
@@ -23,8 +24,10 @@ namespace DrasticMedia
         private IErrorHandlerService errorHandler;
         private IServiceProvider serviceProvider;
         private DragAndDropOverlay dragAndDropOverlay;
+        private PageOverlay playerOverlay;
         private PlayerService player;
         private MediaLibrary library;
+        private PlayerPage playerPage;
         public MediaWindow(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -32,6 +35,8 @@ namespace DrasticMedia
             this.player = serviceProvider.GetService<PlayerService>();
             this.library = serviceProvider.GetService<MediaLibrary>();
             this.dragAndDropOverlay = new DragAndDropOverlay(this);
+            this.playerOverlay = new PageOverlay(this);
+            this.playerPage = new PlayerPage(this.serviceProvider);
             this.dragAndDropOverlay.Drop += this.DragAndDropOverlay_Drop;
             this.library.NewMediaItemAdded += this.Library_NewMediaItemAdded;
             this.library.NewMediaItemError += this.Library_NewMediaItemError;
@@ -61,7 +66,26 @@ namespace DrasticMedia
         protected override void OnCreated()
         {
             this.AddOverlay(this.dragAndDropOverlay);
+            this.AddOverlay(this.playerOverlay);
+            this.playerOverlay.AddView(this.playerPage);
             base.OnCreated();
+        }
+
+        public double GetPlayerHeight() => this.playerPage.GetHeightOfPlayer();
+
+        public double GetHeight()
+        {
+#if ANDROID
+            var nativeView = this.ToNative(this.Handler.MauiContext);
+            return (double)nativeView.Height;
+
+#elif WINDOWS
+            if (this.Handler.NativeView is Microsoft.UI.Xaml.Window window)
+            {
+                return window.Bounds.Height;
+            }
+#endif
+            return 0;
         }
 
         private void DragAndDropOverlay_Drop(object sender, DragAndDropOverlayTappedEventArgs e)

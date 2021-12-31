@@ -41,5 +41,12 @@ namespace DrasticMedia
                 this.albumVm.LoadArtist(artist.Id).FireAndForgetSafeAsync();
             }
         }
+
+        /// <inheritdoc/>
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+            this.SetPlayerHeight(this.albumVm);
+        }
     }
 }

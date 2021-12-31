@@ -17,6 +17,7 @@ namespace DrasticMedia.ViewModels
         private bool isRefreshing;
         private string title;
         private Page? originalPage;
+        private double playerHeight;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseViewModel"/> class.
@@ -84,6 +85,26 @@ namespace DrasticMedia.ViewModels
             {
                 this.title = value;
                 this.OnPropertyChanged("Title");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the page height.
+        /// </summary>
+        public double PlayerHeight
+        {
+            get
+            {
+                return this.playerHeight;
+            }
+
+            set
+            {
+                if (this.playerHeight != value)
+                {
+                    this.playerHeight = value;
+                    this.OnPropertyChanged("PlayerHeight");
+                }
             }
         }
 
@@ -157,6 +178,11 @@ namespace DrasticMedia.ViewModels
             }
 
             return this.originalPage;
+        }
+
+        internal void SetPlayerHeight(double height)
+        {
+            this.PlayerHeight = height;
         }
 
         private async Task ExecuteCloseDialogCommand()

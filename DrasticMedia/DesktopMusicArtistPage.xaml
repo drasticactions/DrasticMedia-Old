@@ -52,6 +52,9 @@
                             </VerticalStackLayout>
                         </DataTemplate>
                     </rcv:ReorderableCollectionView.ItemTemplate>
+                    <rcv:ReorderableCollectionView.Footer>
+                        <GridLayout HeightRequest="200" BackgroundColor="Transparent"/>
+                    </rcv:ReorderableCollectionView.Footer>
                 </rcv:ReorderableCollectionView>
             </GridLayout>
         </GridLayout>
