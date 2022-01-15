@@ -1,1 +1,1 @@
- # DrasticMedia - A MAUI Media Player
+ # DrasticMedia - Media Library and Player Libraries for .NET 6
