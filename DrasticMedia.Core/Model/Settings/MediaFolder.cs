@@ -2,12 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DrasticMedia.Core.Model
 {
     /// <summary>
@@ -28,7 +22,7 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the path for the folder.
         /// </summary>
-        public string Path { get; set; }
+        public string Path { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the type of media folder this is.

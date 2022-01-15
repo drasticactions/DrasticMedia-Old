@@ -2,10 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace DrasticMedia.Core
 {
@@ -108,15 +106,16 @@ namespace DrasticMedia.Core
             => logger.Log(new LogMessage(DateTime.Now, level, message ?? string.Empty));
 
         public static void Log(this ILogger logger,
-            Exception ex,
+            Exception? ex,
             LogLevel level = LogLevel.Error,
             [CallerMemberName] string memberName = "(unknown)",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            logger.Log(level, $"Caught exception in {memberName} at {sourceLineNumber}: {ex}\n{ex.StackTrace}");
+            logger.Log(level, $"Caught exception in {memberName} at {sourceLineNumber}: {ex}\n{ex?.StackTrace}");
         }
 
-        public static void LogIfFaulted(this Task task,
+        public static void LogIfFaulted(
+            this Task task,
             ILogger logger,
             LogLevel level = LogLevel.Error,
             [CallerMemberName] string memberName = "(unknown)",

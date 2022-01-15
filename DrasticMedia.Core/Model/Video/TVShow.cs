@@ -2,12 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DrasticMedia.Core.Model
 {
     /// <summary>
@@ -23,16 +17,16 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the show title.
         /// </summary>
-        public string ShowTitle { get; set; }
+        public string ShowTitle { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the poster path.
         /// </summary>
-        public string PosterPath { get; set; }
+        public string PosterPath { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the episodes of the show.
         /// </summary>
-        public virtual List<VideoItem> Episodes { get; set; }
+        public virtual List<VideoItem> Episodes { get; set; } = new List<VideoItem>();
     }
 }
