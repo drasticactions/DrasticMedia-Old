@@ -1,7 +1,6 @@
 <Project>
     <PropertyGroup>
         <LangVersion>preview</LangVersion>
-        <MauiVersion>6.0.101-preview.12.2356</MauiVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
