@@ -2,13 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DrasticMedia.Core.Model;
-
 namespace DrasticMedia.Core.Services
 {
     /// <summary>
@@ -16,7 +9,7 @@ namespace DrasticMedia.Core.Services
     /// </summary>
     public partial class NativeMediaService : IMediaService
     {
-        private System.Threading.Timer positionTimer;
+        private System.Threading.Timer? positionTimer;
 
         private Model.MediaItem? media;
 

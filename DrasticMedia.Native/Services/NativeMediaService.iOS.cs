@@ -2,13 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AVFoundation;
-using Foundation;
 
 namespace DrasticMedia.Core.Services
 {
@@ -123,7 +117,7 @@ namespace DrasticMedia.Core.Services
                 return;
             }
 
-            NSUrl url = this.CurrentMedia.Path != null ? NSUrl.CreateFileUrl(this.CurrentMedia.Path, false, null) : new NSUrl(this.CurrentMedia.OnlinePath.ToString());
+            NSUrl url = this.CurrentMedia.Path != null ? NSUrl.CreateFileUrl(this.CurrentMedia.Path, false, null) : new NSUrl(this.CurrentMedia.OnlinePath?.ToString() ?? string.Empty);
 
             var playerItem = new AVPlayerItem(url);
             this.avPlayer?.ReplaceCurrentItemWithPlayerItem(playerItem);

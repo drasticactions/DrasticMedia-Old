@@ -62,41 +62,77 @@ namespace DrasticMedia.Core.Services
 
         public MediaPlayer? MediaPlayer;
 
-        public Android.Media.Session.MediaController MediaController;
+        public Android.Media.Session.MediaController? MediaController;
 
-        private AudioManager audioManager;
+        private AudioManager? audioManager;
 
-        private MediaSession mediaSession;
+        private MediaSession? mediaSession;
 
         private int buffered = 0;
 
-        private WifiManager wifiManager;
+        private WifiManager? wifiManager;
         private WifiManager.WifiLock? wifiLock;
 
         /// <summary>
         /// Status Changed.
         /// </summary>
-        public event StatusChangedEventHandler StatusChanged;
+        public event StatusChangedEventHandler? StatusChanged;
 
         /// <summary>
         /// Cover Reloaded.
         /// </summary>
-        public event CoverReloadedEventHandler CoverReloaded;
+        public event CoverReloadedEventHandler? CoverReloaded;
 
         /// <summary>
         /// Is Playing.
         /// </summary>
-        public event PlayingEventHandler Playing;
+        public event PlayingEventHandler? Playing;
 
         /// <summary>
         /// Is Buffering.
         /// </summary>
-        public event BufferingEventHandler Buffering;
+        public event BufferingEventHandler? Buffering;
 
         private readonly Handler playingHandler;
         private readonly Java.Lang.Runnable playingHandlerRunnable;
 
-        private ComponentName remoteComponentName;
+        private ComponentName? remoteComponentName;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPlayerService"/> class.
+        /// </summary>
+        public MediaPlayerService()
+        {
+            if (Looper.MainLooper is null)
+            {
+                throw new NullReferenceException(nameof(Looper));
+            }
+
+            this.playingHandler = new Handler(Looper.MainLooper);
+
+            // Create a runnable, restarting itself if the status still is "playing"
+            this.playingHandlerRunnable = new Java.Lang.Runnable(() =>
+            {
+                this.OnPlaying(EventArgs.Empty);
+
+                if (this.MediaPlayerState == PlaybackStateCode.Playing)
+                {
+                    if (this.playingHandlerRunnable is not null)
+                    {
+                        this.playingHandler.PostDelayed(this.playingHandlerRunnable, 250);
+                    }
+                }
+            });
+
+            // On Status changed to PLAYING, start raising the Playing event
+            this.StatusChanged += (object sender, EventArgs e) =>
+            {
+                if (this.MediaPlayerState == PlaybackStateCode.Playing)
+                {
+                    this.playingHandler.PostDelayed(this.playingHandlerRunnable, 0);
+                }
+            };
+        }
 
         /// <summary>
         /// Gets the Media Player State.
@@ -105,38 +141,10 @@ namespace DrasticMedia.Core.Services
         {
             get
             {
-                return this.MediaController.PlaybackState != null
+                return this.MediaController?.PlaybackState != null
                     ? this.MediaController.PlaybackState.State
                     : PlaybackStateCode.None;
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MediaPlayerService"/> class.
-        /// </summary>
-        public MediaPlayerService()
-        {
-            this.playingHandler = new Handler(Looper.MainLooper);
-
-            // Create a runnable, restarting itself if the status still is "playing"
-            playingHandlerRunnable = new Java.Lang.Runnable(() =>
-            {
-                OnPlaying(EventArgs.Empty);
-
-                if (MediaPlayerState == PlaybackStateCode.Playing)
-                {
-                    playingHandler.PostDelayed(playingHandlerRunnable, 250);
-                }
-            });
-
-            // On Status changed to PLAYING, start raising the Playing event
-            StatusChanged += (object sender, EventArgs e) =>
-            {
-                if (MediaPlayerState == PlaybackStateCode.Playing)
-                {
-                    playingHandler.PostDelayed(playingHandlerRunnable, 0);
-                }
-            };
         }
 
         /// <summary>
@@ -188,10 +196,22 @@ namespace DrasticMedia.Core.Services
             base.OnCreate();
 
             // Find our audio and notificaton managers
-            this.audioManager = (AudioManager)GetSystemService(AudioService);
-            this.wifiManager = (WifiManager)GetSystemService(WifiService);
+            var audioManager = this.GetSystemService(AudioService) as AudioManager;
+            if (audioManager is not null)
+            {
+                this.audioManager = audioManager;
+            }
 
-            this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+            var wifiManager = this.GetSystemService(WifiService) as WifiManager;
+            if (wifiManager is not null)
+            {
+                this.wifiManager = wifiManager;
+            }
+
+            if (this.PackageName is not null)
+            {
+                this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+            }
         }
 
         /// <summary>
@@ -245,13 +265,13 @@ namespace DrasticMedia.Core.Services
         /// On Prepared.
         /// </summary>
         /// <param name="mp">Media Player.</param>
-        public void OnPrepared(MediaPlayer mp)
+        public void OnPrepared(MediaPlayer? mp)
         {
-            mp.Start();
+            mp?.Start();
             this.UpdatePlaybackState(PlaybackStateCode.Playing);
         }
 
-        public string AudioUrl;
+        public string? AudioUrl;
 
         /// <summary>
         /// Gets the position.
@@ -293,16 +313,18 @@ namespace DrasticMedia.Core.Services
             }
         }
 
-
-
         public int Buffered
         {
             get
             {
                 if (this.MediaPlayer == null)
+                {
                     return 0;
+                }
                 else
+                {
                     return this.buffered;
+                }
             }
 
             private set
@@ -375,15 +397,25 @@ namespace DrasticMedia.Core.Services
             try
             {
                 MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+                var audioUrl = AndroidNet.Uri.Parse(this.AudioUrl);
 
-                await this.MediaPlayer.SetDataSourceAsync(this.ApplicationContext, AndroidNet.Uri.Parse(AudioUrl));
+                if (this.ApplicationContext is not null && this.MediaPlayer is not null && audioUrl is not null)
+                {
+                    await this.MediaPlayer.SetDataSourceAsync(this.ApplicationContext, audioUrl);
+                }
 
                 await metaRetriever.SetDataSourceAsync(this.AudioUrl, new Dictionary<string, string>());
 
-                var focusResult = this.audioManager.RequestAudioFocus(new AudioFocusRequestClass
+                var audioFocus = new AudioFocusRequestClass
                     .Builder(AudioFocus.Gain)
                     .SetOnAudioFocusChangeListener(this)
-                    .Build());
+                    .Build();
+
+                AudioFocusRequest? focusResult = null;
+                if (audioFocus is not null)
+                {
+                    focusResult = this.audioManager?.RequestAudioFocus(audioFocus);
+                }
 
                 if (focusResult != AudioFocusRequest.Granted)
                 {
@@ -392,22 +424,25 @@ namespace DrasticMedia.Core.Services
                 }
 
                 this.UpdatePlaybackState(PlaybackStateCode.Buffering);
-                this.MediaPlayer.PrepareAsync();
+                this.MediaPlayer?.PrepareAsync();
 
                 this.AquireWifiLock();
                 this.UpdateMediaMetadataCompat(metaRetriever);
                 this.StartNotification();
 
-                byte[] imageByteArray = metaRetriever.GetEmbeddedPicture();
+                byte[] imageByteArray = metaRetriever?.GetEmbeddedPicture() ?? new byte[0];
                 this.Cover = await BitmapFactory.DecodeByteArrayAsync(imageByteArray, 0, imageByteArray.Length);
             }
             catch (Exception ex)
             {
                 this.UpdatePlaybackState(PlaybackStateCode.Stopped);
 
-                this.MediaPlayer.Reset();
-                this.MediaPlayer.Release();
-                this.MediaPlayer = null;
+                if (this.MediaPlayer is not null)
+                {
+                    this.MediaPlayer.Reset();
+                    this.MediaPlayer.Release();
+                    this.MediaPlayer = null;
+                }
 
                 // Unable to start playback log error
                 Console.WriteLine(ex);
@@ -532,7 +567,11 @@ namespace DrasticMedia.Core.Services
 
                 this.UpdatePlaybackState(PlaybackStateCode.Stopped);
                 this.MediaPlayer.Reset();
-                NotificationHelper.StopNotification(this.ApplicationContext);
+                if (this.ApplicationContext is not null)
+                {
+                    NotificationHelper.StopNotification(this.ApplicationContext);
+                }
+
                 this.StopForeground(true);
                 this.ReleaseWifiLock();
                 this.UnregisterMediaSessionCompat();
@@ -553,7 +592,8 @@ namespace DrasticMedia.Core.Services
 
             try
             {
-                PlaybackState.Builder stateBuilder = new PlaybackState.Builder()
+#pragma warning disable CS8602
+                PlaybackState.Builder? stateBuilder = new PlaybackState.Builder()
                     .SetActions(
                         PlaybackState.ActionPause |
                         PlaybackState.ActionPlay |
@@ -562,15 +602,21 @@ namespace DrasticMedia.Core.Services
                         PlaybackState.ActionSkipToPrevious |
                         PlaybackState.ActionStop
                     )
-                    .SetState(state, Position, 1.0f, SystemClock.ElapsedRealtime());
+                    .SetState(state, this.Position, 1.0f, SystemClock.ElapsedRealtime());
+#pragma warning restore CS8602
 
-                mediaSession.SetPlaybackState(stateBuilder.Build());
+                if (stateBuilder is null)
+                {
+                    return;
+                }
 
-                OnStatusChanged(EventArgs.Empty);
+                this.mediaSession.SetPlaybackState(stateBuilder.Build());
+
+                this.OnStatusChanged(EventArgs.Empty);
 
                 if (state == PlaybackStateCode.Playing || state == PlaybackStateCode.Paused)
                 {
-                    StartNotification();
+                    this.StartNotification();
                 }
             }
             catch (Exception ex)
@@ -586,12 +632,15 @@ namespace DrasticMedia.Core.Services
                 return;
             }
 
-            NotificationHelper.StartNotification(
+            if (this.ApplicationContext is not null && this.MediaController?.Metadata is not null && this.Cover is not null)
+            {
+                NotificationHelper.StartNotification(
                 this.ApplicationContext,
                 this.MediaController.Metadata,
                 this.mediaSession,
                 this.Cover,
                 this.MediaPlayerState == PlaybackStateCode.Playing);
+            }
         }
 
         /// <summary>
@@ -605,13 +654,14 @@ namespace DrasticMedia.Core.Services
             }
 
             MediaMetadata.Builder builder = new MediaMetadata.Builder();
-
+#pragma warning disable CS8602
             if (metaRetriever != null)
             {
                 builder
                 .PutString(MediaMetadata.MetadataKeyAlbum, metaRetriever.ExtractMetadata(MetadataKey.Album))
                 .PutString(MediaMetadata.MetadataKeyArtist, metaRetriever.ExtractMetadata(MetadataKey.Artist))
                 .PutString(MediaMetadata.MetadataKeyTitle, metaRetriever.ExtractMetadata(MetadataKey.Title));
+
             }
             else
             {
@@ -620,7 +670,7 @@ namespace DrasticMedia.Core.Services
                     .PutString(MediaMetadata.MetadataKeyArtist, mediaSession.Controller.Metadata.GetString(MediaMetadata.MetadataKeyArtist))
                     .PutString(MediaMetadata.MetadataKeyTitle, mediaSession.Controller.Metadata.GetString(MediaMetadata.MetadataKeyTitle));
             }
-
+#pragma warning restore CS8602
             builder.PutBitmap(MediaMetadata.MetadataKeyAlbumArt, this.Cover as Bitmap);
 
             this.mediaSession.SetMetadata(builder.Build());
@@ -637,23 +687,23 @@ namespace DrasticMedia.Core.Services
 
             if (action.Equals(ActionPlay))
             {
-                this.MediaController.GetTransportControls().Play();
+                this.MediaController?.GetTransportControls().Play();
             }
             else if (action.Equals(ActionPause))
             {
-                this.MediaController.GetTransportControls().Pause();
+                this.MediaController?.GetTransportControls().Pause();
             }
             else if (action.Equals(ActionPrevious))
             {
-                this.MediaController.GetTransportControls().SkipToPrevious();
+                this.MediaController?.GetTransportControls().SkipToPrevious();
             }
             else if (action.Equals(ActionNext))
             {
-                this.MediaController.GetTransportControls().SkipToNext();
+                this.MediaController?.GetTransportControls().SkipToNext();
             }
             else if (action.Equals(ActionStop))
             {
-                this.MediaController.GetTransportControls().Stop();
+                this.MediaController?.GetTransportControls().Stop();
             }
         }
 
@@ -664,10 +714,10 @@ namespace DrasticMedia.Core.Services
         {
             if (this.wifiLock == null)
             {
-                this.wifiLock = wifiManager.CreateWifiLock(WifiMode.Full, "xamarin_wifi_lock");
+                this.wifiLock = this.wifiManager?.CreateWifiLock(WifiMode.Full, "xamarin_wifi_lock");
             }
 
-            this.wifiLock.Acquire();
+            this.wifiLock?.Acquire();
         }
 
         /// <summary>
@@ -683,7 +733,7 @@ namespace DrasticMedia.Core.Services
         }
 
         /// <summary>
-        /// Will register for the remote control client commands in audio manager
+        /// Will register for the remote control client commands in audio manager.
         /// </summary>
         private void InitMediaSession()
         {
@@ -691,19 +741,29 @@ namespace DrasticMedia.Core.Services
             {
                 if (this.mediaSession == null)
                 {
+                    if (this.ApplicationContext is null)
+                    {
+                        return;
+                    }
+
                     Intent nIntent = new Intent(this.ApplicationContext, typeof(Activity));
 
-                    this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+                    if (this.PackageName is not null)
+                    {
+                        this.remoteComponentName = new ComponentName(this.PackageName, new RemoteControlBroadcastReceiver().ComponentName);
+                    }
 
-                    this.mediaSession = new MediaSession(ApplicationContext, "MauiStreamingAudio"/*, remoteComponentName*/); //TODO
-                    this.mediaSession.SetSessionActivity(PendingIntent.GetActivity(ApplicationContext, 0, nIntent, 0));
-                    this.MediaController = new Android.Media.Session.MediaController(ApplicationContext, mediaSession.SessionToken);
+                    this.mediaSession = new MediaSession(this.ApplicationContext, "DrasticStreamingAudio"/*, remoteComponentName*/); // TODO
+                    this.mediaSession.SetSessionActivity(PendingIntent.GetActivity(this.ApplicationContext, 0, nIntent, 0));
+                    this.MediaController = new Android.Media.Session.MediaController(this.ApplicationContext, this.mediaSession.SessionToken);
+                    this.mediaSession.Active = true;
+                    if (this.binder is not null)
+                    {
+                        this.mediaSession.SetCallback(new MediaSessionCallback((MediaPlayerServiceBinder)this.binder));
+                    }
+
+                    this.mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
                 }
-
-                this.mediaSession.Active = true;
-                this.mediaSession.SetCallback(new MediaSessionCallback((MediaPlayerServiceBinder)binder));
-
-                this.mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
             }
             catch (Exception ex)
             {
@@ -718,14 +778,20 @@ namespace DrasticMedia.Core.Services
         {
             this.MediaPlayer = new MediaPlayer();
 
-            this.MediaPlayer.SetAudioAttributes(
-                new AudioAttributes.Builder()
+#pragma warning disable CS8602
+            var audioAttributes = new AudioAttributes.Builder()
                 .SetContentType(AudioContentType.Music)
                 .SetUsage(AudioUsageKind.Media)
-                    .Build());
+                    .Build();
+#pragma warning restore CS8602
 
+            if (audioAttributes is null)
+            {
+                return;
+            }
+
+            this.MediaPlayer.SetAudioAttributes(audioAttributes);
             this.MediaPlayer.SetWakeMode(this.ApplicationContext, WakeLockFlags.Partial);
-
             this.MediaPlayer.SetOnBufferingUpdateListener(this);
             this.MediaPlayer.SetOnCompletionListener(this);
             this.MediaPlayer.SetOnErrorListener(this);
@@ -748,16 +814,21 @@ namespace DrasticMedia.Core.Services
             }
         }
 
-        IBinder binder;
+        IBinder? binder;
 
-        public override IBinder OnBind(Intent intent)
+        public override IBinder OnBind(Intent? intent)
         {
             this.binder = new MediaPlayerServiceBinder(this);
             return this.binder;
         }
 
-        public override bool OnUnbind(Intent intent)
+        public override bool OnUnbind(Intent? intent)
         {
+            if (this.ApplicationContext is null)
+            {
+                return false;
+            }
+
             NotificationHelper.StopNotification(ApplicationContext);
             return base.OnUnbind(intent);
         }
@@ -773,7 +844,12 @@ namespace DrasticMedia.Core.Services
                 this.MediaPlayer.Release();
                 this.MediaPlayer = null;
 
-                NotificationHelper.StopNotification(ApplicationContext);
+                if (this.ApplicationContext is null)
+                {
+                    return;
+                }
+
+                NotificationHelper.StopNotification(this.ApplicationContext);
                 this.StopForeground(true);
                 this.ReleaseWifiLock();
                 this.UnregisterMediaSessionCompat();
@@ -793,6 +869,11 @@ namespace DrasticMedia.Core.Services
                     if (this.MediaPlayer == null)
                     {
                         this.InitializePlayer();
+                    }
+
+                    if (this.MediaPlayer is null)
+                    {
+                        throw new NullReferenceException(nameof(this.MediaPlayer));
                     }
 
                     if (!this.MediaPlayer.IsPlaying)

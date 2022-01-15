@@ -1,9 +1,6 @@
-﻿using System;
-using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
 using Android.Media;
-using Android.Media.Session;
 using Android.OS;
 using AndroidX.Core.App;
 using static Android.App.Notification;
@@ -26,7 +23,7 @@ namespace DrasticMedia.Core.Services
             if (intentAction.Equals(MediaPlayerService.ActionStop))
                 flags = PendingIntentFlags.CancelCurrent;
 
-            PendingIntent pendingIntent = PendingIntent.GetService(context, 1, intent, flags);
+            PendingIntent? pendingIntent = PendingIntent.GetService(context, 1, intent, flags);
 
             return new Notification.Action.Builder(icon, title, pendingIntent).Build();
         }
@@ -51,11 +48,14 @@ namespace DrasticMedia.Core.Services
             var description = "The count from MainActivity.";
             var channel = new NotificationChannel(CHANNEL_ID, name, NotificationImportance.Default)
             {
-                Description = description
+                Description = description,
             };
 
-            var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
-            notificationManager.CreateNotificationChannel(channel);
+            var notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            if (notificationManager != null)
+            {
+                notificationManager.CreateNotificationChannel(channel);
+            }
         }
 
         public static void StartNotification(
@@ -65,12 +65,12 @@ namespace DrasticMedia.Core.Services
             Object largeIcon,
             bool isPlaying)
         {
-           
-               var pendingIntent = PendingIntent.GetActivity(
-                context,
-                0,
-                new Intent(context, typeof(Activity)),
-                PendingIntentFlags.UpdateCurrent);
+
+            var pendingIntent = PendingIntent.GetActivity(
+             context,
+             0,
+             new Intent(context, typeof(Activity)),
+             PendingIntentFlags.UpdateCurrent);
             MediaMetadata currentTrack = mediaMetadata;
 
             MediaStyle style = new MediaStyle();
@@ -102,9 +102,13 @@ namespace DrasticMedia.Core.Services
             bool isPlaying)
         {
             if (isPlaying)
+            {
                 builder.AddAction(NotificationHelper.GenerateActionCompat(context, Drawable.IcMediaPause, "Pause", MediaPlayerService.ActionPause));
+            }
             else
+            {
                 builder.AddAction(NotificationHelper.GenerateActionCompat(context, Drawable.IcMediaPlay, "Play", MediaPlayerService.ActionPlay));
+            }
         }
     }
 }

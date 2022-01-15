@@ -2,11 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android.Media;
 using DrasticMedia.Native.Activity;
 
@@ -37,8 +32,18 @@ namespace DrasticMedia.Core.Services
         /// <inheritdoc/>
         public float CurrentPosition
         {
-            get { return this.MediaPlayer?.CurrentPosition / this.MediaPlayer?.Duration ?? 0; }
-            set { this.MediaPlayer?.SeekTo((int)(this.MediaPlayer?.Duration * value)); }
+            get
+            {
+                return this.MediaPlayer?.CurrentPosition / this.MediaPlayer?.Duration ?? 0;
+            }
+
+            set
+            {
+                if (this.MediaPlayer is not null)
+                {
+                    this.MediaPlayer.SeekTo((int)(this.MediaPlayer.Duration * value));
+                }
+            }
         }
 
         /// <inheritdoc/>
