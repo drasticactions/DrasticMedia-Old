@@ -2,12 +2,10 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System.Web;
-using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
-using DrasticMedia.Core.Platform;
 using LibVLCSharp.Shared;
+using System.Web;
 using static DrasticMedia.Core.FileExtensions;
 
 namespace DrasticMedia.Core.Helpers
@@ -65,6 +63,11 @@ namespace DrasticMedia.Core.Helpers
         /// <returns>Music MediaProperties.</returns>
         public static async Task<IMediaItem> GetVideoPropertiesAsync(this LibVLC libVLC, VideoItem mP, FromType type)
         {
+            if (mP.Path is null)
+            {
+                throw new ParseMediaException($"Could not parse media path.");
+            }
+
             var media = new LibVLCSharp.Shared.Media(libVLC, mP.Path, type);
             var parseStatus = await media.Parse(MediaParseOptions.ParseLocal & MediaParseOptions.FetchLocal).ConfigureAwait(false);
             if (parseStatus == MediaParsedStatus.Failed)
@@ -124,6 +127,11 @@ namespace DrasticMedia.Core.Helpers
         /// <returns>Music MediaProperties.</returns>
         public static async Task<IMediaItem> GetMusicPropertiesAsync(this LibVLC libVLC, TrackItem mP, FromType type)
         {
+            if (mP.Path is null)
+            {
+                throw new ParseMediaException($"Could not parse media path.");
+            }
+
             var media = new LibVLCSharp.Shared.Media(libVLC, mP.Path, type);
 
             var parseStatus = await media.Parse(MediaParseOptions.ParseLocal & MediaParseOptions.FetchLocal).ConfigureAwait(false);

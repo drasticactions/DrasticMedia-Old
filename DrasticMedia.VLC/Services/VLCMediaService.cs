@@ -2,14 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using DrasticMedia.Core.Model;
 using LibVLCSharp.Shared;
+using System.Web;
 using VLCPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace DrasticMedia.Core.Services
@@ -125,7 +119,7 @@ namespace DrasticMedia.Core.Services
 
         private void MediaPlayer_EndReached(object? sender, EventArgs e)
         {
-           this.EndCurrentItemReached?.Invoke(this, e);
+            this.EndCurrentItemReached?.Invoke(this, e);
         }
 
         private void MediaPlayer_MediaChanged(object? sender, MediaPlayerMediaChangedEventArgs e)
