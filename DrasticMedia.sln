@@ -33,6 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Metadata.LastF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Metadata.Spotify", "DrasticMedia.Metadata.Spotify\DrasticMedia.Metadata.Spotify.csproj", "{33220702-8C64-40B6-B7C9-5B1CA550CA4C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Podcast", "DrasticMedia.Podcast\DrasticMedia.Podcast.csproj", "{2CA2DF72-C683-4D32-B656-83EBEAD7AAF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Library.Audio", "DrasticMedia.Library.Audio\DrasticMedia.Library.Audio.csproj", "{3FC9D454-7A0B-467F-9E97-C209B1727F6C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Library.Video", "DrasticMedia.Library.Video\DrasticMedia.Library.Video.csproj", "{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +93,18 @@ Global
 		{33220702-8C64-40B6-B7C9-5B1CA550CA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33220702-8C64-40B6-B7C9-5B1CA550CA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33220702-8C64-40B6-B7C9-5B1CA550CA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA2DF72-C683-4D32-B656-83EBEAD7AAF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA2DF72-C683-4D32-B656-83EBEAD7AAF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA2DF72-C683-4D32-B656-83EBEAD7AAF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA2DF72-C683-4D32-B656-83EBEAD7AAF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC9D454-7A0B-467F-9E97-C209B1727F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC9D454-7A0B-467F-9E97-C209B1727F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC9D454-7A0B-467F-9E97-C209B1727F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC9D454-7A0B-467F-9E97-C209B1727F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

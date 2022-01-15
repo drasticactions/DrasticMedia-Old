@@ -1,7 +1,14 @@
-﻿using System.Globalization;
+﻿// <copyright file="RssHelper.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using System.Globalization;
 
 namespace DrasticMedia.Core.Infrastructure
 {
+    /// <summary>
+    /// RssHelper.
+    /// </summary>
     internal static class RssHelper
     {
         private static readonly Dictionary<string, string> TimeZones = new()

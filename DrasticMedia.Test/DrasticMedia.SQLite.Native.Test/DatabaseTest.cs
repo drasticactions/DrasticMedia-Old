@@ -2,20 +2,21 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using DrasticMedia.Audio.Library;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Metadata;
-using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
+using DrasticMedia.Podcast.Library;
 using DrasticMedia.SQLite.Database;
 using DrasticMedia.Tests;
+using DrasticMedia.Video.Library;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrasticMedia.SQLite.Native.Test;
 
@@ -31,9 +32,12 @@ public class DatabaseTest
     private IMusicDatabase musicDB;
     private IPlatformSettings settings;
     private ILocalMetadataParser localMetadataParser;
-    private MediaLibrary mediaLibrary;
+    private IVideoLibrary videoLibrary;
+    private IAudioLibrary audioLibrary;
     private IPodcastService podcastService;
+    private IPodcastLibrary podcastLibrary;
     private List<IMetadataService> metadataServices = new List<IMetadataService>();
+    private IMediaScanLibrary mediaScanLibrary;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseTest"/> class.
@@ -47,9 +51,10 @@ public class DatabaseTest
         this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());
         this.videoDB = new VideoDatabase(ExtensionHelpers.VideoDatabase());
         this.musicDB = new MusicDatabase(ExtensionHelpers.MusicDatabase());
-        //this.metadataServices.Add(new SpotifyMetadataService(this.settings));
-        //this.metadataServices.Add(new LastfmMetadataService(this.settings));
-        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, this.metadataServices, this.logger);
+        this.podcastLibrary = new PodcastLibrary(this.podcastService, this.podcastDB);
+        this.audioLibrary = new AudioLibrary(this.localMetadataParser, this.musicDB, this.settings, null, this.logger);
+        this.videoLibrary = new VideoLibrary(this.localMetadataParser, this.videoDB, this.settings, this.logger);
+        this.mediaScanLibrary = new MediaScanLibrary(new List<IMediaLibrary>() { this.videoLibrary, this.audioLibrary, this.podcastLibrary }, this.logger);
     }
 
     /// <summary>
@@ -78,31 +83,31 @@ public class DatabaseTest
 
         // Normally, we would throw this on a background thread.
         // For this test, we're going to await for the result.
-        await this.mediaLibrary.ScanMediaDirectoriesAsync(mediaDirectory);
+        await this.mediaScanLibrary.ScanMediaDirectoriesAsync(mediaDirectory);
 
         if (type == Core.Library.MediaType.Audio)
         {
-            var artists = await this.mediaLibrary.FetchArtistsAsync();
+            var artists = await this.audioLibrary.FetchArtistsAsync();
             Assert.IsTrue(artists.Any());
 
-            var artistNoAlbum = await this.mediaLibrary.FetchArtistViaIdAsync(artists[0].Id);
+            var artistNoAlbum = await this.audioLibrary.FetchArtistViaIdAsync(artists[0].Id);
             Assert.IsNotNull(artistNoAlbum);
 
-            var artistWithAlbum = await this.mediaLibrary.FetchArtistWithAlbumsViaIdAsync(artists[0].Id);
+            var artistWithAlbum = await this.audioLibrary.FetchArtistWithAlbumsViaIdAsync(artists[0].Id);
             Assert.IsNotNull(artistWithAlbum);
             Assert.IsTrue(artistWithAlbum.Albums.Any());
 
-            var albumNoTracks = await this.mediaLibrary.FetchAlbumViaIdAsync(artistWithAlbum.Albums[0].Id);
+            var albumNoTracks = await this.audioLibrary.FetchAlbumViaIdAsync(artistWithAlbum.Albums[0].Id);
             Assert.IsNotNull(albumNoTracks);
 
-            var albumWithTracks = await this.mediaLibrary.FetchAlbumWithTracksViaIdAsync(artists[0].Id);
+            var albumWithTracks = await this.audioLibrary.FetchAlbumWithTracksViaIdAsync(artists[0].Id);
             Assert.IsNotNull(albumWithTracks);
             Assert.IsTrue(albumWithTracks.Tracks.Any());
         }
 
         if (type == Core.Library.MediaType.Video)
         {
-            var videos = await this.mediaLibrary.FetchVideosAsync();
+            var videos = await this.videoLibrary.FetchVideosAsync();
             Assert.IsTrue(videos.Any());
 
             // TODO: Test TV Shows.
@@ -151,17 +156,37 @@ public class DatabaseTest
 
     private void AddEventHandlers()
     {
-        this.mediaLibrary.NewMediaItemAdded += this.MediaLibrary_NewMediaItemAdded;
-        this.mediaLibrary.NewMediaItemError += this.MediaLibrary_NewMediaItemError;
-        this.mediaLibrary.RemoveMediaItem += this.MediaLibrary_RemoveMediaItem;
-        this.mediaLibrary.UpdateMediaItemAdded += this.MediaLibrary_UpdateMediaItemAdded;
+        this.audioLibrary.NewMediaItemAdded += this.MediaLibrary_NewMediaItemAdded;
+        this.audioLibrary.NewMediaItemError += this.MediaLibrary_NewMediaItemError;
+        this.audioLibrary.RemoveMediaItem += this.MediaLibrary_RemoveMediaItem;
+        this.audioLibrary.UpdateMediaItemAdded += this.MediaLibrary_UpdateMediaItemAdded;
+
+        this.videoLibrary.NewMediaItemAdded += this.MediaLibrary_NewMediaItemAdded;
+        this.videoLibrary.NewMediaItemError += this.MediaLibrary_NewMediaItemError;
+        this.videoLibrary.RemoveMediaItem += this.MediaLibrary_RemoveMediaItem;
+        this.videoLibrary.UpdateMediaItemAdded += this.MediaLibrary_UpdateMediaItemAdded;
+
+        this.podcastLibrary.NewMediaItemAdded += this.MediaLibrary_NewMediaItemAdded;
+        this.podcastLibrary.NewMediaItemError += this.MediaLibrary_NewMediaItemError;
+        this.podcastLibrary.RemoveMediaItem += this.MediaLibrary_RemoveMediaItem;
+        this.podcastLibrary.UpdateMediaItemAdded += this.MediaLibrary_UpdateMediaItemAdded;
     }
 
     private void RemoveEventHandlers()
     {
-        this.mediaLibrary.NewMediaItemAdded -= this.MediaLibrary_NewMediaItemAdded;
-        this.mediaLibrary.NewMediaItemError -= this.MediaLibrary_NewMediaItemError;
-        this.mediaLibrary.RemoveMediaItem -= this.MediaLibrary_RemoveMediaItem;
-        this.mediaLibrary.UpdateMediaItemAdded -= this.MediaLibrary_UpdateMediaItemAdded;
+        this.audioLibrary.NewMediaItemAdded -= this.MediaLibrary_NewMediaItemAdded;
+        this.audioLibrary.NewMediaItemError -= this.MediaLibrary_NewMediaItemError;
+        this.audioLibrary.RemoveMediaItem -= this.MediaLibrary_RemoveMediaItem;
+        this.audioLibrary.UpdateMediaItemAdded -= this.MediaLibrary_UpdateMediaItemAdded;
+
+        this.videoLibrary.NewMediaItemAdded -= this.MediaLibrary_NewMediaItemAdded;
+        this.videoLibrary.NewMediaItemError -= this.MediaLibrary_NewMediaItemError;
+        this.videoLibrary.RemoveMediaItem -= this.MediaLibrary_RemoveMediaItem;
+        this.videoLibrary.UpdateMediaItemAdded -= this.MediaLibrary_UpdateMediaItemAdded;
+
+        this.podcastLibrary.NewMediaItemAdded -= this.MediaLibrary_NewMediaItemAdded;
+        this.podcastLibrary.NewMediaItemError -= this.MediaLibrary_NewMediaItemError;
+        this.podcastLibrary.RemoveMediaItem -= this.MediaLibrary_RemoveMediaItem;
+        this.podcastLibrary.UpdateMediaItemAdded -= this.MediaLibrary_UpdateMediaItemAdded;
     }
 }

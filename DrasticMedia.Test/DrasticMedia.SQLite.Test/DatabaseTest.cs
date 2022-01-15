@@ -2,19 +2,20 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using DrasticMedia.Audio.Library;
 using DrasticMedia.Core;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
-using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
+using DrasticMedia.Podcast.Library;
 using DrasticMedia.SQLite.Database;
 using DrasticMedia.SQLite.Native.Test;
 using DrasticMedia.Tests;
+using DrasticMedia.Video.Library;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrasticMedia.SQLite.Test;
 
@@ -27,7 +28,9 @@ public class DatabaseTest
     private IMusicDatabase musicDB;
     private IPlatformSettings settings;
     private ILocalMetadataParser localMetadataParser;
-    private MediaLibrary mediaLibrary;
+    private IPodcastLibrary podcastLibrary;
+    private IVideoLibrary videoLibrary;
+    private IAudioLibrary audioLibrary;
     private IPodcastService podcastService;
 
     /// <summary>
@@ -42,7 +45,9 @@ public class DatabaseTest
         this.podcastDB = new PodcastDatabase(ExtensionHelpers.PodcastDatabase());
         this.videoDB = new VideoDatabase(ExtensionHelpers.VideoDatabase());
         this.musicDB = new MusicDatabase(ExtensionHelpers.MusicDatabase());
-        this.mediaLibrary = new MediaLibrary(this.localMetadataParser, this.musicDB, this.videoDB, this.podcastDB, this.settings, null, this.logger);
+        this.podcastLibrary = new PodcastLibrary(this.podcastService, this.podcastDB);
+        this.audioLibrary = new AudioLibrary(this.localMetadataParser, this.musicDB, this.settings, null, this.logger);
+        this.videoLibrary = new VideoLibrary(this.localMetadataParser, this.videoDB, this.settings, this.logger);
     }
 
     /// <summary>
@@ -97,7 +102,7 @@ public class DatabaseTest
     [DataTestMethod]
     public async Task AddUpdateRemovePodcast(string feeduri)
     {
-        var podcastItem = await this.mediaLibrary.AddOrUpdatePodcastFromUri(new System.Uri(feeduri));
+        var podcastItem = await this.podcastLibrary.AddOrUpdatePodcastFromUri(new System.Uri(feeduri));
         Assert.IsNotNull(podcastItem);
         Assert.IsTrue(podcastItem.Id > 0);
         foreach (var episode in podcastItem.Episodes)
@@ -105,16 +110,16 @@ public class DatabaseTest
             Assert.IsTrue(episode.Id > 0);
         }
 
-        var podcasts = await this.mediaLibrary.FetchPodcastsAsync();
+        var podcasts = await this.podcastLibrary.FetchPodcastsAsync();
         Assert.IsTrue(podcasts.Any());
 
-        var podcast = await this.mediaLibrary.FetchPodcastWithEpisodesAsync(podcasts.First().Id);
+        var podcast = await this.podcastLibrary.FetchPodcastWithEpisodesAsync(podcasts.First().Id);
         Assert.IsNotNull(podcast);
         Assert.IsTrue(podcast.Episodes.Any());
 
-        await this.mediaLibrary.RemovePodcast(podcast);
+        await this.podcastLibrary.RemovePodcast(podcast);
 
-        var oldPodcast = await this.mediaLibrary.FetchPodcastWithEpisodesAsync(podcast.Id);
+        var oldPodcast = await this.podcastLibrary.FetchPodcastWithEpisodesAsync(podcast.Id);
         Assert.IsNull(oldPodcast);
     }
 }
