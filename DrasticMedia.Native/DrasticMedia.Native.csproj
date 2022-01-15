@@ -11,8 +11,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Orthogonal.NTagLite" Version="3.0.2" />
-		<PackageReference Include="FFMpegCore" Version="4.6.0" />
 		<ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
 	</ItemGroup>
 	

@@ -17,6 +17,7 @@
 	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
+    <ProjectReference Include="..\..\DrasticMedia.FFMpeg\DrasticMedia.FFMpeg.csproj" />
     <ProjectReference Include="..\..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
   </ItemGroup>
   <ItemGroup>

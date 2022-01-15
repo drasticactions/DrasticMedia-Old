@@ -2,10 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Media;
@@ -123,7 +119,8 @@ namespace DrasticMedia.Core.Services
             this.playingHandler = new Handler(Looper.MainLooper);
 
             // Create a runnable, restarting itself if the status still is "playing"
-            playingHandlerRunnable = new Java.Lang.Runnable(() => {
+            playingHandlerRunnable = new Java.Lang.Runnable(() =>
+            {
                 OnPlaying(EventArgs.Empty);
 
                 if (MediaPlayerState == PlaybackStateCode.Playing)
@@ -133,7 +130,8 @@ namespace DrasticMedia.Core.Services
             });
 
             // On Status changed to PLAYING, start raising the Playing event
-            StatusChanged += (object sender, EventArgs e) => {
+            StatusChanged += (object sender, EventArgs e) =>
+            {
                 if (MediaPlayerState == PlaybackStateCode.Playing)
                 {
                     playingHandler.PostDelayed(playingHandlerRunnable, 0);
@@ -295,7 +293,7 @@ namespace DrasticMedia.Core.Services
             }
         }
 
-      
+
 
         public int Buffered
         {
@@ -423,7 +421,8 @@ namespace DrasticMedia.Core.Services
         /// <returns>Task.</returns>
         public async Task Seek(int position)
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 if (this.MediaPlayer != null)
                 {
                     this.MediaPlayer.SeekTo(position);
@@ -497,7 +496,8 @@ namespace DrasticMedia.Core.Services
         /// <returns>Task.</returns>
         public async Task Pause()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 if (this.MediaPlayer == null)
                 {
                     return;
@@ -518,7 +518,8 @@ namespace DrasticMedia.Core.Services
         /// <returns>Task.</returns>
         public async Task Stop()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 if (this.MediaPlayer == null)
                 {
                     return;
