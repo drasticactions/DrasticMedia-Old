@@ -2,11 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SpotifyAPI.Web;
 
 namespace DrasticMedia.Core.Model.Metadata
@@ -27,7 +22,6 @@ namespace DrasticMedia.Core.Model.Metadata
 
             this.AlbumItemId = albumId;
             this.AlbumType = spotifyAlbum.AlbumType;
-            this.Type = spotifyAlbum.Type;
             this.TotalTracks = spotifyAlbum.TotalTracks;
             this.Name = spotifyAlbum.Name;
             this.Uri = spotifyAlbum.Uri;
@@ -38,6 +32,8 @@ namespace DrasticMedia.Core.Model.Metadata
             this.SpotifyId = spotifyAlbum.Id;
             this.LastUpdated = DateTime.UtcNow;
         }
+
+        public string Type => this.GetType().Name;
 
         public int Id { get; set; }
 
@@ -52,8 +48,6 @@ namespace DrasticMedia.Core.Model.Metadata
         public string? ReleaseDatePrecision { get; set; }
 
         public int TotalTracks { get; set; }
-
-        public string? Type { get; set; }
 
         public string? Uri { get; set; }
 

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DrasticMedia.Core.Model.Metadata
+﻿namespace DrasticMedia.Core.Model.Metadata
 {
     public interface IAlbumMetadata
     {
         int Id { get; set; }
+
+        int AlbumItemId { get; set; }
+
+        string Type { get; }
 
         string? Name { get; set; }
 

@@ -2,12 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DrasticMedia.Core.Model.Metadata
 {
     public class ArtistLastFmMetadata : IArtistMetadata
@@ -31,6 +25,8 @@ namespace DrasticMedia.Core.Model.Metadata
             this.ArtistItemId = artistId;
             this.LastUpdated = DateTime.UtcNow;
         }
+
+        public string Type => this.GetType().Name;
 
         public int Id { get; set; }
 

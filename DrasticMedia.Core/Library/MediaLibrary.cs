@@ -2,15 +2,9 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Metadata;
 using DrasticMedia.Core.Model;
-using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Services;
 
@@ -249,9 +243,11 @@ namespace DrasticMedia.Core.Library
                             }
                         }
 
-                        if (artist.SpotifyMetadata?.Image is not null)
+                        var artistImage = artist.Metadata.FirstOrDefault()?.Image;
+
+                        if (artistImage is not null)
                         {
-                            artist.ArtistImage = await this.mediaParser.CacheArtistImageToStorage(artist, artist.SpotifyMetadata.Image);
+                            artist.ArtistImage = await this.mediaParser.CacheArtistImageToStorage(artist, artistImage);
                         }
 
                         artist = await this.musicDatabase.UpdateArtistAsync(artist);
@@ -289,10 +285,14 @@ namespace DrasticMedia.Core.Library
                                 }
                             }
 
-                            if (string.IsNullOrEmpty(album.AlbumArt) && album.SpotifyMetadata?.Image is not null)
+                            if (string.IsNullOrEmpty(album.AlbumArt) && album.Metadata.FirstOrDefault()?.Image is not null)
                             {
-                                album.AlbumArt = await this.mediaParser.CacheAlbumImageToStorage(artist, album, album.SpotifyMetadata.Image);
-                                album = await this.musicDatabase.UpdateAlbumAsync(album);
+                                var image = album.Metadata.First().Image ?? string.Empty;
+                                if (!string.IsNullOrEmpty(image))
+                                {
+                                    album.AlbumArt = await this.mediaParser.CacheAlbumImageToStorage(artist, album, image);
+                                    album = await this.musicDatabase.UpdateAlbumAsync(album);
+                                }
                             }
 
                             this.OnNewMediaItemAdded(new NewMediaItemEventArgs(album));
@@ -432,72 +432,38 @@ namespace DrasticMedia.Core.Library
 
         private async Task UpdateArtistMetadata(IMetadataService service, ArtistItem artist)
         {
-            if (service is SpotifyMetadataService spotify)
+            var metadata = await service.GetArtistMetadataAsync(artist);
+            if (metadata is not null)
             {
-                var metadata = await spotify.GetArtistMetadataAsync(artist) as ArtistSpotifyMetadata;
-                if (artist.SpotifyMetadata is not null && metadata is not null)
+                var existingMetadata = artist.Metadata.FirstOrDefault(n => n.Type == metadata.Type);
+                if (existingMetadata is not null)
                 {
-                    metadata.Id = artist.SpotifyMetadata.Id;
-                    artist.SpotifyMetadata = metadata;
-                    await this.musicDatabase.UpdateArtistSpotifyMetadataAsync(metadata);
+                    metadata.Id = existingMetadata.Id;
+                    await this.musicDatabase.UpdateArtistMetadataAsync(metadata);
                 }
                 else if (metadata is not null)
                 {
-                    await this.musicDatabase.AddArtistSpotifyMetadataAsync(metadata);
-                    artist.SpotifyMetadata = metadata;
-                    artist.SpotifyMetadataId = metadata.Id;
-                }
-            }
-            else if (service is LastfmMetadataService lastFM)
-            {
-                var metadata = await lastFM.GetArtistMetadataAsync(artist) as ArtistLastFmMetadata;
-                if (artist.LastFmMetadata is not null && metadata is not null)
-                {
-                    metadata.Id = artist.LastFmMetadata.Id;
-                    artist.LastFmMetadata = metadata;
-                    await this.musicDatabase.UpdateArtistLastFmMetadataAsync(metadata);
-                }
-                else if (metadata is not null)
-                {
-                    await this.musicDatabase.AddArtistLastFmMetadataAsync(metadata);
-                    artist.LastFmMetadata = metadata;
-                    artist.LastFmMetadataId = metadata.Id;
+                    await this.musicDatabase.AddArtistMetadataAsync(metadata);
+                    artist.Metadata.Add(metadata);
                 }
             }
         }
 
         private async Task UpdateAlbumMetadata(IMetadataService service, ArtistItem artist, AlbumItem album)
         {
-            if (service is SpotifyMetadataService spotify)
+            var metadata = await service.GetAlbumMetadataAsync(album, artist.Name);
+            if (metadata is not null)
             {
-                var metadata = await spotify.GetAlbumMetadataAsync(album, artist.Name) as AlbumSpotifyMetadata;
-                if (album.SpotifyMetadata is not null && metadata is not null)
+                var existingMetadata = album.Metadata.FirstOrDefault(n => n.Type == metadata.Type);
+                if (existingMetadata is not null)
                 {
-                    metadata.Id = album.SpotifyMetadata.Id;
-                    album.SpotifyMetadata = metadata;
-                    await this.musicDatabase.UpdateAlbumSpotifyMetadataAsync(metadata);
+                    metadata.Id = existingMetadata.Id;
+                    await this.musicDatabase.UpdateAlbumMetadataAsync(metadata);
                 }
                 else if (metadata is not null)
                 {
-                    await this.musicDatabase.AddAlbumSpotifyMetadataAsync(metadata);
-                    album.SpotifyMetadata = metadata;
-                    album.SpotifyMetadataId = metadata.Id;
-                }
-            }
-            else if (service is LastfmMetadataService lastFM)
-            {
-                var metadata = await lastFM.GetAlbumMetadataAsync(album, artist.Name) as AlbumLastFmMetadata;
-                if (album.LastFmMetadata is not null && metadata is not null)
-                {
-                    metadata.Id = album.LastFmMetadata.Id;
-                    album.LastFmMetadata = metadata;
-                    await this.musicDatabase.UpdateAlbumLastFmMetadataAsync(metadata);
-                }
-                else if (metadata is not null)
-                {
-                    await this.musicDatabase.AddAlbumLastFmMetadataAsync(metadata);
-                    album.LastFmMetadata = metadata;
-                    album.LastFmMetadataId = metadata.Id;
+                    await this.musicDatabase.AddAlbumMetadataAsync(metadata);
+                    album.Metadata.Add(metadata);
                 }
             }
         }

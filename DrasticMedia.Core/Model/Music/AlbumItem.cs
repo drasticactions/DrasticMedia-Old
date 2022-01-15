@@ -2,11 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core.Model.Metadata;
 
 namespace DrasticMedia.Core.Model
@@ -57,23 +52,8 @@ namespace DrasticMedia.Core.Model
         public virtual ArtistItem? ArtistItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the spotify metadata id.
+        /// Gets or sets the album metadata.
         /// </summary>
-        public int SpotifyMetadataId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the spotify metadata.
-        /// </summary>
-        public virtual AlbumSpotifyMetadata? SpotifyMetadata { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last fm metadata id.
-        /// </summary>
-        public int LastFmMetadataId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the lastfm metadata.
-        /// </summary>
-        public virtual AlbumLastFmMetadata? LastFmMetadata { get; set; }
+        public virtual IList<IAlbumMetadata> Metadata { get; set; } = new List<IAlbumMetadata>();
     }
 }

@@ -2,11 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 
@@ -156,59 +151,31 @@ namespace DrasticMedia.Core.Database
         Task<TrackItem> RemoveTrackAsync(TrackItem track);
 
         /// <summary>
-        /// Add Artist Spotify Metadata.
+        /// Add Artist Metadata.
         /// </summary>
-        /// <param name="metadata"><see cref="ArtistSpotifyMetadata"/>.</param>
-        /// <returns>New <see cref="ArtistSpotifyMetadata"/>.</returns>
-        Task<ArtistSpotifyMetadata> AddArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata);
+        /// <param name="metadata"><see cref="IArtistMetadata"/>.</param>
+        /// <returns>New <see cref="IArtistMetadata"/>.</returns>
+        Task<IArtistMetadata> AddArtistMetadataAsync(IArtistMetadata metadata);
 
         /// <summary>
-        /// Add Album Spotify Metadata.
+        /// Add Album Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="IAlbumMetadata"/>.</param>
+        /// <returns>New <see cref="IAlbumMetadata"/>.</returns>
+        Task<IAlbumMetadata> AddAlbumMetadataAsync(IAlbumMetadata metadata);
+
+        /// <summary>
+        /// Update Artist Metadata.
+        /// </summary>
+        /// <param name="metadata"><see cref="IArtistMetadata"/>.</param>
+        /// <returns>New <see cref="IArtistMetadata"/>.</returns>
+        Task<IArtistMetadata> UpdateArtistMetadataAsync(IArtistMetadata metadata);
+
+        /// <summary>
+        /// Update Album Metadata.
         /// </summary>
         /// <param name="metadata"><see cref="AlbumSpotifyMetadata"/>.</param>
         /// <returns>New <see cref="AlbumSpotifyMetadata"/>.</returns>
-        Task<AlbumSpotifyMetadata> AddAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata);
-
-        /// <summary>
-        /// Add Album Last FM Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="AlbumLastFmMetadata"/>.</param>
-        /// <returns>New <see cref="AlbumLastFmMetadata"/>.</returns>
-        Task<AlbumLastFmMetadata> AddAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata);
-
-        /// <summary>
-        /// Add Artist LastFM Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="ArtistLastFmMetadata"/>.</param>
-        /// <returns>New <see cref="ArtistLastFmMetadata"/>.</returns>
-        Task<ArtistLastFmMetadata> AddArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata);
-
-        /// <summary>
-        /// Update Artist Spotify Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="ArtistSpotifyMetadata"/>.</param>
-        /// <returns>New <see cref="ArtistSpotifyMetadata"/>.</returns>
-        Task<ArtistSpotifyMetadata> UpdateArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata);
-
-        /// <summary>
-        /// Update Album Spotify Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="AlbumSpotifyMetadata"/>.</param>
-        /// <returns>New <see cref="AlbumSpotifyMetadata"/>.</returns>
-        Task<AlbumSpotifyMetadata> UpdateAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata);
-
-        /// <summary>
-        /// Album LastFM Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="AlbumLastFmMetadata"/>.</param>
-        /// <returns>New <see cref="AlbumLastFmMetadata"/>.</returns>
-        Task<AlbumLastFmMetadata> UpdateAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata);
-
-        /// <summary>
-        /// Update Artist LastFM Metadata.
-        /// </summary>
-        /// <param name="metadata"><see cref="ArtistLastFmMetadata"/>.</param>
-        /// <returns>New <see cref="ArtistLastFmMetadata"/>.</returns>
-        Task<ArtistLastFmMetadata> UpdateArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata);
+        Task<IAlbumMetadata> UpdateAlbumMetadataAsync(IAlbumMetadata metadata);
     }
 }

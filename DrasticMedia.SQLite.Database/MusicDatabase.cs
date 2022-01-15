@@ -3,7 +3,6 @@
 // </copyright>
 
 using DrasticMedia.Core.Database;
-using DrasticMedia.Core.Exceptions;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
@@ -116,85 +115,75 @@ namespace DrasticMedia.SQLite.Database
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistSpotifyMetadata> AddArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
+        public async Task<IArtistMetadata> AddArtistMetadataAsync(IArtistMetadata metadata)
         {
             if (metadata.Id > 0)
             {
                 throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
             }
 
-            await this.ArtistsSpotifyMetadata.AddAsync(metadata);
+            if (metadata is ArtistSpotifyMetadata spotify)
+            {
+                await this.ArtistsSpotifyMetadata.AddAsync(spotify);
+            }
+            else if (metadata is ArtistLastFmMetadata lastfm)
+            {
+                await this.ArtistsLastFmMetadata.AddAsync(lastfm);
+            }
+
             await this.SaveChangesAsync();
             return metadata;
         }
 
         /// <inheritdoc/>
-        public async Task<AlbumSpotifyMetadata> AddAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
+        public async Task<IAlbumMetadata> AddAlbumMetadataAsync(IAlbumMetadata metadata)
         {
             if (metadata.Id > 0)
             {
                 throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
             }
 
-            await this.AlbumsSpotifyMetadata.AddAsync(metadata);
-            await this.SaveChangesAsync();
-            return metadata;
-        }
-
-        /// <inheritdoc/>
-        public async Task<AlbumLastFmMetadata> AddAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
-        {
-            if (metadata.Id > 0)
+            if (metadata is AlbumSpotifyMetadata spotify)
             {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+                await this.AlbumsSpotifyMetadata.AddAsync(spotify);
+            }
+            else if (metadata is AlbumLastFmMetadata lastfm)
+            {
+                await this.AlbumsLastFmMetadata.AddAsync(lastfm);
             }
 
-            await this.AlbumsLastFmMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistLastFmMetadata> AddArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
+        public async Task<IArtistMetadata> UpdateArtistMetadataAsync(IArtistMetadata metadata)
         {
-            if (metadata.Id > 0)
+            if (metadata is ArtistSpotifyMetadata spotify)
             {
-                throw new ArgumentException($"{nameof(metadata)} has id greater than 0");
+                this.ArtistsSpotifyMetadata.Update(spotify);
+            }
+            else if (metadata is ArtistLastFmMetadata lastfm)
+            {
+                this.ArtistsLastFmMetadata.Update(lastfm);
             }
 
-            await this.ArtistsLastFmMetadata.AddAsync(metadata);
             await this.SaveChangesAsync();
             return metadata;
         }
 
         /// <inheritdoc/>
-        public async Task<ArtistSpotifyMetadata> UpdateArtistSpotifyMetadataAsync(ArtistSpotifyMetadata metadata)
+        public async Task<IAlbumMetadata> UpdateAlbumMetadataAsync(IAlbumMetadata metadata)
         {
-            this.ArtistsSpotifyMetadata.Update(metadata);
-            await this.SaveChangesAsync();
-            return metadata;
-        }
+            if (metadata is AlbumSpotifyMetadata spotify)
+            {
+                this.AlbumsSpotifyMetadata.Update(spotify);
+            }
+            else if (metadata is AlbumLastFmMetadata lastfm)
+            {
+                this.AlbumsLastFmMetadata.Update(lastfm);
+            }
 
-        /// <inheritdoc/>
-        public async Task<AlbumSpotifyMetadata> UpdateAlbumSpotifyMetadataAsync(AlbumSpotifyMetadata metadata)
-        {
-            this.AlbumsSpotifyMetadata.Update(metadata);
-            await this.SaveChangesAsync();
-            return metadata;
-        }
-
-        /// <inheritdoc/>
-        public async Task<AlbumLastFmMetadata> UpdateAlbumLastFmMetadataAsync(AlbumLastFmMetadata metadata)
-        {
-            this.AlbumsLastFmMetadata.Update(metadata);
-            await this.SaveChangesAsync();
-            return metadata;
-        }
-
-        /// <inheritdoc/>
-        public async Task<ArtistLastFmMetadata> UpdateArtistLastFmMetadataAsync(ArtistLastFmMetadata metadata)
-        {
-            this.ArtistsLastFmMetadata.Update(metadata);
             await this.SaveChangesAsync();
             return metadata;
         }
@@ -261,49 +250,49 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public Task<List<AlbumItem>> FetchAlbumsAsync()
         {
-            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
+            return this.Albums.Include(n => n.Metadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumViaIdAsync(int id)
         {
-            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<AlbumItem?> FetchAlbumViaNameAsync(int artistId, string name)
         {
-            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
+            return this.Albums.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id)
         {
-            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.Metadata).Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<List<ArtistItem>> FetchArtistsAsync()
         {
-            return this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
+            return this.Artists.Include(n => n.Metadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaIdAsync(int id)
         {
-            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaNameAsync(string name)
         {
-            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id)
         {
-            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.Metadata).Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -380,12 +369,10 @@ namespace DrasticMedia.SQLite.Database
             modelBuilder.Entity<ArtistLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<AlbumLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<ArtistItem>().HasMany(n => n.Albums).WithOne().HasForeignKey(y => y.ArtistItemId);
-            modelBuilder.Entity<ArtistItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<ArtistSpotifyMetadata>(y => y.ArtistItemId);
-            modelBuilder.Entity<ArtistItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<ArtistLastFmMetadata>(y => y.ArtistItemId);
+            modelBuilder.Entity<ArtistItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.ArtistItemId);
             modelBuilder.Entity<AlbumItem>().HasMany(n => n.Tracks).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<AlbumItem>().HasOne(n => n.ArtistItem).WithMany(n => n.Albums).HasForeignKey(n => n.ArtistItemId);
-            modelBuilder.Entity<AlbumItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<AlbumSpotifyMetadata>(y => y.AlbumItemId);
-            modelBuilder.Entity<AlbumItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<AlbumLastFmMetadata>(y => y.AlbumItemId);
+            modelBuilder.Entity<AlbumItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<TrackItem>().HasOne(n => n.AlbumItem).WithMany(n => n.Tracks).HasForeignKey(n => n.AlbumItemId);
         }
     }

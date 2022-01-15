@@ -3,11 +3,6 @@
 // </copyright>
 
 using DrasticMedia.Core.Model.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrasticMedia.Core.Model
 {
@@ -62,23 +57,8 @@ namespace DrasticMedia.Core.Model
         public DateTime LastAccessed { get; set; }
 
         /// <summary>
-        /// Gets or sets the spotify metadata id.
+        /// Gets or sets the metadata.
         /// </summary>
-        public int SpotifyMetadataId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the spotify metadata.
-        /// </summary>
-        public virtual ArtistSpotifyMetadata? SpotifyMetadata { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last fm metadata id.
-        /// </summary>
-        public int LastFmMetadataId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the lastfm metadata.
-        /// </summary>
-        public virtual ArtistLastFmMetadata? LastFmMetadata { get; set; }
+        public virtual IList<IArtistMetadata> Metadata { get; set; } = new List<IArtistMetadata>();
     }
 }

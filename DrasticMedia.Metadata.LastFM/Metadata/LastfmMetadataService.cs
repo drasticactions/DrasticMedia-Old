@@ -2,16 +2,10 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
 using Hqub.Lastfm;
-using Hqub.Lastfm.Entities;
 
 namespace DrasticMedia.Core.Metadata
 {

@@ -17,6 +17,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Metadata.LastFM\DrasticMedia.Metadata.LastFM.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Metadata.Spotify\DrasticMedia.Metadata.Spotify.csproj" />
 		<ProjectReference Include="..\..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
 	</ItemGroup>
 	<ItemGroup>
