@@ -369,10 +369,10 @@ namespace DrasticMedia.SQLite.Database
             modelBuilder.Entity<ArtistLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<AlbumLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<ArtistItem>().HasMany(n => n.Albums).WithOne().HasForeignKey(y => y.ArtistItemId);
-            modelBuilder.Entity<ArtistItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.ArtistItemId);
+            //modelBuilder.Entity<ArtistItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.ArtistItemId);
             modelBuilder.Entity<AlbumItem>().HasMany(n => n.Tracks).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<AlbumItem>().HasOne(n => n.ArtistItem).WithMany(n => n.Albums).HasForeignKey(n => n.ArtistItemId);
-            modelBuilder.Entity<AlbumItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.AlbumItemId);
+            //modelBuilder.Entity<AlbumItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<TrackItem>().HasOne(n => n.AlbumItem).WithMany(n => n.Tracks).HasForeignKey(n => n.AlbumItemId);
         }
     }

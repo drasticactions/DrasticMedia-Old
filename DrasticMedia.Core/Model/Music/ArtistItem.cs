@@ -3,6 +3,7 @@
 // </copyright>
 
 using DrasticMedia.Core.Model.Metadata;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DrasticMedia.Core.Model
 {
@@ -59,6 +60,7 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the metadata.
         /// </summary>
+        [NotMapped]
         public virtual IList<IArtistMetadata> Metadata { get; set; } = new List<IArtistMetadata>();
     }
 }
