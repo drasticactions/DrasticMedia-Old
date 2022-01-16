@@ -4,7 +4,6 @@
 
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
-using DrasticMedia.Core.Platform;
 using DrasticMedia.Metadata;
 using Hqub.Lastfm;
 
@@ -20,21 +19,29 @@ namespace DrasticMedia.Core.Metadata
         /// <summary>
         /// Initializes a new instance of the <see cref="LastfmMetadataService"/> class.
         /// </summary>
-        /// <param name="settings"><see cref="IPlatformSettings"/>.</param>
-        public LastfmMetadataService(IPlatformSettings settings)
-        {
-            this.Initialize(settings.MetadataPath, Core.Tools.ApiTokens.LastFMClientToken, Tools.ApiTokens.LastFMClientSecretToken);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LastfmMetadataService"/> class.
-        /// </summary>
         /// <param name="baseLocation">Base Metadata Location.</param>
         /// <param name="apiKey">API Key.</param>
         /// <param name="apiSecret">API Secret.</param>
         public LastfmMetadataService(string baseLocation, string apiKey = "", string apiSecret = "")
         {
-            this.Initialize(baseLocation, apiKey, apiSecret);
+            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
+            {
+                return;
+            }
+
+            this.client = new LastfmClient(apiKey, apiSecret);
+            if (string.IsNullOrEmpty(baseLocation))
+            {
+                throw new ArgumentNullException(nameof(baseLocation));
+            }
+
+            var directory = Directory.CreateDirectory(baseLocation);
+            if (!directory.Exists)
+            {
+                throw new ArgumentNullException(nameof(baseLocation));
+            }
+
+            this.BaseMetadataLocation = baseLocation;
         }
 
         /// <inheritdoc/>
@@ -78,28 +85,6 @@ namespace DrasticMedia.Core.Metadata
             }
 
             return result.FromAlbum(album.Id);
-        }
-
-        private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")
-        {
-            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-            {
-                return;
-            }
-
-            this.client = new LastfmClient(apiKey, apiSecret);
-            if (string.IsNullOrEmpty(baseLocation))
-            {
-                throw new ArgumentNullException(nameof(baseLocation));
-            }
-
-            var directory = Directory.CreateDirectory(baseLocation);
-            if (!directory.Exists)
-            {
-                throw new ArgumentNullException(nameof(baseLocation));
-            }
-
-            this.BaseMetadataLocation = baseLocation;
         }
     }
 }

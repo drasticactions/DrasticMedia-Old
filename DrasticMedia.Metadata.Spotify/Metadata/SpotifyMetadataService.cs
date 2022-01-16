@@ -4,7 +4,6 @@
 
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
-using DrasticMedia.Core.Platform;
 using DrasticMedia.Metadata;
 using SpotifyAPI.Web;
 
@@ -20,21 +19,34 @@ namespace DrasticMedia.Core.Metadata
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyMetadataService"/> class.
         /// </summary>
-        /// <param name="settings"><see cref="IPlatformSettings"/>.</param>
-        public SpotifyMetadataService(IPlatformSettings settings)
-        {
-            this.Initialize(settings.MetadataPath, Core.Tools.ApiTokens.SpotifyClientToken, Core.Tools.ApiTokens.SpotifyClientSecretToken);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpotifyMetadataService"/> class.
-        /// </summary>
         /// <param name="baseLocation">Base Location.</param>
         /// <param name="apiKey">API Key.</param>
         /// <param name="apiSecret">API Secret.</param>
         public SpotifyMetadataService(string baseLocation, string apiKey = "", string apiSecret = "")
         {
-            this.Initialize(baseLocation, apiKey, apiSecret);
+            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
+            {
+                return;
+            }
+
+            var config = SpotifyClientConfig.CreateDefault();
+            var request = new ClientCredentialsRequest(apiKey, apiSecret);
+            var response = new OAuthClient(config).RequestToken(request).Result;
+
+            this.client = new SpotifyClient(config.WithToken(response.AccessToken));
+
+            if (string.IsNullOrEmpty(baseLocation))
+            {
+                throw new ArgumentNullException(nameof(baseLocation));
+            }
+
+            var directory = Directory.CreateDirectory(baseLocation);
+            if (!directory.Exists)
+            {
+                throw new ArgumentNullException(nameof(baseLocation));
+            }
+
+            this.BaseMetadataLocation = baseLocation;
         }
 
         /// <inheritdoc/>
@@ -101,33 +113,6 @@ namespace DrasticMedia.Core.Metadata
             }
 
             return new AlbumSpotifyMetadata(album.Id);
-        }
-
-        private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")
-        {
-            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-            {
-                return;
-            }
-
-            var config = SpotifyClientConfig.CreateDefault();
-            var request = new ClientCredentialsRequest(apiKey, apiSecret);
-            var response = new OAuthClient(config).RequestToken(request).Result;
-
-            this.client = new SpotifyClient(config.WithToken(response.AccessToken));
-
-            if (string.IsNullOrEmpty(baseLocation))
-            {
-                throw new ArgumentNullException(nameof(baseLocation));
-            }
-
-            var directory = Directory.CreateDirectory(baseLocation);
-            if (!directory.Exists)
-            {
-                throw new ArgumentNullException(nameof(baseLocation));
-            }
-
-            this.BaseMetadataLocation = baseLocation;
         }
     }
 }
