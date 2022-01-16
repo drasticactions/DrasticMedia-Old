@@ -47,6 +47,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{4EA5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Metadata.Deezer", "DrasticMedia.Metadata.Deezer\DrasticMedia.Metadata.Deezer.csproj", "{492C80B1-0536-4437-9653-6F7088CED55D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Metadata.AppleMusic", "DrasticMedia.Metadata.AppleMusic\DrasticMedia.Metadata.AppleMusic.csproj", "{89F73FAA-25F2-473D-9DB4-45B1B2245416}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppleMusicAPI.NET.Models", "external\apple\src\AppleMusicAPI.NET.Models\AppleMusicAPI.NET.Models.csproj", "{CBE04095-2377-4B63-A21C-ABBDF5E90146}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppleMusicAPI.NET", "external\apple\src\AppleMusicAPI.NET\AppleMusicAPI.NET.csproj", "{B35F25A8-633F-4146-87CC-E9229AE2321F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +123,18 @@ Global
 		{492C80B1-0536-4437-9653-6F7088CED55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{492C80B1-0536-4437-9653-6F7088CED55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{492C80B1-0536-4437-9653-6F7088CED55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89F73FAA-25F2-473D-9DB4-45B1B2245416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F73FAA-25F2-473D-9DB4-45B1B2245416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F73FAA-25F2-473D-9DB4-45B1B2245416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F73FAA-25F2-473D-9DB4-45B1B2245416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE04095-2377-4B63-A21C-ABBDF5E90146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE04095-2377-4B63-A21C-ABBDF5E90146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE04095-2377-4B63-A21C-ABBDF5E90146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE04095-2377-4B63-A21C-ABBDF5E90146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +155,9 @@ Global
 		{3FC9D454-7A0B-467F-9E97-C209B1727F6C} = {4EA559DA-1007-43C3-BE13-98BF7B79A727}
 		{42B03FBB-E0D2-4FE6-B4D1-534A9AFE9274} = {4EA559DA-1007-43C3-BE13-98BF7B79A727}
 		{492C80B1-0536-4437-9653-6F7088CED55D} = {C828884C-2EF7-451A-B92C-C699C956176B}
+		{89F73FAA-25F2-473D-9DB4-45B1B2245416} = {C828884C-2EF7-451A-B92C-C699C956176B}
+		{CBE04095-2377-4B63-A21C-ABBDF5E90146} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
+		{B35F25A8-633F-4146-87CC-E9229AE2321F} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02861446-20CB-4458-9CEC-F6E3333942C0}

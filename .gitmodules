@@ -2,3 +2,7 @@
 	path = external/lastfm
 	url = git@github.com:drasticactions/Last.fm.git
 	branch = fork
+[submodule "external/apple"]
+	path = external/apple
+	url = git@github.com:drasticactions/AppleMusicAPI.NET.git
+	branch = Fork
