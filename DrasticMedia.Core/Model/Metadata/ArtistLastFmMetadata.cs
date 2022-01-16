@@ -8,22 +8,17 @@ namespace DrasticMedia.Core.Model.Metadata
     {
         public ArtistLastFmMetadata()
         {
-            this.LastUpdated = DateTime.Now;
         }
 
-        public ArtistLastFmMetadata(int artistId, Hqub.Lastfm.Entities.Artist artist)
+        public ArtistLastFmMetadata(int artistId)
         {
             if (artistId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(artistId), "Must be higher than 0");
             }
 
-            this.MBID = artist.MBID;
-            this.Name = artist.Name;
-            this.Biography = artist.Biography.Content;
-            this.BiographyPublished = artist.Biography.Published;
             this.ArtistItemId = artistId;
-            this.LastUpdated = DateTime.UtcNow;
+            this.LastUpdated = DateTime.Now;
         }
 
         public string Type => this.GetType().Name;

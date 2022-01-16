@@ -8,6 +8,7 @@ using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Metadata;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
+using DrasticMedia.Core.Tools;
 
 namespace DrasticMedia.Audio.Library
 {
@@ -16,16 +17,16 @@ namespace DrasticMedia.Audio.Library
         private IMusicDatabase musicDatabase;
         private IPlatformSettings platform;
         private ILogger? logger;
-        private IEnumerable<IMetadataService> metadataServices;
+        private IEnumerable<IAudioMetadataService> metadataServices;
         private ILocalMetadataParser mediaParser;
 
-        public AudioLibrary(ILocalMetadataParser mediaParser, IMusicDatabase database, IPlatformSettings platform, IEnumerable<IMetadataService>? metadataServices, ILogger? logger = null)
+        public AudioLibrary(ILocalMetadataParser mediaParser, IMusicDatabase database, IPlatformSettings platform, IEnumerable<IAudioMetadataService>? metadataServices, ILogger? logger = null)
         {
             this.mediaParser = mediaParser;
             this.musicDatabase = database;
             this.logger = logger;
             this.platform = platform;
-            this.metadataServices = metadataServices ?? new List<IMetadataService>();
+            this.metadataServices = metadataServices ?? new List<IAudioMetadataService>();
         }
 
         /// <inheritdoc/>
@@ -138,7 +139,7 @@ namespace DrasticMedia.Audio.Library
                         }
                     }
 
-                    var artistImage = artist.Metadata.FirstOrDefault()?.Image;
+                    var artistImage = artist.ArtistUrlFromMetadata();
 
                     if (artistImage is not null)
                     {
@@ -180,9 +181,9 @@ namespace DrasticMedia.Audio.Library
                             }
                         }
 
-                        if (string.IsNullOrEmpty(album.AlbumArt) && album.Metadata.FirstOrDefault()?.Image is not null)
+                        if (string.IsNullOrEmpty(album.AlbumArt) && album.AlbumUrlFromMetadata() is not null)
                         {
-                            var image = album.Metadata.First().Image ?? string.Empty;
+                            var image = album.AlbumUrlFromMetadata() ?? string.Empty;
                             if (!string.IsNullOrEmpty(image))
                             {
                                 album.AlbumArt = await this.mediaParser.CacheAlbumImageToStorage(artist, album, image);
@@ -210,7 +211,7 @@ namespace DrasticMedia.Audio.Library
             return false;
         }
 
-        private async Task UpdateArtistMetadata(IMetadataService service, ArtistItem artist)
+        private async Task UpdateArtistMetadata(IAudioMetadataService service, ArtistItem artist)
         {
             var metadata = await service.GetArtistMetadataAsync(artist);
             if (metadata is not null)
@@ -229,7 +230,7 @@ namespace DrasticMedia.Audio.Library
             }
         }
 
-        private async Task UpdateAlbumMetadata(IMetadataService service, ArtistItem artist, AlbumItem album)
+        private async Task UpdateAlbumMetadata(IAudioMetadataService service, ArtistItem artist, AlbumItem album)
         {
             var metadata = await service.GetAlbumMetadataAsync(album, artist.Name);
             if (metadata is not null)

@@ -2,8 +2,6 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using SpotifyAPI.Web;
-
 namespace DrasticMedia.Core.Model.Metadata
 {
     /// <summary>
@@ -16,15 +14,12 @@ namespace DrasticMedia.Core.Model.Metadata
         /// </summary>
         public ArtistSpotifyMetadata()
         {
-            this.LastUpdated = DateTime.Now;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArtistSpotifyMetadata"/> class.
         /// </summary>
-        /// <param name="artistId">Media Library Artist Id.</param>
-        /// <param name="spotifyArtist">Spotify Artist.</param>
-        public ArtistSpotifyMetadata(int artistId, FullArtist spotifyArtist)
+        public ArtistSpotifyMetadata(int artistId)
         {
             if (artistId <= 0)
             {
@@ -32,13 +27,7 @@ namespace DrasticMedia.Core.Model.Metadata
             }
 
             this.ArtistItemId = artistId;
-            this.SpotifyId = spotifyArtist.Id;
-            this.Genres = string.Join(",", spotifyArtist.Genres);
-            this.Name = spotifyArtist.Name;
-            this.Popularity = spotifyArtist.Popularity;
-            this.Image = spotifyArtist.Images.FirstOrDefault()?.Url;
-            this.LastUpdated = DateTime.UtcNow;
-            this.Uri = spotifyArtist.Uri;
+            this.LastUpdated = DateTime.Now;
         }
 
         public string Type => this.GetType().Name;

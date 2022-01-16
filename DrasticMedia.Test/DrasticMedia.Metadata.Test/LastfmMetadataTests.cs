@@ -14,7 +14,7 @@ namespace DrasticMedia.Metadata.Test;
 [TestClass]
 public class LastfmMetadataTests
 {
-    private IMetadataService lastfmService;
+    private IAudioMetadataService lastfmService;
 
     public LastfmMetadataTests()
     {

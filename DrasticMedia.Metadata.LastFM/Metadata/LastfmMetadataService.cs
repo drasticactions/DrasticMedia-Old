@@ -5,6 +5,7 @@
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
+using DrasticMedia.Metadata;
 using Hqub.Lastfm;
 
 namespace DrasticMedia.Core.Metadata
@@ -12,7 +13,7 @@ namespace DrasticMedia.Core.Metadata
     /// <summary>
     /// Last FM Metadata Service.
     /// </summary>
-    public class LastfmMetadataService : IMetadataService
+    public class LastfmMetadataService : IAudioMetadataService
     {
         private LastfmClient? client;
 
@@ -44,16 +45,16 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new ArtistLastFmMetadata() { ArtistItemId = artist.Id };
+                return new ArtistLastFmMetadata(artist.Id);
             }
 
             var result = await this.client.Artist.GetInfoAsync(artist.Name);
             if (result is null)
             {
-                return new ArtistLastFmMetadata() { ArtistItemId = artist.Id };
+                return new ArtistLastFmMetadata(artist.Id);
             }
 
-            return new ArtistLastFmMetadata(artist.Id, result);
+            return result.FromArtist(artist.Id);
         }
 
         /// <inheritdoc/>
@@ -61,22 +62,22 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
+                return new AlbumLastFmMetadata(album.Id);
             }
 
             artistName = artistName ?? album.ArtistItem?.Name;
             if (artistName is null)
             {
-                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
+                return new AlbumLastFmMetadata(album.Id);
             }
 
             var result = await this.client.Album.GetInfoAsync(artistName, album.Name);
             if (result is null)
             {
-                return new AlbumLastFmMetadata() { AlbumItemId = album.Id };
+                return new AlbumLastFmMetadata(album.Id);
             }
 
-            return new AlbumLastFmMetadata(album.Id, result);
+            return result.FromAlbum(album.Id);
         }
 
         private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")

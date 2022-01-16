@@ -9,11 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\external\lastfm\src\Hqub.Lastfm\Hqub.Lastfm.csproj" />
-	</ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace DrasticMedia.Metadata.Test;
 [TestClass]
 public class SpotifyMetadataTests
 {
-    private IMetadataService spotifyMetadataService;
+    private IAudioMetadataService spotifyMetadataService;
 
     public SpotifyMetadataTests()
     {

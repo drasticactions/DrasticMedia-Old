@@ -8,10 +8,9 @@ namespace DrasticMedia.Core.Model.Metadata
     {
         public AlbumLastFmMetadata()
         {
-            this.LastUpdated = DateTime.Now;
         }
 
-        public AlbumLastFmMetadata(int albumId, Hqub.Lastfm.Entities.Album album)
+        public AlbumLastFmMetadata(int albumId)
         {
             if (albumId <= 0)
             {
@@ -19,10 +18,7 @@ namespace DrasticMedia.Core.Model.Metadata
             }
 
             this.AlbumItemId = albumId;
-            this.MBID = album.MBID;
-            this.Name = album.Name;
-            this.Image = album.Images.LastOrDefault()?.Url;
-            this.LastUpdated = DateTime.UtcNow;
+            this.LastUpdated = DateTime.Now;
         }
 
         public string Type => this.GetType().Name;

@@ -36,7 +36,7 @@ public class DatabaseTest
     private IAudioLibrary audioLibrary;
     private IPodcastService podcastService;
     private IPodcastLibrary podcastLibrary;
-    private List<IMetadataService> metadataServices = new List<IMetadataService>();
+    private List<IAudioMetadataService> metadataServices = new List<IAudioMetadataService>();
     private IMediaScanLibrary mediaScanLibrary;
 
     /// <summary>

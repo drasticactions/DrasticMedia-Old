@@ -53,9 +53,43 @@ namespace DrasticMedia.Core.Model
         public virtual ArtistItem? ArtistItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the album metadata.
+        /// Gets or sets the spotify metadata id.
         /// </summary>
+        public int SpotifyMetadataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the spotify metadata.
+        /// </summary>
+        public virtual AlbumSpotifyMetadata? SpotifyMetadata { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last fm metadata id.
+        /// </summary>
+        public int LastFmMetadataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lastfm metadata.
+        /// </summary>
+        public virtual AlbumLastFmMetadata? LastFmMetadata { get; set; }
+
         [NotMapped]
-        public virtual IList<IAlbumMetadata> Metadata { get; set; } = new List<IAlbumMetadata>();
+        public IList<IAlbumMetadata> Metadata
+        {
+            get
+            {
+                var list = new List<IAlbumMetadata>();
+                if (this.SpotifyMetadata is not null)
+                {
+                    list.Add(this.SpotifyMetadata);
+                }
+
+                if (this.LastFmMetadata is not null)
+                {
+                    list.Add(this.LastFmMetadata);
+                }
+
+                return list;
+            }
+        }
     }
 }

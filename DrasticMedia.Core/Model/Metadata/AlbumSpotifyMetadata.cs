@@ -2,18 +2,15 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using SpotifyAPI.Web;
-
 namespace DrasticMedia.Core.Model.Metadata
 {
     public class AlbumSpotifyMetadata : IAlbumMetadata
     {
         public AlbumSpotifyMetadata()
         {
-            this.LastUpdated = DateTime.Now;
         }
 
-        public AlbumSpotifyMetadata(int albumId, SimpleAlbum spotifyAlbum)
+        public AlbumSpotifyMetadata(int albumId)
         {
             if (albumId <= 0)
             {
@@ -21,16 +18,7 @@ namespace DrasticMedia.Core.Model.Metadata
             }
 
             this.AlbumItemId = albumId;
-            this.AlbumType = spotifyAlbum.AlbumType;
-            this.TotalTracks = spotifyAlbum.TotalTracks;
-            this.Name = spotifyAlbum.Name;
-            this.Uri = spotifyAlbum.Uri;
-            this.Artists = string.Join(", ", spotifyAlbum.Artists.Select(n => n.Name));
-            this.Image = spotifyAlbum.Images.FirstOrDefault()?.Url;
-            this.ReleaseDate = spotifyAlbum.ReleaseDate;
-            this.ReleaseDatePrecision = spotifyAlbum.ReleaseDatePrecision;
-            this.SpotifyId = spotifyAlbum.Id;
-            this.LastUpdated = DateTime.UtcNow;
+            this.LastUpdated = DateTime.Now;
         }
 
         public string Type => this.GetType().Name;

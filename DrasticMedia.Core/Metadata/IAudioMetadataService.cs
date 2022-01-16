@@ -1,12 +1,7 @@
-﻿// <copyright file="IMetadataService.cs" company="Drastic Actions">
+﻿// <copyright file="IAudioMetadataService.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 
@@ -15,7 +10,7 @@ namespace DrasticMedia.Core.Metadata
     /// <summary>
     /// Metadata Service.
     /// </summary>
-    public interface IMetadataService
+    public interface IAudioMetadataService
     {
         /// <summary>
         /// Gets the base metadata location for where to store parsed files.

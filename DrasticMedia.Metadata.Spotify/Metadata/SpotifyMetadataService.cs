@@ -5,6 +5,7 @@
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Metadata;
 using DrasticMedia.Core.Platform;
+using DrasticMedia.Metadata;
 using SpotifyAPI.Web;
 
 namespace DrasticMedia.Core.Metadata
@@ -12,7 +13,7 @@ namespace DrasticMedia.Core.Metadata
     /// <summary>
     /// Spotify Metadata Service.
     /// </summary>
-    public class SpotifyMetadataService : IMetadataService
+    public class SpotifyMetadataService : IAudioMetadataService
     {
         private SpotifyClient? client;
 
@@ -44,12 +45,12 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
+                return new ArtistSpotifyMetadata(artist.Id);
             }
 
             if (artist.Name is null)
             {
-                return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
+                return new ArtistSpotifyMetadata(artist.Id);
             }
 
             var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Artist, artist.Name));
@@ -61,13 +62,13 @@ namespace DrasticMedia.Core.Metadata
                 var artistInfo = artistList.First();
                 if (artistInfo is null)
                 {
-                    return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
+                    return new ArtistSpotifyMetadata(artist.Id);
                 }
 
-                return new ArtistSpotifyMetadata(artist.Id, artistInfo);
+                return artistInfo.FromFullArtist(artist.Id);
             }
 
-            return new ArtistSpotifyMetadata() { ArtistItemId = artist.Id };
+            return new ArtistSpotifyMetadata(artist.Id);
         }
 
         /// <inheritdoc/>
@@ -75,13 +76,13 @@ namespace DrasticMedia.Core.Metadata
         {
             if (this.client is null)
             {
-                return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
+                return new AlbumSpotifyMetadata(album.Id);
             }
 
             artistName = artistName ?? album.ArtistItem?.Name;
             if (artistName is null)
             {
-                return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
+                return new AlbumSpotifyMetadata(album.Id);
             }
 
             var result = await this.client.Search.Item(new SearchRequest(SearchRequest.Types.Album, $"{artistName} - {album.Name}"));
@@ -93,13 +94,13 @@ namespace DrasticMedia.Core.Metadata
                 var albumInfo = albumList.First();
                 if (albumInfo is null)
                 {
-                    return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
+                    return new AlbumSpotifyMetadata(album.Id);
                 }
 
-                return new AlbumSpotifyMetadata(album.Id, albumInfo);
+                return albumInfo.FromSimpleAlbum(album.Id);
             }
 
-            return new AlbumSpotifyMetadata() { AlbumItemId = album.Id };
+            return new AlbumSpotifyMetadata(album.Id);
         }
 
         private void Initialize(string baseLocation, string apiKey = "", string apiSecret = "")

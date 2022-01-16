@@ -250,49 +250,49 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public Task<List<AlbumItem>> FetchAlbumsAsync()
         {
-            return this.Albums.Include(n => n.Metadata).ToListAsync();
+            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumViaIdAsync(int id)
         {
-            return await this.Albums.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<AlbumItem?> FetchAlbumViaNameAsync(int artistId, string name)
         {
-            return this.Albums.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
+            return this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name) && n.ArtistItemId == artistId);
         }
 
         /// <inheritdoc/>
         public async Task<AlbumItem?> FetchAlbumWithTracksViaIdAsync(int id)
         {
-            return await this.Albums.Include(n => n.Metadata).Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Albums.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Tracks).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public Task<List<ArtistItem>> FetchArtistsAsync()
         {
-            return this.Artists.Include(n => n.Metadata).ToListAsync();
+            return this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaIdAsync(int id)
         {
-            return await this.Artists.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistViaNameAsync(string name)
         {
-            return await this.Artists.Include(n => n.Metadata).FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).FirstOrDefaultAsync(n => n.Name.Equals(name)).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<ArtistItem?> FetchArtistWithAlbumsViaIdAsync(int id)
         {
-            return await this.Artists.Include(n => n.Metadata).Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
+            return await this.Artists.Include(n => n.LastFmMetadata).Include(n => n.SpotifyMetadata).Include(n => n.Albums).FirstOrDefaultAsync(n => n.Id == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -369,10 +369,12 @@ namespace DrasticMedia.SQLite.Database
             modelBuilder.Entity<ArtistLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<AlbumLastFmMetadata>().HasKey(n => n.Id);
             modelBuilder.Entity<ArtistItem>().HasMany(n => n.Albums).WithOne().HasForeignKey(y => y.ArtistItemId);
-            //modelBuilder.Entity<ArtistItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.ArtistItemId);
+            modelBuilder.Entity<ArtistItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<ArtistSpotifyMetadata>(y => y.ArtistItemId);
+            modelBuilder.Entity<ArtistItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<ArtistLastFmMetadata>(y => y.ArtistItemId);
             modelBuilder.Entity<AlbumItem>().HasMany(n => n.Tracks).WithOne().HasForeignKey(y => y.AlbumItemId);
             modelBuilder.Entity<AlbumItem>().HasOne(n => n.ArtistItem).WithMany(n => n.Albums).HasForeignKey(n => n.ArtistItemId);
-            //modelBuilder.Entity<AlbumItem>().HasMany(n => n.Metadata).WithOne().HasForeignKey(y => y.AlbumItemId);
+            modelBuilder.Entity<AlbumItem>().HasOne(n => n.SpotifyMetadata).WithOne().HasForeignKey<AlbumSpotifyMetadata>(y => y.AlbumItemId);
+            modelBuilder.Entity<AlbumItem>().HasOne(n => n.LastFmMetadata).WithOne().HasForeignKey<AlbumLastFmMetadata>(y => y.AlbumItemId);
             modelBuilder.Entity<TrackItem>().HasOne(n => n.AlbumItem).WithMany(n => n.Tracks).HasForeignKey(n => n.AlbumItemId);
         }
     }
