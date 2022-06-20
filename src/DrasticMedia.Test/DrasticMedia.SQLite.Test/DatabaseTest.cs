@@ -55,11 +55,9 @@ public class DatabaseTest
     /// </summary>
     /// <param name="feeduri">The feed uri.</param>
     [DataRow(@"https://feeds.fireside.fm/xamarinpodcast/rss")]
-    [DataRow(@"http://feeds.codenewbie.org/cnpodcast.xml")]
     [DataRow(@"https://feeds.fireside.fm/mergeconflict/rss")]
     [DataRow(@"https://msdevshow.libsyn.com/rss")]
     [DataRow(@"https://thedotnetcorepodcast.libsyn.com/rss")]
-    [DataRow(@"https://devchat.tv/podcasts/adventures-in-dotnet/feed/")]
     [DataRow(@"https://feeds.simplecast.com/gvtxUiIf")]
     [DataRow(@"https://microsoftmechanics.libsyn.com/rss")]
     [DataRow(@"https://feeds.simplecast.com/cRTTfxcT")]
