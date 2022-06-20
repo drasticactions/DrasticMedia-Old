@@ -2,6 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Microsoft.Extensions.Logging;
+
 namespace DrasticMedia.Core.Library
 {
     public class MediaScanLibrary : IMediaScanLibrary
