@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
-    <ProjectReference Include="..\external\lastfm\src\Hqub.Lastfm\Hqub.Lastfm.csproj" />
+    <ProjectReference Include="..\..\external\lastfm\src\Hqub.Lastfm\Hqub.Lastfm.csproj" />
   </ItemGroup>
 
 </Project>

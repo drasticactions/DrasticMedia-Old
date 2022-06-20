@@ -12,8 +12,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
-		<ProjectReference Include="..\external\apple\src\AppleMusicAPI.NET.Models\AppleMusicAPI.NET.Models.csproj" />
-		<ProjectReference Include="..\external\apple\src\AppleMusicAPI.NET\AppleMusicAPI.NET.csproj" />
+		<ProjectReference Include="..\..\external\apple\src\AppleMusicAPI.NET.Models\AppleMusicAPI.NET.Models.csproj" />
+		<ProjectReference Include="..\..\external\apple\src\AppleMusicAPI.NET\AppleMusicAPI.NET.csproj" />
 	</ItemGroup>
 
 </Project>
