@@ -2,10 +2,10 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.Xml.Serialization;
 using DrasticMedia.Core.Infrastructure;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Feeds;
-using System.Xml.Serialization;
 
 namespace DrasticMedia.Core.Services
 {
@@ -14,9 +14,9 @@ namespace DrasticMedia.Core.Services
     /// </summary>
     public class PodcastService : IPodcastService
     {
+        private readonly HttpClient httpClient;
         private static readonly XmlSerializer XmlSerializer = new(typeof(Rss));
         private ILogger logger;
-        private readonly HttpClient httpClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PodcastService"/> class.
@@ -33,7 +33,7 @@ namespace DrasticMedia.Core.Services
         {
             try
             {
-                await using var feedContent = await this.httpClient.GetStreamAsync(podcastUri, cancellationToken);
+                using var feedContent = await this.httpClient.GetStreamAsync(podcastUri);
                 var rss = XmlSerializer.Deserialize(feedContent) as Rss;
                 if (rss is null)
                 {

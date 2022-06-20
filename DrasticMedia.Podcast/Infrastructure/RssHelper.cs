@@ -102,13 +102,21 @@ namespace DrasticMedia.Core.Infrastructure
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(date)) return default;
+                if (string.IsNullOrWhiteSpace(date) || date is null)
+                {
+                    return default;
+                }
+
                 date = ReplaceTimeZone(date.Trim());
                 if (DateTimeOffset.TryParseExact(date, "ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
+                {
                     return dt.LocalDateTime;
+                }
 
                 if (DateTimeOffset.TryParse(date, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt2))
+                {
                     return dt2.LocalDateTime;
+                }
             }
             catch
             {
@@ -119,21 +127,31 @@ namespace DrasticMedia.Core.Infrastructure
 
         public static TimeSpan? ConvertDuration(string? interval)
         {
-            if (string.IsNullOrEmpty(interval)) return null;
+            if (string.IsNullOrEmpty(interval) || interval is null)
+            {
+                return null;
+            }
 
             var realString = interval.Trim();
             if (TimeSpan.TryParseExact(realString, new[] { @"hh\:mm\:ss", @"h\:mm\:ss", @"mm\:ss" }, null, out var duration))
+            {
                 return duration;
+            }
 
-            if (int.TryParse(realString, out var seconds)) return TimeSpan.FromSeconds(seconds);
+            if (int.TryParse(realString, out var seconds))
+            {
+                return TimeSpan.FromSeconds(seconds);
+            }
+
             return null;
         }
 
         private static string ReplaceTimeZone(string s)
         {
-            foreach (var (key, value) in TimeZones.Where(kv => s.Contains(kv.Key)))
+            var keyValues = TimeZones.Where(kv => s.Contains(kv.Key));
+            foreach (var keyValue in keyValues)
             {
-                s = s.Replace(key, value);
+                s = s.Replace(keyValue.Key, keyValue.Value);
                 break;
             }
 

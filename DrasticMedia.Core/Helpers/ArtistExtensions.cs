@@ -36,7 +36,7 @@ namespace DrasticMedia.Core
                 if (path.IsPathUri())
                 {
                     var result = await client.GetByteArrayAsync(path);
-                    await File.WriteAllBytesAsync(albumArtPath, result);
+                    File.WriteAllBytes(albumArtPath, result);
                     if (File.Exists(albumArtPath))
                     {
                         return albumArtPath;
@@ -45,8 +45,8 @@ namespace DrasticMedia.Core
                     return string.Empty;
                 }
 
-                var file = await File.ReadAllBytesAsync(path);
-                await File.WriteAllBytesAsync(albumArtPath, file);
+                var file = File.ReadAllBytes(path);
+                File.WriteAllBytes(albumArtPath, file);
                 if (File.Exists(albumArtPath))
                 {
                     return albumArtPath;
@@ -87,7 +87,7 @@ namespace DrasticMedia.Core
                 if (path.IsPathUri())
                 {
                     var result = await client.GetByteArrayAsync(path);
-                    await File.WriteAllBytesAsync(artistArtPath, result);
+                    File.WriteAllBytes(artistArtPath, result);
                     if (File.Exists(artistArtPath))
                     {
                         return artistArtPath;
@@ -96,8 +96,8 @@ namespace DrasticMedia.Core
                     return string.Empty;
                 }
 
-                var file = await File.ReadAllBytesAsync(path);
-                await File.WriteAllBytesAsync(artistArtPath, file);
+                var file = File.ReadAllBytes(path);
+                File.WriteAllBytes(artistArtPath, file);
                 if (File.Exists(artistArtPath))
                 {
                     return artistArtPath;
