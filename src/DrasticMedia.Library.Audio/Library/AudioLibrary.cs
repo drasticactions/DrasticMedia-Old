@@ -9,6 +9,7 @@ using DrasticMedia.Core.Metadata;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
 using DrasticMedia.Core.Tools;
+using Microsoft.Extensions.Logging;
 
 namespace DrasticMedia.Audio.Library
 {
@@ -176,7 +177,7 @@ namespace DrasticMedia.Audio.Library
                                 }
                                 catch (Exception ex)
                                 {
-                                    this.logger?.Log(ex);
+                                    this.logger?.LogError(ex, "metadataServices");
                                 }
                             }
                         }
@@ -205,7 +206,7 @@ namespace DrasticMedia.Audio.Library
             catch (Exception ex)
             {
                 this.OnNewMediaItemError(new NewMediaItemErrorEventArgs() { Exception = ex, MediaItemPath = path });
-                this.logger?.Log(ex);
+                this.logger?.LogError(ex, "OnNewMediaItemError");
             }
 
             return false;

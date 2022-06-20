@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using DrasticMedia.Core.Infrastructure;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Model.Feeds;
+using Microsoft.Extensions.Logging;
 
 namespace DrasticMedia.Core.Services
 {
@@ -45,7 +46,7 @@ namespace DrasticMedia.Core.Services
             }
             catch (Exception ex)
             {
-                this.logger.Log(ex);
+                this.logger.LogError(ex, "FetchPodcastShowAsync");
                 throw;
             }
         }

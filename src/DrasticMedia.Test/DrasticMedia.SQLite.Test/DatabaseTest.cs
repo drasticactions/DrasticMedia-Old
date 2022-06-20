@@ -13,6 +13,7 @@ using DrasticMedia.SQLite.Database;
 using DrasticMedia.SQLite.Native.Test;
 using DrasticMedia.Tests;
 using DrasticMedia.Video.Library;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;

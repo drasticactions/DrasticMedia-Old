@@ -13,6 +13,7 @@ using DrasticMedia.Podcast.Library;
 using DrasticMedia.SQLite.Database;
 using DrasticMedia.Tests;
 using DrasticMedia.Video.Library;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +127,7 @@ public class DatabaseTest
     {
         if (e != null)
         {
-            this.logger.Log(Core.LogLevel.Info, e.ToString());
+            this.logger.LogInformation(e.ToString());
         }
     }
 
@@ -134,7 +135,7 @@ public class DatabaseTest
     {
         if (e != null)
         {
-            this.logger.Log(Core.LogLevel.Info, e.ToString());
+            this.logger.LogInformation(e.ToString());
         }
     }
 
@@ -142,7 +143,7 @@ public class DatabaseTest
     {
         if (e != null)
         {
-            this.logger.Log(Core.LogLevel.Info, e.ToString());
+            this.logger.LogInformation(e.ToString());
         }
     }
 
@@ -150,7 +151,7 @@ public class DatabaseTest
     {
         if (e != null)
         {
-            this.logger.Log(Core.LogLevel.Info, e.ToString());
+            this.logger.LogInformation(e.ToString());
         }
     }
 

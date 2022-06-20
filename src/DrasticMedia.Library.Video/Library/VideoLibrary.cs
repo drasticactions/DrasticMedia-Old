@@ -1,4 +1,4 @@
-﻿// <copyright file="AudioLibrary.cs" company="Drastic Actions">
+﻿// <copyright file="VideoLibrary.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -7,6 +7,7 @@ using DrasticMedia.Core.Database;
 using DrasticMedia.Core.Library;
 using DrasticMedia.Core.Model;
 using DrasticMedia.Core.Platform;
+using Microsoft.Extensions.Logging;
 
 namespace DrasticMedia.Video.Library
 {
@@ -92,7 +93,7 @@ namespace DrasticMedia.Video.Library
             catch (Exception ex)
             {
                 this.OnNewMediaItemError(new NewMediaItemErrorEventArgs() { Exception = ex, MediaItemPath = path });
-                this.logger?.Log(ex);
+                this.logger?.LogError(ex, "OnNewMediaItemError");
             }
 
             return false;
