@@ -23,7 +23,7 @@
 		<ProjectReference Include="..\..\DrasticMedia.Library.Video\DrasticMedia.Library.Video.csproj" />
 		<ProjectReference Include="..\..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
 		<ProjectReference Include="..\..\DrasticMedia.Podcast\DrasticMedia.Podcast.csproj" />
-		<ProjectReference Include="..\..\DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.EFCore.SQLite.Database\DrasticMedia.EFCore.SQLite.Database.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />

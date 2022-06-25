@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Core", "Drasti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native", "DrasticMedia.Native\DrasticMedia.Native.csproj", "{58C9117E-ABF7-4083-B5BB-C1CBACDB5F04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Database", "DrasticMedia.SQLite.Database\DrasticMedia.SQLite.Database.csproj", "{D87DC275-B84A-4937-8458-A4B56A09917B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.EFCore.SQLite.Database", "DrasticMedia.EFCore.SQLite.Database\DrasticMedia.EFCore.SQLite.Database.csproj", "{D87DC275-B84A-4937-8458-A4B56A09917B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.Native.Test", "DrasticMedia.Test\DrasticMedia.Native.Test\DrasticMedia.Native.Test.csproj", "{3DB0ECB5-22B1-4134-B507-94376D58439B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Native.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Native.Test\DrasticMedia.SQLite.Native.Test.csproj", "{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.EFCore.SQLite.Native.Test", "DrasticMedia.Test\DrasticMedia.EFCore.SQLite.Native.Test\DrasticMedia.EFCore.SQLite.Native.Test.csproj", "{A6B5EF17-C3A8-470B-93D4-05C3FF85E48C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.SQLite.Test", "DrasticMedia.Test\DrasticMedia.SQLite.Test\DrasticMedia.SQLite.Test.csproj", "{48FF1BEF-1279-4092-9923-699372C028F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.EFCore.SQLite.Test", "DrasticMedia.Test\DrasticMedia.EFCore.SQLite.Test\DrasticMedia.EFCore.SQLite.Test.csproj", "{48FF1BEF-1279-4092-9923-699372C028F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{4C4DC650-C59F-4225-B90F-4CEF124AA7BE}"
 EndProject
