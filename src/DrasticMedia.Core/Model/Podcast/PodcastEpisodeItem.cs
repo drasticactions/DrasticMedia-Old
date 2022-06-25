@@ -51,7 +51,7 @@ namespace DrasticMedia.Core.Model
         /// <summary>
         /// Gets or sets the PodcastShowId of the episode.
         /// </summary>
-        public int PodcastShowId { get; set; }
+        public int PodcastShowItemId { get; set; }
 
         /// <summary>
         /// Gets or sets the release date of the episode.
@@ -93,7 +93,7 @@ namespace DrasticMedia.Core.Model
         public static void UpdateEpisode(this PodcastEpisodeItem item, PodcastEpisodeItem update)
         {
             item.Title = update.Title;
-            item.PodcastShowId = update.PodcastShowId;
+            item.PodcastShowItemId = update.PodcastShowItemId;
             item.ReleaseDate = update.ReleaseDate;
             item.Description = update.Description;
             item.OnlinePath = update.OnlinePath;

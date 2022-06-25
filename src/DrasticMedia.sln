@@ -53,6 +53,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppleMusicAPI.NET.Models", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppleMusicAPI.NET", "..\external\apple\src\AppleMusicAPI.NET\AppleMusicAPI.NET.csproj", "{B35F25A8-633F-4146-87CC-E9229AE2321F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.LiteDB.Database", "DrasticMedia.LiteDB.Database\DrasticMedia.LiteDB.Database.csproj", "{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrasticMedia.LiteDB.Test", "DrasticMedia.Test\DrasticMedia.LiteDB.Test\DrasticMedia.LiteDB.Test.csproj", "{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,14 @@ Global
 		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B35F25A8-633F-4146-87CC-E9229AE2321F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +170,8 @@ Global
 		{89F73FAA-25F2-473D-9DB4-45B1B2245416} = {C828884C-2EF7-451A-B92C-C699C956176B}
 		{CBE04095-2377-4B63-A21C-ABBDF5E90146} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
 		{B35F25A8-633F-4146-87CC-E9229AE2321F} = {A6AC59EA-B60F-4020-A901-BA2C5A345A8A}
+		{58A6ABF4-A2A9-4FFD-B6B1-D6E114A513A8} = {4C4DC650-C59F-4225-B90F-4CEF124AA7BE}
+		{D8CA401A-3A5C-48FA-A1D1-843C0291CCEA} = {7C94ED47-C8C3-4AAD-8EE4-FF05E3325AA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02861446-20CB-4458-9CEC-F6E3333942C0}

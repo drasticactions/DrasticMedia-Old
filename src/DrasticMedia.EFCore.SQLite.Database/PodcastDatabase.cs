@@ -127,7 +127,7 @@ namespace DrasticMedia.SQLite.Database
         /// <inheritdoc/>
         public async Task<List<PodcastEpisodeItem>> FetchEpisodesAsync(int showId)
         {
-            return await this.Episodes.Where(n => n.PodcastShowId == showId).ToListAsync().ConfigureAwait(false);
+            return await this.Episodes.Where(n => n.PodcastShowItemId == showId).ToListAsync().ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -213,8 +213,8 @@ namespace DrasticMedia.SQLite.Database
 
             modelBuilder.Entity<PodcastShowItem>().HasKey(n => n.Id);
             modelBuilder.Entity<PodcastEpisodeItem>().HasKey(n => n.Id);
-            modelBuilder.Entity<PodcastEpisodeItem>().HasOne(n => n.PodcastShowItem).WithMany(y => y.Episodes).HasForeignKey(n => n.PodcastShowId);
-            modelBuilder.Entity<PodcastShowItem>().HasMany(n => n.Episodes).WithOne().HasForeignKey(y => y.PodcastShowId);
+            modelBuilder.Entity<PodcastEpisodeItem>().HasOne(n => n.PodcastShowItem).WithMany(y => y.Episodes).HasForeignKey(n => n.PodcastShowItemId);
+            modelBuilder.Entity<PodcastShowItem>().HasMany(n => n.Episodes).WithOne().HasForeignKey(y => y.PodcastShowItemId);
         }
     }
 }

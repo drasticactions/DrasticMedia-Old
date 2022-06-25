@@ -87,6 +87,11 @@ namespace DrasticMedia.Tests
             {
                 File.Delete(ExtensionHelpers.PodcastDatabase());
             }
+
+            if (File.Exists(ExtensionHelpers.PodcastDatabaseLog()))
+            {
+                File.Delete(ExtensionHelpers.PodcastDatabaseLog());
+            }
         }
 
         private static void MediaSetup()

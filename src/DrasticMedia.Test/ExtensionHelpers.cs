@@ -21,6 +21,8 @@ namespace DrasticMedia.Tests
 
         public static string PodcastDatabase() => GetPath("podcast.test.db");
 
+        public static string PodcastDatabaseLog() => GetPath("podcast.test-log.db");
+
         public static string GetPath(string path)
         {
             var assemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

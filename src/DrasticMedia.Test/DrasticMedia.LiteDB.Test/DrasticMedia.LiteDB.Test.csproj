@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.12" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\DrasticMedia.Core\DrasticMedia.Core.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.FFMpeg\DrasticMedia.FFMpeg.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Library.Audio\DrasticMedia.Library.Audio.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Library.Video\DrasticMedia.Library.Video.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.LiteDB.Database\DrasticMedia.LiteDB.Database.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Native\DrasticMedia.Native.csproj" />
+		<ProjectReference Include="..\..\DrasticMedia.Podcast\DrasticMedia.Podcast.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\Setup.cs">
+			<Link>Setup.cs</Link>
+		</Compile>
+		<Compile Include="..\ExtensionHelpers.cs">
+			<Link>ExtensionHelpers.cs</Link>
+		</Compile>
+	</ItemGroup>
+</Project>
